@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX 05 — Logo reveal</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      :root {
+        --bg: #000000;
+        --ink: #ffffff;
+        --teal: #039991;
+        --teal-hi: #1fc4b8;
+        --orange: #fe6820;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); font-family: "Outfit", sans-serif; color: var(--ink); }
+      .scene { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 80px 520px; }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 54px; }
+      .lead { font-weight: 700; font-size: 60px; white-space: nowrap; }
+      .logo { position: relative; width: 880px; height: 245px; }
+      .logo img { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .tag { font-weight: 500; font-size: 46px; letter-spacing: 0.14em; color: var(--teal-hi); white-space: nowrap; }
+      .tag b { font-weight: 800; color: var(--ink); }
+      .streak { position: absolute; left: 640px; top: -20px; width: 300px; height: 10px; border-radius: 5px; background: var(--orange); transform-origin: right center; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="3" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="3" data-track-index="0">
+        <div class="stack" id="content">
+          <div class="lead" id="lead">ESO ES LO QUE HACEMOS EN</div>
+          <div class="logo" id="logo">
+            <img id="lg-g" src="assets/logo/gex-g.png" alt="" />
+            <img id="lg-e" src="assets/logo/gex-e.png" alt="" />
+            <img id="lg-xd" src="assets/logo/gex-x-diag.png" alt="" />
+            <img id="lg-xl" src="assets/logo/gex-x-low.png" alt="" />
+            <img id="lg-xo" src="assets/logo/gex-x-orange.png" alt="GEX" />
+            <div class="streak" id="streak"></div>
+          </div>
+          <div class="tag" id="tag">SISTEMAS <b>A TU MEDIDA</b></div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#lead", { y: -30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out" }, 0.12);
+      tl.fromTo("#lg-g", { x: -160, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.3);
+      tl.fromTo("#lg-e", { y: 110, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "expo.out" }, 0.42);
+      tl.fromTo("#lg-xd", { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.4, ease: "power3.inOut" }, 0.55);
+      tl.fromTo("#lg-xl", { x: -70, y: 70, autoAlpha: 0 }, { x: 0, y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)" }, 0.75);
+      // Orange accent slashes in last, with a speed streak
+      tl.fromTo("#streak", { scaleX: 0, autoAlpha: 1 }, { scaleX: 1, autoAlpha: 0, duration: 0.35, ease: "circ.out" }, 0.88);
+      tl.fromTo("#lg-xo", { x: 120, y: -120, scale: 0.4, autoAlpha: 0 }, { x: 0, y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.6)" }, 0.95);
+      tl.to("#logo", { keyframes: [{ scale: 1.05, duration: 0.1 }, { scale: 1, duration: 0.3 }], ease: "sine.inOut" }, 1.3);
+      tl.fromTo("#tag", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power2.out" }, 1.4);
+      tl.to("#content", { scale: 1.06, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 2.75);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

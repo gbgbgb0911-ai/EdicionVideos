@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX 07 — Tu tiempo vale dinero</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      :root {
+        --bg: #000000;
+        --ink: #ffffff;
+        --teal: #039991;
+        --teal-hi: #1fc4b8;
+        --orange: #fe6820;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); font-family: "Outfit", sans-serif; color: var(--ink); }
+      .scene { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 80px 520px; }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+      #ico { width: 220px; height: 220px; overflow: visible; }
+      .c-ring { fill: none; stroke: var(--teal-hi); stroke-width: 10; }
+      .c-hand { stroke: var(--ink); stroke-linecap: round; }
+      #dollar { fill: var(--orange); font-family: "Outfit", sans-serif; font-weight: 800; font-size: 120px; }
+      .mask { overflow: hidden; padding: 16px 60px 36px; }
+      .l1 { font-weight: 800; font-size: 140px; line-height: 1.05; white-space: nowrap; }
+      .l2 { font-weight: 800; font-size: 140px; line-height: 1.05; white-space: nowrap; }
+      .or { color: var(--orange); display: inline-block; margin-left: 0.22em; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="2.5" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="2.5" data-track-index="0">
+        <div class="stack" id="content">
+          <svg id="ico" viewBox="-100 -100 200 200">
+            <circle class="c-ring" r="90" />
+            <g id="hands">
+              <g id="h-min"><circle r="66" fill="none" /><line class="c-hand" x1="0" y1="8" x2="0" y2="-62" stroke-width="10" /></g>
+              <g id="h-hr"><circle r="44" fill="none" /><line class="c-hand" x1="0" y1="6" x2="0" y2="-40" stroke-width="14" /></g>
+            </g>
+            <text id="dollar" x="0" y="42" text-anchor="middle">$</text>
+          </svg>
+          <div class="mask" data-layout-allow-overflow="true"><div class="l1" id="l1">TU TIEMPO</div></div>
+          <div class="mask" data-layout-allow-overflow="true"><div class="l2" id="l2">VALE<span class="or" id="money">DINERO</span></div></div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#ico", { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.1);
+      tl.fromTo("#h-min", { rotation: 0, svgOrigin: "0 0" }, { rotation: 540, svgOrigin: "0 0", duration: 0.8, ease: "power2.in" }, 0.15);
+      tl.fromTo("#h-hr", { rotation: 300, svgOrigin: "0 0" }, { rotation: 420, svgOrigin: "0 0", duration: 0.8, ease: "power2.in" }, 0.15);
+      tl.fromTo("#l1", { yPercent: 150 }, { yPercent: 0, duration: 0.45, ease: "power4.out" }, 0.3);
+      tl.fromTo("#l2", { yPercent: 150 }, { yPercent: 0, duration: 0.45, ease: "power4.out" }, 0.55);
+      // Clock turns into money
+      tl.to("#hands", { scale: 0, autoAlpha: 0, svgOrigin: "0 0", duration: 0.15, ease: "power2.in" }, 0.92);
+      tl.fromTo("#dollar", { scale: 0, autoAlpha: 0, svgOrigin: "0 0" }, { scale: 1, autoAlpha: 1, svgOrigin: "0 0", duration: 0.35, ease: "back.out(3)" }, 1.02);
+      tl.to("#money", { keyframes: [{ scale: 1.06, duration: 0.12 }, { scale: 1, duration: 0.28 }], transformOrigin: "left center", ease: "sine.inOut" }, 1.05);
+      tl.to("#content", { y: -40, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 2.25);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

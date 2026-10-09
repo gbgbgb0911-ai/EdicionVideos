@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX 03 — 26 horas al mes</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      :root {
+        --bg: #000000;
+        --ink: #ffffff;
+        --teal: #039991;
+        --teal-hi: #1fc4b8;
+        --orange: #fe6820;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); font-family: "Outfit", sans-serif; color: var(--ink); }
+      .scene { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 80px 520px; }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 26px; }
+      .pill { display: flex; align-items: center; gap: 18px; padding: 14px 36px; border: 5px solid var(--teal-hi); border-radius: 999px; font-weight: 700; font-size: 56px; white-space: nowrap; }
+      .pill .or { color: var(--orange); }
+      .num-row { display: flex; align-items: baseline; gap: 24px; }
+      #num { font-weight: 800; font-size: 330px; line-height: 0.9; font-variant-numeric: tabular-nums; width: 380px; text-align: right; }
+      .unit { display: flex; flex-direction: column; font-weight: 800; font-size: 104px; line-height: 0.95; }
+      .unit .t { color: var(--teal-hi); }
+      .grid { display: grid; grid-template-columns: repeat(10, 52px); gap: 16px; }
+      .dot { width: 52px; height: 52px; border-radius: 14px; border: 4px solid rgba(255, 255, 255, 0.35); }
+      .dot.on { border-color: var(--teal-hi); }
+      .fill { width: 100%; height: 100%; border-radius: 9px; background: var(--teal-hi); }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="3.5" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="3.5" data-track-index="0">
+        <div class="stack" id="content">
+          <div class="pill" id="pill">1 HORA AL DÍA <span class="or">×</span> 26 DÍAS</div>
+          <div class="num-row">
+            <div id="num">0</div>
+            <div class="unit" id="unit"><span>HORAS</span><span class="t">AL MES</span></div>
+          </div>
+          <div class="grid" id="grid"></div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const grid = document.getElementById("grid");
+      for (let i = 0; i < 30; i++) {
+        const d = document.createElement("div");
+        d.className = i < 26 ? "dot on" : "dot";
+        if (i < 26) {
+          const f = document.createElement("div");
+          f.className = "fill";
+          d.appendChild(f);
+        }
+        grid.appendChild(d);
+      }
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#pill", { y: -30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out" }, 0.15);
+      tl.fromTo("#unit", { x: 60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "expo.out" }, 0.35);
+      tl.fromTo("#grid .dot", { scale: 0.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.25, ease: "back.out(2)", stagger: 0.012 }, 0.3);
+      // Count-up 0 -> 26, synced with the day squares filling
+      const counter = { v: 0 };
+      const numEl = document.getElementById("num");
+      tl.fromTo(counter, { v: 0 }, { v: 26, duration: 1.3, ease: "power2.out", onUpdate: () => { numEl.textContent = Math.round(counter.v); } }, 0.5);
+      tl.fromTo("#num", { scale: 0.7, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(1.8)" }, 0.45);
+      tl.fromTo("#grid .fill", { scale: 0 }, { scale: 1, duration: 0.18, ease: "power2.out", stagger: 0.045 }, 0.55);
+      // Land: number punches orange
+      tl.to("#num", { keyframes: [{ scale: 1.12, color: "#fe6820", duration: 0.12 }, { scale: 1, duration: 0.3 }], ease: "sine.out" }, 1.85);
+      tl.to("#content", { y: -40, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 3.25);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

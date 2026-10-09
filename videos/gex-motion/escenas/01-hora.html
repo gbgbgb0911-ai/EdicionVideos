@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX 01 — ¿Cuánto vale una hora?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      :root {
+        --bg: #000000;
+        --ink: #ffffff;
+        --teal: #039991;
+        --teal-hi: #1fc4b8;
+        --orange: #fe6820;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); font-family: "Outfit", sans-serif; color: var(--ink); }
+      .scene { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 80px 520px; }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+      .small { font-weight: 700; font-size: 72px; letter-spacing: 0.02em; }
+      .hero-row { display: flex; align-items: center; gap: 36px; }
+      #ico { width: 160px; height: 160px; flex: none; overflow: visible; }
+      #big { white-space: nowrap; font-weight: 800; font-size: 184px; line-height: 0.95; letter-spacing: -0.02em; }
+      .or { color: var(--orange); }
+      .underline { width: 760px; height: 16px; border-radius: 8px; background: var(--orange); }
+      .c-ring { fill: none; stroke: var(--teal-hi); stroke-width: 12; }
+      .c-hand { stroke: var(--ink); stroke-linecap: round; }
+      .c-hub { fill: var(--orange); }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="3" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="3" data-track-index="0">
+        <div class="stack" id="content">
+          <div class="small" id="l1">¿CUÁNTO VALE</div>
+          <div class="hero-row">
+            <svg id="ico" viewBox="-100 -100 200 200">
+              <circle class="c-ring" r="88" />
+              <g id="h-min"><circle r="70" fill="none" /><line class="c-hand" x1="0" y1="8" x2="0" y2="-62" stroke-width="10" /></g>
+              <g id="h-hr"><circle r="44" fill="none" /><line class="c-hand" x1="0" y1="6" x2="0" y2="-40" stroke-width="14" /></g>
+              <circle class="c-hub" r="11" />
+            </svg>
+            <div id="big">1 HORA</div>
+          </div>
+          <div class="underline" id="ul"></div>
+          <div class="small" id="l3">DE TU <span class="or">TIEMPO</span>?</div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#l1", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out" }, 0.15);
+      tl.fromTo("#ico", { scale: 0.3, rotation: -120, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2)" }, 0.32);
+      tl.fromTo("#big", { scale: 1.35, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 0.4);
+      tl.fromTo("#h-min", { rotation: 0, svgOrigin: "0 0" }, { rotation: 780, svgOrigin: "0 0", duration: 1.5, ease: "power2.inOut" }, 0.45);
+      tl.fromTo("#h-hr", { rotation: 245, svgOrigin: "0 0" }, { rotation: 305, svgOrigin: "0 0", duration: 1.5, ease: "power2.inOut" }, 0.45);
+      tl.fromTo("#ul", { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, transformOrigin: "left center", duration: 0.4, ease: "power4.out" }, 0.8);
+      tl.fromTo("#l3", { x: -70, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "circ.out" }, 0.95);
+      tl.to("#l3 .or", { keyframes: [{ scale: 1.14 }, { scale: 1 }], duration: 0.36, ease: "sine.inOut" }, 1.95);
+      tl.to("#content", { y: -40, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 2.75);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX 06 — Beneficios</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      :root {
+        --bg: #000000;
+        --ink: #ffffff;
+        --teal: #039991;
+        --teal-hi: #1fc4b8;
+        --orange: #fe6820;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); font-family: "Outfit", sans-serif; color: var(--ink); }
+      .scene { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 80px 520px; }
+      .stack { display: flex; flex-direction: column; align-items: flex-start; gap: 40px; }
+      .head { font-weight: 700; font-size: 52px; color: var(--teal-hi); letter-spacing: 0.08em; white-space: nowrap; }
+      .item { display: flex; align-items: center; gap: 36px; }
+      .item svg { width: 120px; height: 120px; flex: none; overflow: visible; }
+      .ring { fill: none; stroke: var(--teal-hi); stroke-width: 8; }
+      .check { fill: none; stroke: var(--orange); stroke-width: 12; stroke-linecap: round; stroke-linejoin: round; }
+      .txt { font-weight: 800; font-size: 96px; line-height: 1; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="3.5" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="3.5" data-track-index="0">
+        <div class="stack" id="content">
+          <div class="head" id="head">SISTEMAS PERSONALIZADOS</div>
+          <div class="item" id="i1">
+            <svg viewBox="0 0 120 120"><circle class="ring" cx="60" cy="60" r="52" /><path class="check" id="k1" d="M36 62l16 16 32-34" /></svg>
+            <div class="txt">Ahorra tiempo</div>
+          </div>
+          <div class="item" id="i2">
+            <svg viewBox="0 0 120 120"><circle class="ring" cx="60" cy="60" r="52" /><path class="check" id="k2" d="M36 62l16 16 32-34" /></svg>
+            <div class="txt">Menos errores</div>
+          </div>
+          <div class="item" id="i3">
+            <svg viewBox="0 0 120 120"><circle class="ring" cx="60" cy="60" r="52" /><path class="check" id="k3" d="M36 62l16 16 32-34" /></svg>
+            <div class="txt">Más control</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const CHECK_LEN = 72;
+      tl.fromTo("#head", { x: -40, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "power2.out" }, 0.15);
+      ["1", "2", "3"].forEach((n, i) => {
+        const t = 0.35 + i * 0.3;
+        tl.fromTo("#i" + n, { y: 60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.42, ease: "expo.out" }, t);
+        tl.fromTo("#k" + n, { strokeDasharray: CHECK_LEN, strokeDashoffset: CHECK_LEN }, { strokeDasharray: CHECK_LEN, strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, t + 0.2);
+      });
+      tl.to(".item svg", { keyframes: [{ scale: 1.15, duration: 0.12 }, { scale: 1, duration: 0.25 }], ease: "sine.inOut", stagger: 0.08 }, 1.9);
+      tl.to("#content", { y: -40, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 3.25);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
