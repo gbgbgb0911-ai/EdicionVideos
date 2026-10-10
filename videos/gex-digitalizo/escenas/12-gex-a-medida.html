@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Digitalizo 12 — Se adapta a tu negocio</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+      .logo { position: relative; width: 720px; height: 224px; margin-bottom: 18px; }
+      .logo img { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .shine { position: absolute; inset: 0; overflow: hidden; -webkit-mask-image: url("assets/logo-v2/gex-full.png"); mask-image: url("assets/logo-v2/gex-full.png"); -webkit-mask-size: 100% 100%; mask-size: 100% 100%; }
+      .shine-band { position: absolute; top: -30px; left: 0; width: 220px; height: 290px; background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0) 100%); }
+      .l1 { font-weight: 700; font-size: 60px; white-space: nowrap; }
+      .l2 { font-weight: 800; font-size: 96px; line-height: 1; white-space: nowrap; color: var(--teal-hi); }
+      .l3 { display: flex; gap: 26px; font-weight: 800; font-size: 100px; line-height: 1; white-space: nowrap; color: var(--orange); }
+      #rev { display: inline-block; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4.5" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stack" id="content">
+          <div class="logo" id="logo">
+            <img id="lg-g" src="assets/logo-v2/gex-g.png" alt="" />
+            <img id="lg-e" src="assets/logo-v2/gex-e.png" alt="" />
+            <img id="lg-xd" src="assets/logo-v2/gex-x-diag.png" alt="" />
+            <img id="lg-xl" src="assets/logo-v2/gex-x-low.png" alt="" />
+            <img id="lg-xo" src="assets/logo-v2/gex-x-orange.png" alt="GEX" />
+            <div class="shine" data-layout-allow-overflow="true"><div class="shine-band" id="band"></div></div>
+          </div>
+          <div class="l1" id="l1">SISTEMAS QUE SE ADAPTAN</div>
+          <div class="l2" id="l2">A TU NEGOCIO</div>
+          <div class="l3"><span id="y1">Y NO</span><span id="rev">AL REVÉS</span></div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 4.15;
+      GEX.ambient(tl, GEX.particles(document.getElementById("fx"), 14, 121, { y0: 120, y1: 1300 }), 0.1, EXIT + 0.3);
+      const l1 = GEX.split(document.getElementById("l1"));
+      const l2 = GEX.split(document.getElementById("l2"));
+      const y1 = GEX.split(document.getElementById("y1"));
+
+      // Logo se arma por piezas
+      tl.fromTo("#lg-g", { x: -220, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.1);
+      tl.fromTo("#lg-e", { y: 150, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "expo.out" }, 0.2);
+      tl.fromTo("#lg-xd", { clipPath: "polygon(0% 0%, 0% 0%, 0% 0%)" }, { clipPath: "polygon(0% 0%, 230% 0%, 0% 230%)", duration: 0.4, ease: "power3.inOut" }, 0.3);
+      tl.fromTo("#lg-xl", { x: -110, y: 110, autoAlpha: 0 }, { x: 0, y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(1.8)" }, 0.45);
+      tl.fromTo("#lg-xo", { x: 300, y: -300, autoAlpha: 0 }, { x: 0, y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2.2)" }, 0.6);
+      GEX.punch(tl, "#logo", 0.95, 1.06);
+      tl.fromTo("#band", { x: -260 }, { x: 860, duration: 0.7, ease: "power2.inOut" }, 1.1);
+      tl.fromTo("#band", { x: -260 }, { x: 860, duration: 0.7, immediateRender: false, ease: "power2.inOut" }, 3.0);
+
+      GEX.reveal(tl, l1.words, 0.9, "rise", { stagger: 0.07 });
+      GEX.reveal(tl, l2.chars, 1.25, "pop", { stagger: 0.03 });
+      GEX.reveal(tl, y1.words, 1.75, "slide", { stagger: 0.08 });
+      // "AL REVÉS" entra de cabeza y se endereza
+      tl.fromTo("#rev", { rotation: 180, scale: 0.5, autoAlpha: 0 }, { rotation: 180, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2)" }, 1.95);
+      tl.to("#rev", { rotation: 360, duration: 0.6, ease: "back.inOut(2.2)" }, 2.5);
+      tl.to(l2.chars, { y: -14, duration: 0.18, ease: "sine.out", yoyo: true, repeat: 1, stagger: 0.03 }, 3.2);
+
+      GEX.scatter(tl, [...l1.words, ...l2.chars, ...y1.words, "#rev"], EXIT, 61);
+      tl.to("#logo", { scale: 1.15, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Digitalizo 09 — Conocer el negocio</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+      .ttl { display: flex; flex-direction: column; align-items: center; font-weight: 800; font-size: 78px; line-height: 1; white-space: nowrap; }
+      .ttl .t { color: var(--teal-hi); font-size: 96px; }
+      .row { display: flex; gap: 26px; }
+      .card { display: flex; flex-direction: column; align-items: center; gap: 14px; width: 430px; padding: 24px 18px 26px; border: 5px solid var(--teal-hi); border-radius: 30px; }
+      .card .tag { font-weight: 800; font-size: 34px; letter-spacing: 0.12em; color: var(--orange); }
+      .card .h { font-weight: 800; font-size: 50px; white-space: nowrap; }
+      .card .d { font-weight: 500; font-size: 32px; color: var(--teal-hi); white-space: nowrap; }
+      .card svg { width: 330px; height: 250px; overflow: visible; }
+      .road { fill: none; stroke: rgba(255, 255, 255, 0.45); stroke-width: 5; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.5" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stack" id="content">
+          <div class="ttl" id="ttl"><span>ME GUSTA CONOCER</span><span class="t">TU NEGOCIO</span></div>
+          <div class="row">
+            <div class="card" id="c1">
+              <div class="tag">CERCA</div>
+              <svg viewBox="0 0 330 250">
+                <path class="road" d="M0 70h330 M0 180h330 M90 0v250 M240 0v250" />
+                <path class="lo" id="route" d="M40 230V180H240V70H285" stroke-dasharray="14 12" />
+                <g id="store"><path class="ln" d="M250 70h70 M254 70l6-24h50l6 24 M258 70v40h54V70" /></g>
+                <g id="pin"><path class="lo" d="M40 200c-14-16-24-28-24-42a24 24 0 0 1 48 0c0 14-10 26-24 42Z" stroke-width="8" /><circle cx="40" cy="158" r="8" fill="#fe6820" /></g>
+              </svg>
+              <div class="h">Voy a tu local</div>
+              <div class="d">en mi localidad</div>
+            </div>
+            <div class="card" id="c2">
+              <div class="tag">LEJOS</div>
+              <svg viewBox="0 0 330 250">
+                <rect class="ln" x="20" y="20" width="290" height="180" rx="18" />
+                <g id="person"><circle class="lw" cx="165" cy="90" r="30" /><path class="lw" d="M105 180c6-34 30-50 60-50s54 16 60 50" /></g>
+                <g id="waves"><rect id="w1" x="250" y="150" width="10" height="30" rx="5" fill="#fe6820" /><rect id="w2" x="266" y="140" width="10" height="40" rx="5" fill="#fe6820" /><rect id="w3" x="282" y="150" width="10" height="30" rx="5" fill="#fe6820" /></g>
+                <circle id="rec" cx="48" cy="46" r="10" fill="#fe6820" />
+                <path class="ln" d="M120 228h90" />
+              </svg>
+              <div class="h">Videollamada</div>
+              <div class="d">otra ciudad u otro país</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.15;
+      GEX.ambient(tl, GEX.particles(document.getElementById("fx"), 10, 99, { y0: 120, y1: 1400 }), 0.1, EXIT + 0.3);
+      const ttl = GEX.split(document.getElementById("ttl"));
+      GEX.reveal(tl, ttl.words, 0.08, "rise", { stagger: 0.08 });
+      tl.fromTo("#c1", { x: -300, rotation: -8, autoAlpha: 0 }, { x: 0, rotation: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.55);
+      tl.fromTo("#c2", { x: 300, rotation: 8, autoAlpha: 0 }, { x: 0, rotation: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.75);
+
+      // CERCA: el pin cae, la ruta se dibuja hasta el local
+      tl.fromTo("#pin", { y: -160, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.55, ease: "bounce.out" }, 1.1);
+      const route = document.getElementById("route");
+      tl.fromTo(route, { strokeDashoffset: 400, autoAlpha: 0 }, { strokeDashoffset: 0, autoAlpha: 1, duration: 1.0, ease: "power2.inOut" }, 1.5);
+      tl.to(route, { strokeDashoffset: -150, duration: EXIT - 2.5, ease: "none" }, 2.5);
+      tl.fromTo("#store", { scale: 0, svgOrigin: "285 90", autoAlpha: 0 }, { scale: 1, svgOrigin: "285 90", autoAlpha: 1, duration: 0.35, ease: "back.out(3)" }, 2.4);
+      tl.to("#pin", { y: -12, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 7 }, 2.0);
+
+      // LEJOS: llamada con audio y punto de grabación
+      tl.fromTo("#person", { scale: 0.6, svgOrigin: "165 130", autoAlpha: 0 }, { scale: 1, svgOrigin: "165 130", autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 1.3);
+      ["#w1", "#w2", "#w3"].forEach((w, i) => {
+        tl.fromTo(w, { scaleY: 0.3, transformOrigin: "50% 100%" }, { scaleY: 1.4, transformOrigin: "50% 100%", duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 13, delay: i * 0.07 }, 1.6);
+      });
+      tl.fromTo("#rec", { autoAlpha: 1 }, { autoAlpha: 0.2, duration: 0.4, ease: "none", yoyo: true, repeat: 7 }, 1.6);
+      GEX.float(tl, "#c1", 1.4, EXIT, 10, 1.6);
+      GEX.float(tl, "#c2", 1.6, EXIT, 10, 1.6);
+
+      GEX.scatter(tl, [...ttl.words, "#c1", "#c2"], EXIT, 31);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

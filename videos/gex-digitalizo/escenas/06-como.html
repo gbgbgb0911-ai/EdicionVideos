@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Digitalizo 06 — ¿Cómo lo hago?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+      .gears { position: relative; width: 320px; height: 240px; margin-bottom: 20px; }
+      .gears svg { position: absolute; overflow: visible; }
+      #g1 { left: 20px; top: 20px; width: 190px; height: 190px; }
+      #g2 { left: 188px; top: 92px; width: 120px; height: 120px; }
+      .q { font-weight: 800; font-size: 150px; line-height: 1; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="2.5" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="2.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stack" id="content">
+          <div class="gears" id="gears">
+            <svg id="g1" viewBox="-60 -60 120 120"><path class="ln" d="M-8-56h16l3 12 10 4 11-6 11 11-6 11 4 10 12 3v16l-12 3-4 10 6 11-11 11-11-6-10 4-3 12h-16l-3-12-10-4-11 6-11-11 6-11-4-10-12-3v-16l12-3 4-10-6-11 11-11 11 6 10-4Z" /><circle class="ln" r="16" /></svg>
+            <svg id="g2" viewBox="-60 -60 120 120"><path class="lo" d="M-8-56h16l3 12 10 4 11-6 11 11-6 11 4 10 12 3v16l-12 3-4 10 6 11-11 11-11-6-10 4-3 12h-16l-3-12-10-4-11 6-11-11 6-11-4-10-12-3v-16l12-3 4-10-6-11 11-11 11 6 10-4Z" stroke-width="10" /><circle class="lo" r="16" stroke-width="10" /></svg>
+          </div>
+          <div class="q" id="q1">¿CÓMO</div>
+          <div class="q teal" id="q2">LO HAGO<span class="or">?</span></div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 2.2;
+      GEX.ambient(tl, GEX.particles(document.getElementById("fx"), 12, 66, { y0: 140, y1: 1300 }), 0.05, EXIT + 0.25);
+      const q1 = GEX.split(document.getElementById("q1"));
+      const q2 = GEX.split(document.getElementById("q2"));
+      tl.fromTo("#gears", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)" }, 0.08);
+      tl.fromTo("#g1", { rotation: 0 }, { rotation: 300, duration: EXIT, ease: "power1.inOut" }, 0.08);
+      tl.fromTo("#g2", { rotation: 0 }, { rotation: -480, duration: EXIT, ease: "power1.inOut" }, 0.08);
+      GEX.reveal(tl, q1.chars, 0.2, "drop", { stagger: 0.05, duration: 0.55 });
+      GEX.reveal(tl, q2.chars, 0.45, "pop", { stagger: 0.04 });
+      GEX.punch(tl, "#q2 .or", 1.15, 1.4);
+      tl.to(q1.chars, { rotation: (i) => (i % 2 ? 6 : -6), duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.3);
+      GEX.scatter(tl, [...q1.chars, ...q2.chars], EXIT, 12);
+      tl.to("#gears", { scale: 0, autoAlpha: 0, duration: 0.25, ease: "back.in(2)" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

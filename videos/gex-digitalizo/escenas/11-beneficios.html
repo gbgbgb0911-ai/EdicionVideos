@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Digitalizo 11 — Beneficios</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .stack { display: flex; flex-direction: column; align-items: flex-start; gap: 36px; }
+      .head { font-weight: 700; font-size: 50px; color: var(--teal-hi); letter-spacing: 0.08em; white-space: nowrap; }
+      .item { display: flex; align-items: center; gap: 34px; }
+      .ic { width: 140px; height: 140px; flex: none; overflow: visible; }
+      .txt { font-weight: 800; font-size: 92px; line-height: 1; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stack" id="content">
+          <div class="head" id="head">CON UN SISTEMA BUSCAMOS</div>
+          <div class="item" id="i1">
+            <svg class="ic" viewBox="-70 -70 140 140"><circle class="ln" r="60" /><g id="hm"><circle r="44" fill="none" /><line class="lo" x1="0" y1="6" x2="0" y2="-42" stroke-width="9" /></g><g id="hh"><circle r="30" fill="none" /><line class="lw" x1="0" y1="4" x2="0" y2="-28" stroke-width="10" /></g></svg>
+            <div class="txt" id="x1">Ahorrar tiempo</div>
+          </div>
+          <div class="item" id="i2">
+            <svg class="ic" viewBox="-70 -70 140 140"><circle class="ln" r="60" /><path class="lo" id="xmark" d="M-24-24L24 24 M24-24L-24 24" stroke-width="12" /><path class="ln" id="ck" d="M-28 2l18 18 36-40" stroke-width="12" /></svg>
+            <div class="txt" id="x2">Menos errores</div>
+          </div>
+          <div class="item" id="i3">
+            <svg class="ic" viewBox="-70 -70 140 140"><path class="ln" d="M-56 24a60 60 0 1 1 112 0" /><path class="ln" d="M-44 -8l10 4 M44 -8l-10 4 M0 -50v12" /><g id="needle"><line class="lo" x1="0" y1="20" x2="0" y2="-40" stroke-width="10" /></g><circle cx="0" cy="20" r="10" fill="#fe6820" /></svg>
+            <div class="txt" id="x3">Más control</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.65;
+      GEX.ambient(tl, GEX.particles(document.getElementById("fx"), 12, 111, { y0: 140, y1: 1300 }), 0.1, EXIT + 0.3);
+      const head = GEX.split(document.getElementById("head"));
+      const xs = ["#x1", "#x2", "#x3"].map((id) => GEX.split(document.querySelector(id)));
+      GEX.reveal(tl, head.words, 0.1, "rise", { stagger: 0.07 });
+      ["#i1", "#i2", "#i3"].forEach((id, i) => {
+        const t = 0.4 + i * 0.45;
+        tl.fromTo(id + " .ic", { scale: 0, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2.2)" }, t);
+        GEX.reveal(tl, xs[i].chars, t + 0.1, "rise", { stagger: 0.025, duration: 0.4 });
+      });
+      // Reloj acelerado
+      tl.fromTo("#hm", { rotation: 0, svgOrigin: "0 0" }, { rotation: 1080, svgOrigin: "0 0", duration: EXIT - 0.5, ease: "power1.inOut" }, 0.5);
+      tl.fromTo("#hh", { rotation: 0, svgOrigin: "0 0" }, { rotation: 90, svgOrigin: "0 0", duration: EXIT - 0.5, ease: "power1.inOut" }, 0.5);
+      // X se convierte en check
+      const ck = document.getElementById("ck");
+      const CL = ck.getTotalLength();
+      tl.set(ck, { strokeDasharray: CL, strokeDashoffset: CL }, 0);
+      tl.to("#xmark", { rotation: 90, scale: 0, svgOrigin: "0 0", duration: 0.3, ease: "back.in(2)" }, 1.6);
+      tl.to(ck, { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, 1.85);
+      // Aguja que sube al máximo
+      tl.fromTo("#needle", { rotation: -80, svgOrigin: "0 20" }, { rotation: 60, svgOrigin: "0 20", duration: 0.8, ease: "elastic.out(1, 0.45)" }, 1.55);
+      tl.to("#needle", { rotation: 50, svgOrigin: "0 20", duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 3 }, 2.45);
+      tl.to(".ic", { keyframes: [{ scale: 1.15, duration: 0.12 }, { scale: 1, duration: 0.25 }], ease: "sine.inOut", stagger: 0.1 }, 2.6);
+
+      GEX.scatter(tl, [...head.words, "#i1", "#i2", "#i3"], EXIT, 51);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

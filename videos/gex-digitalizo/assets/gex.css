@@ -1,0 +1,25 @@
+/* Estilos compartidos GEX (las @font-face van en cada escena: lint las exige en el archivo). */
+:root {
+  --bg: #000000;
+  --ink: #ffffff;
+  --teal-hi: #1fc4b8;
+  --cyan: #3ee8dc;
+  --orange: #fe6820;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+#stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); font-family: "Outfit", sans-serif; color: var(--ink); }
+.scene { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 80px 520px; }
+.fx-layer { position: absolute; inset: 0; pointer-events: none; }
+.fx-p { position: absolute; }
+.fx-p i { display: block; }
+.fx-dot { border-radius: 50%; }
+.fx-ring { border-radius: 50%; border: 5px solid currentColor; }
+.fx-dash { width: 8px; border-radius: 4px; }
+.w { display: inline-block; white-space: nowrap; }
+.c { display: inline-block; }
+.teal { color: var(--teal-hi); }
+.or { color: var(--orange); }
+.ln { fill: none; stroke: var(--teal-hi); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.lo { fill: none; stroke: var(--orange); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.lw { fill: none; stroke: var(--ink); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }

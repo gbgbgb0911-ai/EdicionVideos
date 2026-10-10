@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Digitalizo 05 — De arriba hacia abajo</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+      .ttl { display: flex; flex-direction: column; align-items: center; font-weight: 800; font-size: 92px; line-height: 1; white-space: nowrap; margin-bottom: 26px; }
+      .tier { display: flex; align-items: center; gap: 26px; width: 780px; padding: 26px 34px; border: 6px solid var(--teal-hi); border-radius: 30px; }
+      .tier .n { display: flex; align-items: center; justify-content: center; width: 96px; height: 96px; border-radius: 50%; border: 6px solid var(--orange); color: var(--orange); font-weight: 800; font-size: 54px; flex: none; }
+      .tier .h { font-weight: 800; font-size: 64px; white-space: nowrap; }
+      .tier .d { font-weight: 500; font-size: 36px; color: var(--teal-hi); white-space: nowrap; }
+      .flow { position: relative; width: 120px; height: 170px; }
+      .flow svg { width: 120px; height: 170px; overflow: visible; }
+      .pip { position: absolute; left: 60px; top: 0; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; background: var(--orange); }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stack" id="content">
+          <div class="ttl" id="ttl"><span>DE ARRIBA</span><span class="or">HACIA ABAJO</span></div>
+          <div class="tier" id="t1"><div class="n">1</div><div><div class="h">Administración</div><div class="d">ventas · caja · reportes</div></div></div>
+          <div class="flow" id="flow" data-layout-allow-overflow="true">
+            <svg viewBox="0 0 120 170"><path class="ln" id="fl" d="M60 6v150 M36 132l24 26 24-26" stroke-dasharray="14 12" /></svg>
+            <div class="pip" id="pip1"></div><div class="pip" id="pip2"></div>
+          </div>
+          <div class="tier" id="t2"><div class="n">2</div><div><div class="h">Operación</div><div class="d">pedidos · equipo · inventario</div></div></div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.65;
+      GEX.ambient(tl, GEX.particles(document.getElementById("fx"), 12, 55, { y0: 140, y1: 1300 }), 0.1, EXIT + 0.3);
+      const ttl = GEX.split(document.getElementById("ttl"));
+
+      GEX.reveal(tl, ttl.words, 0.12, "drop", { stagger: 0.08, duration: 0.55 });
+      tl.fromTo("#t1", { y: -120, scale: 0.8, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.5, ease: "back.out(1.8)" }, 0.55);
+      GEX.punch(tl, "#t1", 1.05, 1.05);
+      // Flecha discontinua corriendo hacia abajo
+      tl.fromTo("#fl", { strokeDashoffset: 0, autoAlpha: 0 }, { strokeDashoffset: -130, autoAlpha: 1, duration: EXIT - 1.0, ease: "none" }, 1.0);
+      ["#pip1", "#pip2"].forEach((p, i) => {
+        tl.fromTo(p, { y: 0, autoAlpha: 0 }, { y: 140, autoAlpha: 1, duration: 0.6, ease: "power2.in", repeat: 2, repeatDelay: 0.25 }, 1.15 + i * 0.42);
+      });
+      tl.fromTo("#t2", { y: 140, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "expo.out" }, 1.5);
+      GEX.punch(tl, "#t2", 2.3, 1.05);
+      tl.to(".tier .n", { rotation: 360, duration: 0.6, ease: "back.inOut(2)", stagger: 0.25 }, 2.6);
+
+      GEX.scatter(tl, [...ttl.words, "#t1", "#flow", "#t2"], EXIT, 8);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Digitalizo 03 — Horas a mano</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+      .head { position: relative; z-index: 2; display: flex; align-items: center; gap: 26px; }
+      #clock { width: 130px; height: 130px; flex: none; overflow: visible; }
+      .ttl { display: flex; flex-direction: column; font-weight: 800; font-size: 84px; line-height: 0.98; white-space: nowrap; }
+      .pile { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+      .card { display: flex; align-items: center; gap: 22px; width: 760px; padding: 20px 30px; border: 5px solid var(--teal-hi); border-radius: 24px; font-weight: 700; font-size: 54px; white-space: nowrap; }
+      .card svg { width: 60px; height: 60px; flex: none; }
+      .flipbox { position: relative; height: 92px; width: 860px; overflow: hidden; }
+      .flipbox div { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 76px; white-space: nowrap; color: var(--orange); }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stack" id="content">
+          <div class="head">
+            <svg id="clock" viewBox="-60 -60 120 120">
+              <circle class="lo" r="52" />
+              <g id="hm"><circle r="40" fill="none" /><line class="lw" x1="0" y1="6" x2="0" y2="-38" /></g>
+              <g id="hh"><circle r="26" fill="none" /><line class="lw" x1="0" y1="4" x2="0" y2="-24" /></g>
+            </svg>
+            <div class="ttl" id="ttl"><span>HORAS HACIENDO</span><span class="teal">TODO A MANO</span></div>
+          </div>
+          <div class="pile">
+            <div class="card" id="k1"><svg viewBox="0 0 64 64"><path class="ln" d="M8 54h48 M14 54V34 M28 54V22 M42 54V28 M56 54V12" /></svg>Registrar ventas</div>
+            <div class="card" id="k2"><svg viewBox="0 0 64 64"><path class="ln" d="M6 18h52v34H6Z M6 28h52 M16 42h10" /></svg>Cuadrar caja</div>
+            <div class="card" id="k3"><svg viewBox="0 0 64 64"><path class="ln" d="M10 8h44v48H10Z M18 18h28 M18 30h6 M30 30h6 M42 30h4 M18 42h6 M30 42h6 M42 42h4" /></svg>Revisar números</div>
+            <div class="card" id="k4"><svg viewBox="0 0 64 64"><path class="ln" d="M14 6h26l12 12v40H14Z M40 6v12h12 M22 30h22 M22 40h22 M22 50h14" /></svg>Preparar reportes</div>
+          </div>
+          <div class="flipbox" data-layout-allow-overflow="true"><div id="f1">TODOS LOS DÍAS</div><div id="f2">TODAS LAS SEMANAS</div></div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 4.65;
+      GEX.ambient(tl, GEX.particles(document.getElementById("fx"), 12, 33, { y0: 140, y1: 1350 }), 0.1, EXIT + 0.3);
+      const ttl = GEX.split(document.getElementById("ttl"));
+
+      tl.fromTo("#clock", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)" }, 0.1);
+      // Reloj corriendo sin parar
+      tl.fromTo("#hm", { rotation: 0, svgOrigin: "0 0" }, { rotation: 360 * 6, svgOrigin: "0 0", duration: EXIT - 0.1, ease: "none" }, 0.1);
+      tl.fromTo("#hh", { rotation: 0, svgOrigin: "0 0" }, { rotation: 360 / 2, svgOrigin: "0 0", duration: EXIT - 0.1, ease: "none" }, 0.1);
+      GEX.reveal(tl, ttl.words, 0.25, "rise", { stagger: 0.08 });
+
+      // Tareas caen y se apilan
+      const rots = [-4, 3, -2, 5];
+      ["#k1", "#k2", "#k3", "#k4"].forEach((id, i) => {
+        tl.fromTo(id, { y: -260, rotation: rots[i] * 4, autoAlpha: 0 }, { y: 0, rotation: rots[i], autoAlpha: 1, duration: 0.6, ease: "bounce.out" }, 0.75 + i * 0.25);
+      });
+      // La pila tiembla por el peso
+      tl.to(".card", { keyframes: [{ x: -8 }, { x: 8 }, { x: -5 }, { x: 0 }], duration: 0.35, ease: "none", stagger: 0.04 }, 2.3);
+      tl.to(".card", { rotation: 0, duration: 0.4, ease: "sine.inOut", stagger: 0.05 }, 3.2);
+
+      // Todos los días -> todas las semanas
+      tl.fromTo("#f1", { yPercent: 110 }, { yPercent: 0, duration: 0.4, ease: "back.out(2)" }, 2.0);
+      tl.set("#f2", { yPercent: 110 }, 0);
+      tl.to("#f1", { yPercent: -110, duration: 0.35, ease: "power3.in" }, 3.0);
+      tl.to("#f2", { yPercent: 0, duration: 0.4, ease: "back.out(2)" }, 3.2);
+      GEX.punch(tl, "#f2", 3.75, 1.08);
+
+      GEX.scatter(tl, [...ttl.words, "#k1", "#k2", "#k3", "#k4", "#f2"], EXIT, 9);
+      tl.to("#clock", { scale: 0, autoAlpha: 0, duration: 0.3, ease: "back.in(2)" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Digitalizo 04 — Quitarte esa carga</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+      .small { font-weight: 700; font-size: 66px; white-space: nowrap; }
+      .wrap { position: relative; width: 520px; height: 340px; }
+      #weight { position: absolute; left: 60px; top: 40px; width: 400px; height: 280px; overflow: visible; }
+      .wt { font-family: "Outfit", sans-serif; font-weight: 800; font-size: 72px; fill: var(--orange); }
+      #arrows { position: absolute; inset: 0; width: 520px; height: 340px; overflow: visible; }
+      .burst { position: absolute; left: 260px; top: 200px; width: 18px; height: 18px; margin: -9px; border-radius: 50%; }
+      .done { font-weight: 800; font-size: 104px; line-height: 1; white-space: nowrap; color: var(--teal-hi); }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="3.5" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="3.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stack" id="content">
+          <div class="small" id="s1">LO PRIMERO: QUITARTE</div>
+          <div class="wrap" id="wrap" data-layout-allow-overflow="true">
+            <svg id="arrows" viewBox="0 0 520 340"><path class="ln" id="ar1" d="M80 300V80 M50 110l30-30 30 30" /><path class="ln" id="ar2" d="M440 300V80 M410 110l30-30 30 30" /></svg>
+            <svg id="weight" viewBox="0 0 400 280">
+              <path class="lo" d="M160 60a40 40 0 1 1 80 0" />
+              <path class="lo" d="M110 70h180l60 200H50Z" />
+              <text class="wt" x="200" y="210" text-anchor="middle">CARGA</text>
+            </svg>
+          </div>
+          <div class="done" id="done">DE ENCIMA</div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.15;
+      GEX.ambient(tl, GEX.particles(document.getElementById("fx"), 10, 44, { y0: 140, y1: 1300 }), 0.1, EXIT + 0.3);
+      // Chispas de impacto
+      const wrap = document.getElementById("wrap");
+      const sparks = [];
+      for (let i = 0; i < 10; i++) {
+        const s = document.createElement("div");
+        s.className = "burst";
+        s.style.background = i % 2 ? "#fe6820" : "#1fc4b8";
+        wrap.appendChild(s);
+        sparks.push(s);
+      }
+      const s1 = GEX.split(document.getElementById("s1"));
+      const dn = GEX.split(document.getElementById("done"));
+
+      GEX.reveal(tl, s1.words, 0.12, "rise", { stagger: 0.08 });
+      // La pesa cae con fuerza
+      tl.fromTo("#weight", { y: -700, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power4.in" }, 0.35);
+      tl.to("#content", { keyframes: [{ y: 14 }, { y: -8 }, { y: 4 }, { y: 0 }], duration: 0.3, ease: "none" }, 0.8);
+      sparks.forEach((s, i) => {
+        const a = (Math.PI * (i + 0.5)) / sparks.length;
+        tl.fromTo(s, { x: 0, y: 0, scale: 1, autoAlpha: 1 }, { x: Math.cos(a) * 260 * (i % 2 ? 1 : -1), y: -Math.sin(a) * 160, scale: 0.2, autoAlpha: 0, duration: 0.6, ease: "expo.out" }, 0.8);
+      });
+      // Flechas empujan hacia arriba y la carga sale volando
+      tl.fromTo(["#ar1", "#ar2"], { y: 60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", stagger: 0.08 }, 1.25);
+      tl.to(["#ar1", "#ar2"], { y: -20, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.6);
+      tl.to("#weight", { keyframes: [{ y: 20, duration: 0.15, ease: "power2.out" }, { y: -900, rotation: 18, autoAlpha: 0, duration: 0.5, ease: "power3.in" }] }, 1.95);
+      GEX.reveal(tl, dn.chars, 2.15, "pop", { stagger: 0.035 });
+      tl.to(dn.chars, { y: -16, duration: 0.18, ease: "sine.out", yoyo: true, repeat: 1, stagger: 0.03 }, 2.65);
+
+      GEX.scatter(tl, [...s1.words, ...dn.chars, "#ar1", "#ar2"], EXIT, 6);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

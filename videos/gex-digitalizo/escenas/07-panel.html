@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Digitalizo 07 — Panel en tiempo real</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 26px; }
+      .title { display: flex; flex-direction: column; align-items: center; font-weight: 800; font-size: 70px; line-height: 1; white-space: nowrap; }
+      .title .t { color: var(--teal-hi); font-size: 92px; }
+      .dash { position: relative; width: 900px; border: 6px solid var(--teal-hi); border-radius: 34px; overflow: hidden; }
+      .bar { display: flex; align-items: center; justify-content: space-between; height: 80px; padding: 0 30px; border-bottom: 4px solid var(--teal-hi); }
+      .live { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 32px; color: var(--orange); letter-spacing: 0.08em; }
+      .live i { width: 20px; height: 20px; border-radius: 50%; background: var(--orange); }
+      .bar img { height: 42px; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 24px 28px 28px; }
+      .kpi { padding: 16px 22px; border: 4px solid rgba(255, 255, 255, 0.55); border-radius: 22px; }
+      .kpi .lbl { font-weight: 500; font-size: 30px; color: var(--teal-hi); }
+      .kpi .val { font-weight: 800; font-size: 64px; line-height: 1.05; font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .kpi .val small { font-size: 32px; color: var(--orange); }
+      .chart { grid-column: 1 / 3; height: 230px; border-bottom: 4px solid rgba(255, 255, 255, 0.55); }
+      .chart svg { width: 100%; height: 100%; overflow: visible; }
+      .moves { grid-column: 1 / 3; position: relative; height: 196px; overflow: hidden; }
+      .mv { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 20px; border: 3px solid rgba(31, 196, 184, 0.9); border-radius: 14px; font-weight: 700; font-size: 32px; }
+      .mv b { color: var(--teal-hi); }
+      .mv b.out { color: var(--orange); }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.5" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stack" id="content">
+          <div class="title" id="title"><span>UN PANEL</span><span class="t">ADMINISTRATIVO</span></div>
+          <div class="dash" id="dash">
+            <div class="bar"><div class="live" id="live"><i id="dot"></i>EN TIEMPO REAL</div><img src="assets/logo-v2/gex-full.png" alt="GEX" /></div>
+            <div class="grid">
+              <div class="kpi" id="kp1"><div class="lbl">Ventas</div><div class="val"><span id="v1">0</span> <small>▲</small></div></div>
+              <div class="kpi" id="kp2"><div class="lbl">Ingresos</div><div class="val"><span id="v2">0</span></div></div>
+              <div class="chart">
+                <svg viewBox="0 0 800 230" preserveAspectRatio="none">
+                  <path id="line" d="M0 200 L80 170 L160 182 L240 140 L320 150 L400 110 L480 122 L560 80 L640 92 L720 50 L800 30" fill="none" stroke="#1fc4b8" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+                  <circle id="head" cx="800" cy="30" r="13" fill="#fe6820" />
+                </svg>
+              </div>
+              <div class="moves" id="moves" data-layout-allow-overflow="true"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.15;
+      GEX.ambient(tl, GEX.particles(document.getElementById("fx"), 10, 77, { y0: 120, y1: 1400 }), 0.1, EXIT + 0.3);
+      const title = GEX.split(document.getElementById("title"));
+      GEX.reveal(tl, title.chars, 0.08, "rise", { stagger: 0.022, duration: 0.4 });
+      tl.fromTo("#dash", { y: 120, rotationX: 25, transformPerspective: 1200, autoAlpha: 0 }, { y: 0, rotationX: 0, transformPerspective: 1200, autoAlpha: 1, duration: 0.6, ease: "expo.out" }, 0.4);
+      // Punto "en vivo" pulsando todo el tiempo
+      tl.fromTo("#dot", { scale: 1 }, { scale: 0.45, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 11 }, 0.6);
+      tl.fromTo(".kpi", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.1 }, 0.8);
+
+      // KPIs que no paran de subir
+      const n = { a: 0, b: 0 };
+      const v1 = document.getElementById("v1"), v2 = document.getElementById("v2");
+      const fmt = (x) => String(Math.round(x)).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      tl.fromTo(n, { a: 0, b: 0 }, { a: 1240, b: 18650, duration: 1.3, ease: "power2.out", onUpdate: () => { v1.textContent = fmt(n.a); v2.textContent = fmt(n.b); } }, 0.9);
+      tl.to(n, { a: 1312, b: 19870, duration: EXIT - 2.3, ease: "none", onUpdate: () => { v1.textContent = fmt(n.a); v2.textContent = fmt(n.b); } }, 2.2);
+
+      // Línea que se dibuja y punta que late
+      const line = document.getElementById("line");
+      const L = line.getTotalLength();
+      tl.fromTo(line, { strokeDasharray: L, strokeDashoffset: L }, { strokeDasharray: L, strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut" }, 1.0);
+      tl.fromTo("#head", { scale: 0, autoAlpha: 0, svgOrigin: "800 30" }, { scale: 1, autoAlpha: 1, svgOrigin: "800 30", duration: 0.3, ease: "back.out(3)" }, 2.15);
+      tl.to("#head", { scale: 1.6, svgOrigin: "800 30", duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 7 }, 2.45);
+
+      // Movimientos entrando uno tras otro
+      const moves = [
+        ["Venta #1045", "+ 120.00", ""], ["Pago proveedor", "- 450.00", "out"], ["Venta #1046", "+ 85.50", ""],
+        ["Venta #1047", "+ 210.00", ""], ["Caja chica", "- 40.00", "out"], ["Venta #1048", "+ 64.90", ""],
+      ];
+      const box = document.getElementById("moves");
+      const ROW = 66;
+      moves.forEach((m, i) => {
+        const r = document.createElement("div");
+        r.className = "mv";
+        r.innerHTML = `<span>${m[0]}</span><b class="${m[2]}">${m[1]}</b>`;
+        box.appendChild(r);
+        const t = 1.3 + i * 0.55;
+        // entra arriba y empuja: cada fila baja un escalón por cada nueva
+        tl.fromTo(r, { y: -ROW, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)" }, t);
+        for (let k = i + 1; k < moves.length; k++) {
+          tl.to(r, { y: (k - i) * ROW, duration: 0.3, ease: "power2.out" }, 1.3 + k * 0.55);
+        }
+      });
+      GEX.scatter(tl, [...title.chars], EXIT, 4);
+      tl.to("#dash", { y: 160, rotationX: -20, transformPerspective: 1200, autoAlpha: 0, duration: 0.32, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

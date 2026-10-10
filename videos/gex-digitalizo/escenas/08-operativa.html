@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Digitalizo 08 — Parte operativa</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+      .head { display: flex; align-items: center; gap: 28px; }
+      .badge { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 150px; height: 150px; border-radius: 50%; border: 8px solid var(--orange); color: var(--orange); font-weight: 800; flex: none; line-height: 0.95; }
+      .badge small { font-size: 24px; letter-spacing: 0.1em; }
+      .badge span { font-size: 70px; }
+      .ttl { display: flex; flex-direction: column; font-weight: 800; font-size: 92px; line-height: 0.98; white-space: nowrap; }
+      .map { position: relative; width: 880px; height: 600px; }
+      .map svg.links { position: absolute; inset: 0; width: 880px; height: 600px; overflow: visible; }
+      .node { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 300px; padding: 20px 10px; border: 5px solid var(--teal-hi); border-radius: 26px; font-weight: 700; font-size: 44px; white-space: nowrap; }
+      .node svg { width: 70px; height: 70px; }
+      #n1 { left: 0; top: 0; } #n2 { right: 0; top: 0; } #n3 { right: 0; bottom: 0; } #n4 { left: 0; bottom: 0; }
+      .runner { position: absolute; left: 0; top: 0; width: 22px; height: 22px; margin: -11px; border-radius: 50%; background: var(--orange); }
+      #lens { position: absolute; left: 0; top: 0; width: 170px; height: 170px; overflow: visible; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stack" id="content">
+          <div class="head">
+            <div class="badge" id="badge"><small>ETAPA</small><span>2</span></div>
+            <div class="ttl" id="ttl"><span>LA PARTE</span><span class="teal">OPERATIVA</span></div>
+          </div>
+          <div class="map" id="map" data-layout-allow-overflow="true">
+            <svg class="links" viewBox="0 0 880 600"><path class="ln" id="loop" d="M300 100H580 M730 200V400 M580 500H300 M150 400V200" stroke-dasharray="16 14" /></svg>
+            <div class="node" id="n1"><svg viewBox="0 0 64 64"><path class="ln" d="M8 20 32 8l24 12v24L32 56 8 44Z M8 20l24 12 24-12 M32 32v24" /></svg>Pedidos</div>
+            <div class="node" id="n2"><svg viewBox="0 0 64 64"><path class="ln" d="M22 26a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M42 26a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M6 54c2-12 8-18 16-18s14 6 16 18 M30 40c3-3 7-4 12-4 8 0 14 6 16 18" /></svg>Empleados</div>
+            <div class="node" id="n3"><svg viewBox="0 0 64 64"><path class="ln" d="M8 30h20v24H8Z M36 30h20v24H36Z M22 8h20v22H22Z" /></svg>Inventario</div>
+            <div class="node" id="n4"><svg viewBox="0 0 64 64"><path class="ln" d="M32 8v8 M32 48v8 M8 32h8 M48 32h8 M15 15l6 6 M43 43l6 6 M15 49l6-6 M43 21l6-6 M32 22a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z" /></svg>Procesos</div>
+            <div class="runner" id="r1"></div><div class="runner" id="r2"></div>
+            <svg id="lens" viewBox="0 0 170 170"><circle class="lo" cx="70" cy="70" r="52" stroke-width="10" /><path class="lo" d="M108 108l46 46" stroke-width="14" /></svg>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 4.65;
+      GEX.ambient(tl, GEX.particles(document.getElementById("fx"), 12, 88, { y0: 120, y1: 1400 }), 0.1, EXIT + 0.3);
+      const ttl = GEX.split(document.getElementById("ttl"));
+      tl.fromTo("#badge", { scale: 0, rotation: -120, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2.2)" }, 0.08);
+      GEX.reveal(tl, ttl.chars, 0.2, "flip", { stagger: 0.03, duration: 0.4 });
+
+      ["#n1", "#n2", "#n3", "#n4"].forEach((id, i) => {
+        tl.fromTo(id, { scale: 0, rotation: i % 2 ? 12 : -12, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.42, ease: "back.out(2)" }, 0.65 + i * 0.15);
+      });
+      tl.fromTo("#loop", { strokeDashoffset: 0, autoAlpha: 0 }, { strokeDashoffset: -240, autoAlpha: 1, duration: EXIT - 1.2, ease: "none" }, 1.2);
+      // Puntos que recorren el circuito (sentido horario)
+      const path = [[300, 100], [580, 100], [730, 200], [730, 400], [580, 500], [300, 500], [150, 400], [150, 200], [300, 100]];
+      ["#r1", "#r2"].forEach((id, k) => {
+        const kf = path.map(([x, y]) => ({ x, y }));
+        tl.fromTo(id, { x: path[0][0], y: path[0][1], autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 1.3 + k * 1.2);
+        tl.to(id, { keyframes: kf.slice(1).map((p) => Object.assign(p, { duration: 0.3 })), ease: "none" }, 1.5 + k * 1.2);
+      });
+      // La lupa analiza nodo por nodo
+      const spots = [[60, 40], [640, 40], [640, 400], [60, 400]];
+      tl.fromTo("#lens", { x: spots[0][0], y: spots[0][1], scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)" }, 1.4);
+      spots.slice(1).forEach((s, i) => {
+        tl.to("#lens", { x: s[0], y: s[1], duration: 0.45, ease: "power3.inOut" }, 1.95 + i * 0.6);
+      });
+      ["#n1", "#n2", "#n3", "#n4"].forEach((id, i) => GEX.punch(tl, id, 1.75 + i * 0.6, 1.07));
+
+      GEX.scatter(tl, [...ttl.chars, "#n1", "#n2", "#n3", "#n4"], EXIT, 21);
+      tl.to(["#badge", "#lens", "#r1", "#r2", "#loop"], { autoAlpha: 0, duration: 0.25, ease: "power2.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
