@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Entregables 02 — Sistema personalizado</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      :root { --bg: #000000; --ink: #ffffff; --teal-hi: #1fc4b8; --orange: #fe6820; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); font-family: "Outfit", sans-serif; color: var(--ink); }
+      .scene { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 80px 520px; }
+      .stack { display: flex; flex-direction: column; align-items: center; gap: 34px; }
+      .head { display: flex; align-items: center; gap: 30px; }
+      .badge { display: flex; align-items: center; justify-content: center; width: 150px; height: 150px; border-radius: 50%; border: 8px solid var(--orange); color: var(--orange); font-weight: 800; font-size: 72px; flex: none; }
+      .ttl { display: flex; flex-direction: column; font-weight: 800; font-size: 92px; line-height: 0.98; white-space: nowrap; }
+      .ttl .t { color: var(--teal-hi); }
+      .sub { font-weight: 700; font-size: 50px; white-space: nowrap; }
+      .sub .or { color: var(--orange); }
+      .cards { display: flex; gap: 26px; }
+      .card { position: relative; display: flex; flex-direction: column; align-items: center; gap: 16px; width: 270px; padding: 30px 10px 26px; border: 5px solid var(--teal-hi); border-radius: 30px; font-weight: 700; font-size: 44px; }
+      .card svg { width: 110px; height: 110px; }
+      .ln { fill: none; stroke: var(--teal-hi); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+      .tick { position: absolute; top: -26px; right: -18px; width: 64px; height: 64px; }
+      .tick circle { fill: var(--orange); }
+      .tick path { fill: none; stroke: #ffffff; stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4" data-fps="30" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4" data-track-index="0">
+        <div class="stack" id="content">
+          <div class="head">
+            <div class="badge" id="badge">01</div>
+            <div class="ttl" id="ttl"><span>SISTEMA</span><span class="t">PERSONALIZADO</span></div>
+          </div>
+          <div class="sub" id="sub">Hecho para cómo trabaja <span class="or">TU</span> negocio</div>
+          <div class="cards">
+            <div class="card" id="k1">
+              <svg viewBox="0 0 64 64"><path class="ln" d="M8 26h48 M10 26l4-14h36l4 14 M12 26v28h40V26 M26 54V40h12v14" /></svg>
+              Tienda
+              <svg class="tick" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" /><path d="M19 33l9 9 17-19" /></svg>
+            </div>
+            <div class="card" id="k2">
+              <svg viewBox="0 0 64 64"><path class="ln" d="M20 8v48 M14 8v14a6 6 0 0 0 12 0V8 M44 56V8c-6 4-8 12-8 22h8" /></svg>
+              Restaurante
+              <svg class="tick" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" /><path d="M19 33l9 9 17-19" /></svg>
+            </div>
+            <div class="card" id="k3">
+              <svg viewBox="0 0 64 64"><path class="ln" d="M8 22h48v32H8Z M24 22v-8h16v8 M8 36h48" /></svg>
+              Servicios
+              <svg class="tick" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" /><path d="M19 33l9 9 17-19" /></svg>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#badge", { scale: 0.3, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2.2)" }, 0.12);
+      tl.fromTo("#ttl", { x: 80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "expo.out" }, 0.25);
+      tl.fromTo("#sub", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "power2.out" }, 0.6);
+      ["#k1", "#k2", "#k3"].forEach((id, i) => {
+        tl.fromTo(id, { y: 90, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out" }, 0.95 + i * 0.16);
+      });
+      tl.fromTo(".tick", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.18 }, 1.9);
+      tl.to("#sub .or", { keyframes: [{ scale: 1.25, duration: 0.12 }, { scale: 1, duration: 0.25 }], ease: "sine.inOut" }, 1.1);
+      tl.to("#content", { y: -40, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 3.75);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
