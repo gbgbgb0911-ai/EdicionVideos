@@ -18,3 +18,8 @@ Motion graphics con HyperFrames (`videos/<proyecto>/`). Editor del usuario: CapC
 - Acentos gráficos de marca en movimiento (diagonales "/", anillos, chispas naranjas) además del contenido.
 - Salidas animadas (piezas que salen en direcciones distintas), no solo fade.
 - Ritmo rápido tipo TikTok: entradas 0.3–0.5s, golpes/rebotes en palabras clave.
+
+## Sonido
+
+- Incluir efectos de sonido en los MP4: whoosh en entradas/salidas, pop en apariciones, click en toques de cursor, ding/golpe en palabras clave y números.
+- Volumen moderado (el video lleva la voz del usuario encima).
