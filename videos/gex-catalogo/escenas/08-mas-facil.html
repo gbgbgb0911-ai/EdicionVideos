@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1680" />
+    <title>GEX Catálogo 08 — Haz que comprar sea fácil</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex-light.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/gex-light.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .scene { gap: 26px; }
+      .no { position: relative; display: flex; align-items: center; gap: 18px; padding: 18px 30px; }
+      .no .tx { font-weight: 700; font-size: 38px; white-space: nowrap; color: var(--muted); }
+      .plus { display: flex; gap: 10px; }
+      .plus i { display: flex; align-items: center; justify-content: center; width: 54px; height: 54px; border-radius: 14px; background: #f2f5f5; font-style: normal; font-weight: 800; font-size: 34px; color: var(--muted); }
+      .strike { position: absolute; left: 14px; right: 14px; top: 50%; height: 9px; margin-top: -4px; border-radius: 5px; background: #c6370d; }
+      .yes { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      .yes .a { font-weight: 800; font-size: 56px; line-height: 1; white-space: nowrap; }
+      .yes .b { font-weight: 800; font-size: 104px; line-height: 1; white-space: nowrap; color: var(--teal); }
+      .btn { position: relative; display: flex; align-items: center; gap: 16px; padding: 22px 46px; border-radius: 26px; background: var(--wa-dark); color: #fff; font-weight: 800; font-size: 40px; box-shadow: 0 16px 34px rgba(15, 122, 62, 0.32); white-space: nowrap; }
+      .conf { position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; margin: -7px; border-radius: 3px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4.5" data-fps="60" data-width="2160" data-height="1680">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="4.5" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div class="card no" id="no">
+            <span class="tx">Para vender más, no necesitas</span>
+            <span class="plus"><i id="p1">+</i><i id="p2">+</i><i id="p3">+</i></span>
+            <span class="strike" id="strike"></span>
+          </div>
+          <div class="yes">
+            <div class="a" id="ya">Necesitas que comprar sea</div>
+            <div class="b" id="yb">MÁS FÁCIL</div>
+          </div>
+          <div class="btn" id="btn"><span id="wa"></span>Comprar<div id="confetti"></div></div>
+          <div class="cursor" id="cur" style="position: absolute"></div>
+          <div class="ripple" id="rip" style="position: absolute"></div>
+        </section>
+      </div>
+    </div>
+    <script>
+      document.getElementById("cur").innerHTML = GEX.cursorSvg;
+      document.getElementById("wa").innerHTML = GEX.waIcon(48, "#ffffff00");
+      const conf = document.getElementById("confetti");
+      const r = GEX.rng(5);
+      const bits = [];
+      for (let i = 0; i < 18; i++) {
+        const b = document.createElement("div");
+        b.className = "conf";
+        b.style.background = ["#1fc4b8", "#fe6820", "#ffd27a", "#039991"][i % 4];
+        conf.appendChild(b);
+        bits.push({ el: b, x: (r() - 0.5) * 520, y: -(80 + r() * 260), rot: (r() - 0.5) * 720 });
+      }
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 4.15;
+      GEX.ambient(tl, GEX.lightParticles(document.getElementById("fx"), 8, 67, { x0: 20, x1: 1060, y0: 20, y1: 640 }), 0.1, EXIT + 0.3);
+      const ya = GEX.split(document.getElementById("ya"));
+      const yb = GEX.split(document.getElementById("yb"));
+
+      tl.fromTo("#no", { y: -60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(1.8)" }, 0.08);
+      tl.fromTo(["#p1", "#p2", "#p3"], { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.3, ease: "back.out(3)", stagger: 0.1 }, 0.35);
+      tl.fromTo("#strike", { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, transformOrigin: "left center", duration: 0.35, ease: "power4.inOut" }, 0.95);
+      tl.to("#no", { autoAlpha: 0.55, scale: 0.94, duration: 0.3, ease: "power2.out" }, 1.25);
+      GEX.reveal(tl, ya.words, 1.25, "rise", { stagger: 0.06 });
+      GEX.reveal(tl, yb.chars, 1.55, "pop", { stagger: 0.04 });
+      tl.fromTo("#btn", { y: 60, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.2)" }, 1.95);
+      // El cursor presiona "Comprar" y estalla confeti
+      tl.fromTo("#cur", { x: 900, y: 700, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 }, 2.25);
+      GEX.tap(tl, "#cur", "#rip", 600, 560, 2.3, 0.45);
+      tl.to("#btn", { keyframes: [{ scale: 0.9, duration: 0.08 }, { scale: 1.1, duration: 0.15 }, { scale: 1, duration: 0.25 }], ease: "sine.out" }, 2.75);
+      bits.forEach((b) => {
+        tl.fromTo(b.el, { x: 0, y: 0, rotation: 0, autoAlpha: 1 }, { x: b.x, y: b.y, rotation: b.rot, duration: 0.9, ease: "expo.out" }, 2.8);
+        tl.to(b.el, { y: b.y + 120, autoAlpha: 0, duration: 0.5, ease: "power1.in" }, 3.5);
+      });
+      tl.to(yb.chars, { y: -14, duration: 0.16, ease: "sine.out", yoyo: true, repeat: 1, stagger: 0.035 }, 2.85);
+      tl.to("#cur", { x: 980, y: 760, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, 3.2);
+
+      GEX.scatter(tl, ["#no", ...ya.words, ...yb.chars, "#btn"], EXIT, 19);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

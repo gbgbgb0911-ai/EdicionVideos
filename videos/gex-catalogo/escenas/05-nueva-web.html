@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1680" />
+    <title>GEX Catálogo 05 — Nueva web: un botón a WhatsApp</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex-light.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/gex-light.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .scene { flex-direction: row; gap: 56px; }
+      .pg { position: absolute; inset: 0; }
+      .pd { padding: 46px 18px 18px; }
+      .pd .back { font-weight: 700; font-size: 16px; color: var(--muted); margin-bottom: 8px; }
+      .pd .hero { height: 250px; border-radius: 20px; background: #ffb48a44; display: flex; align-items: center; justify-content: center; }
+      .pd .hero svg { width: 190px; height: 180px; }
+      .pd .nm { font-weight: 800; font-size: 26px; margin-top: 12px; }
+      .pd .sz { display: flex; gap: 8px; margin-top: 10px; }
+      .pd .sz span { width: 44px; height: 38px; border-radius: 10px; border: 2px solid #d7dede; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+      .pd .sz span.on { border-color: var(--ink); background: var(--ink); color: #fff; }
+      .pd .buy { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 16px; height: 58px; border-radius: 16px; background: var(--wa-dark); color: #fff; font-weight: 800; font-size: 20px; }
+      .chat { background: #ece5dd; }
+      .chat .top { display: flex; align-items: center; gap: 10px; height: 92px; padding: 40px 14px 0; background: #075e54; color: #fff; font-weight: 800; font-size: 18px; }
+      .chat .top i { width: 34px; height: 34px; border-radius: 50%; background: #fff; display: block; }
+      .bub { position: absolute; right: 14px; top: 120px; width: 220px; padding: 10px 12px; border-radius: 14px 14px 4px 14px; background: #dcf8c6; font-size: 16px; font-weight: 500; line-height: 1.3; }
+      .bub .pr { display: flex; gap: 8px; align-items: center; padding: 6px; border-radius: 10px; background: #fff; margin-bottom: 6px; font-weight: 700; }
+      .bub .pr svg { width: 46px; height: 44px; }
+      .bub .tk { text-align: right; font-size: 13px; color: #0b6fa4; font-weight: 800; }
+      .side { display: flex; flex-direction: column; gap: 16px; width: 460px; }
+      .side .badge { align-self: flex-start; }
+      .side .t { font-weight: 800; font-size: 52px; line-height: 1.05; white-space: nowrap; }
+      .stp { display: flex; align-items: center; gap: 18px; padding: 16px 20px; font-weight: 700; font-size: 30px; white-space: nowrap; }
+      .stp .n { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background: #e6f7f5; color: var(--teal); font-weight: 800; font-size: 26px; flex: none; }
+      .stp.wa .n { background: var(--wa-dark); color: #fff; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6" data-fps="60" data-width="2160" data-height="1680">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="6" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div class="phone" id="phone">
+            <div class="notch"></div>
+            <div class="scr">
+              <div class="pg web" id="pg1"><div class="hdr"><span>TU TIENDA</span><i></i></div><div class="grid" id="grid"></div></div>
+              <div class="pg pd" id="pg2">
+                <div class="back">‹ Catálogo</div>
+                <div class="hero" id="hero"></div>
+                <div class="nm">Vestido</div>
+                <div class="sz"><span>S</span><span class="on" id="szm">M</span><span>L</span></div>
+                <div class="buy" id="buy"></div>
+              </div>
+              <div class="pg chat" id="pg3">
+                <div class="top"><i></i>Tu Tienda</div>
+                <div class="bub" id="bub"><div class="pr" id="prd"></div>¡Hola! Quiero este vestido en talla M<div class="tk">✓✓</div></div>
+              </div>
+            </div>
+            <div class="cursor" id="cur"></div>
+            <div class="ripple" id="rip"></div>
+          </div>
+          <div class="side">
+            <span class="badge good" id="badge">AHORA</span>
+            <div class="t" id="t">Comprar es así<br />de simple:</div>
+            <div class="card stp" id="s1"><span class="n">1</span>Entra al catálogo</div>
+            <div class="card stp" id="s2"><span class="n">2</span>Elige la prenda</div>
+            <div class="card stp wa" id="s3"><span class="n">3</span>Un botón a WhatsApp</div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script>
+      document.getElementById("cur").innerHTML = GEX.cursorSvg;
+      GEX.tiles(document.getElementById("grid"));
+      document.getElementById("hero").innerHTML = GEX.garment("vestido", "#ffb48a");
+      document.getElementById("buy").innerHTML = GEX.waIcon(30, "#ffffff00") + "Pedir por WhatsApp";
+      document.getElementById("prd").innerHTML = GEX.garment("vestido", "#ffb48a") + "Vestido · M";
+
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.65;
+      GEX.ambient(tl, GEX.lightParticles(document.getElementById("fx"), 10, 37, { x0: 20, x1: 1060, y0: 20, y1: 640 }), 0.1, EXIT + 0.3);
+      const t = GEX.split(document.getElementById("t"));
+      tl.set(["#pg2", "#pg3"], { autoAlpha: 0 }, 0);
+      tl.fromTo("#phone", { y: 260, rotationY: 24, transformPerspective: 1400, autoAlpha: 0 }, { y: 0, rotationY: 8, transformPerspective: 1400, autoAlpha: 1, duration: 0.65, ease: "expo.out" }, 0.05);
+      tl.fromTo(".tile", { scale: 0.7, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.05 }, 0.35);
+      tl.fromTo("#badge", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)" }, 0.2);
+      GEX.reveal(tl, t.words, 0.35, "rise", { stagger: 0.06 });
+
+      // 1. Recorre el catálogo y toca un producto (coords dentro del celular)
+      tl.fromTo("#cur", { x: 260, y: 520, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 0.9);
+      tl.fromTo("#s1", { x: 80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 1.0);
+      tl.to("#pg1", { y: -60, duration: 0.6, ease: "power2.inOut" }, 1.1);
+      GEX.tap(tl, "#cur", "#rip", 215, 140, 1.5, 0.4);
+      tl.to("#pg1", { x: -290, duration: 0.35, ease: "power3.inOut" }, 2.0);
+      tl.fromTo("#pg2", { x: 290, autoAlpha: 1 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "power3.inOut" }, 2.0);
+      // 2. Elige talla
+      tl.fromTo("#s2", { x: 80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 2.1);
+      tl.fromTo("#hero svg", { scale: 0.6, rotation: -10 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.4)" }, 2.2);
+      GEX.tap(tl, "#cur", "#rip", 105, 390, 2.45, 0.35);
+      tl.fromTo("#szm", { scale: 1 }, { scale: 1.2, duration: 0.12, yoyo: true, repeat: 1, ease: "sine.inOut" }, 2.8);
+      // 3. Botón de WhatsApp
+      GEX.tap(tl, "#cur", "#rip", 150, 470, 3.05, 0.35);
+      tl.to("#buy", { keyframes: [{ scale: 0.92, duration: 0.08 }, { scale: 1.06, duration: 0.15 }, { scale: 1, duration: 0.15 }], ease: "sine.out" }, 3.4);
+      tl.fromTo("#s3", { x: 80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 3.45);
+      tl.to("#cur", { x: 330, y: 620, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, 3.6);
+      tl.fromTo("#pg3", { y: 600, autoAlpha: 1 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out" }, 3.7);
+      tl.set("#pg2", { autoAlpha: 0 }, 4.16);
+      tl.set("#pg1", { autoAlpha: 0 }, 2.36);
+      tl.fromTo("#bub", { scale: 0.4, autoAlpha: 0, transformOrigin: "100% 100%" }, { scale: 1, autoAlpha: 1, transformOrigin: "100% 100%", duration: 0.4, ease: "back.out(2.2)" }, 4.1);
+      tl.to("#s3", { keyframes: [{ scale: 1.08, duration: 0.12 }, { scale: 1, duration: 0.3 }], ease: "back.out(3)" }, 4.2);
+      tl.to("#phone", { rotationY: -6, transformPerspective: 1400, duration: EXIT - 0.75, ease: "sine.inOut" }, 0.75);
+
+      tl.to("#phone", { y: 300, autoAlpha: 0, duration: 0.33, ease: "power3.in" }, EXIT);
+      GEX.scatter(tl, ["#badge", ...t.words, "#s1", "#s2", "#s3"], EXIT, 9);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

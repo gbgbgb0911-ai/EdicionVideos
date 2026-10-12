@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1680" />
+    <title>GEX Catálogo 06 — Sin registros, sin contraseñas, sin complicaciones</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex-light.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/gex-light.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .scene { gap: 34px; }
+      .row { display: flex; gap: 28px; }
+      .tile3 { display: flex; flex-direction: column; align-items: center; gap: 16px; width: 290px; padding: 30px 16px 26px; }
+      .ico { position: relative; width: 140px; height: 140px; }
+      .ico svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+      .s { fill: none; stroke: #12201f; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+      .slash { fill: none; stroke: #c6370d; stroke-width: 11; stroke-linecap: round; }
+      .lb { font-weight: 800; font-size: 34px; line-height: 1.05; text-align: center; white-space: nowrap; }
+      .lb small { display: block; font-weight: 700; font-size: 24px; color: var(--muted); }
+      .ok { position: absolute; right: -14px; top: -14px; width: 58px; height: 58px; border-radius: 50%; background: var(--teal); display: flex; align-items: center; justify-content: center; }
+      .ok svg { position: static; width: 34px; height: 34px; }
+      .bar { padding: 18px 34px; font-weight: 800; font-size: 40px; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4" data-fps="60" data-width="2160" data-height="1680">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="4" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div class="row">
+            <div class="card tile3" id="k1">
+              <div class="ico"><svg viewBox="0 0 140 140"><circle class="s" cx="70" cy="50" r="24" /><path class="s" d="M26 124c4-30 22-44 44-44s40 14 44 44" /><path class="slash" id="x1" d="M20 20l100 100" /></svg><span class="ok" id="o1"></span></div>
+              <div class="lb"><small>SIN</small>registros</div>
+            </div>
+            <div class="card tile3" id="k2">
+              <div class="ico"><svg viewBox="0 0 140 140"><rect class="s" x="30" y="62" width="80" height="62" rx="12" /><path class="s" d="M46 62V44a24 24 0 0 1 48 0v18 M70 86v16" /><path class="slash" id="x2" d="M20 20l100 100" /></svg><span class="ok" id="o2"></span></div>
+              <div class="lb"><small>SIN</small>contraseñas</div>
+            </div>
+            <div class="card tile3" id="k3">
+              <div class="ico"><svg viewBox="0 0 140 140"><path class="s" d="M20 30h100v80H20Z M20 56h60 M100 56v30 M44 86h56 M44 86v-14 M60 30v12" /><path class="slash" id="x3" d="M20 20l100 100" /></svg><span class="ok" id="o3"></span></div>
+              <div class="lb"><small>SIN</small>complicaciones</div>
+            </div>
+          </div>
+          <div class="card bar" id="bar"><span class="teal">Entras, eliges y</span> <span id="wa"></span></div>
+        </section>
+      </div>
+    </div>
+    <script>
+      const chk = '<svg viewBox="0 0 34 34"><path d="M7 18l7 7 14-15" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      ["#o1", "#o2", "#o3"].forEach((id) => (document.querySelector(id).innerHTML = chk));
+      document.getElementById("wa").innerHTML = '<span style="display:inline-flex;align-items:center;gap:10px;vertical-align:middle">' + GEX.waIcon(46) + "a WhatsApp</span>";
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.65;
+      GEX.ambient(tl, GEX.lightParticles(document.getElementById("fx"), 10, 47, { x0: 20, x1: 1060, y0: 20, y1: 640 }), 0.1, EXIT + 0.3);
+      ["1", "2", "3"].forEach((n, i) => {
+        const t = 0.1 + i * 0.45;
+        tl.fromTo("#k" + n, { y: 120, rotation: i === 1 ? 0 : (i ? 8 : -8), autoAlpha: 0 }, { y: 0, rotation: 0, autoAlpha: 1, duration: 0.5, ease: "back.out(1.8)" }, t);
+        const x = document.getElementById("x" + n);
+        tl.fromTo(x, { strokeDasharray: 142, strokeDashoffset: 142 }, { strokeDasharray: 142, strokeDashoffset: 0, duration: 0.25, ease: "power4.out" }, t + 0.35);
+        tl.to("#k" + n + " .ico", { keyframes: [{ x: -8 }, { x: 8 }, { x: -4 }, { x: 0 }], duration: 0.22, ease: "none" }, t + 0.55);
+        tl.fromTo("#o" + n, { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.35, ease: "back.out(3)" }, t + 0.7);
+      });
+      GEX.float(tl, "#k1", 1.4, EXIT, 8, 1.3);
+      GEX.float(tl, "#k2", 1.6, EXIT, 8, 1.3);
+      GEX.float(tl, "#k3", 1.8, EXIT, 8, 1.3);
+      tl.fromTo("#bar", { y: 60, scale: 0.8, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2)" }, 1.9);
+      tl.to("#bar", { keyframes: [{ scale: 1.05, duration: 0.12 }, { scale: 1, duration: 0.3 }], ease: "back.out(3)" }, 2.6);
+      GEX.scatter(tl, ["#k1", "#k2", "#k3", "#bar"], EXIT, 13);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

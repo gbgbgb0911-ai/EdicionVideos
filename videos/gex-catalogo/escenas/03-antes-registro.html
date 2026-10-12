@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1680" />
+    <title>GEX Catálogo 03 — Antes: registro y pago</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex-light.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/gex-light.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .scene { padding-top: 30px; }
+      .head { display: flex; align-items: center; gap: 20px; margin-bottom: 22px; }
+      .browser { position: relative; width: 900px; height: 480px; overflow: hidden; }
+      .bar { display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 20px; border-bottom: 2px solid #e6ecec; }
+      .bar i { width: 14px; height: 14px; border-radius: 50%; background: #d7dede; }
+      .bar .url { margin-left: 16px; flex: 1; height: 30px; border-radius: 15px; background: #f2f5f5; font-size: 18px; color: var(--muted); display: flex; align-items: center; padding-left: 16px; }
+      .steps { display: flex; gap: 10px; padding: 18px 30px 0; }
+      .steps span { flex: 1; height: 10px; border-radius: 5px; background: #e6ecec; }
+      .steps span b { display: block; height: 100%; border-radius: 5px; background: var(--orange-ink); }
+      .view { position: absolute; left: 0; right: 0; top: 90px; bottom: 0; padding: 22px 60px; }
+      .view h3 { font-weight: 800; font-size: 36px; margin-bottom: 18px; }
+      .field { margin-bottom: 14px; }
+      .field label { display: block; font-weight: 700; font-size: 20px; color: var(--muted); margin-bottom: 6px; }
+      .field .in { height: 50px; border-radius: 12px; border: 3px solid #d7dede; font-size: 24px; display: flex; align-items: center; padding: 0 16px; font-weight: 500; }
+      .two { display: flex; gap: 16px; }
+      .two .field { flex: 1; }
+      .spin { width: 64px; height: 64px; border-radius: 50%; border: 8px solid #e6ecec; border-top-color: var(--orange-ink); margin: 10px auto 0; }
+      .toast { position: absolute; right: 30px; top: 96px; display: flex; align-items: center; gap: 14px; padding: 16px 22px; border-radius: 18px; background: #fff; box-shadow: var(--shadow); border-left: 8px solid #c6370d; font-weight: 700; font-size: 26px; white-space: nowrap; }
+      .toast .x { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: #c6370d; color: #fff; font-weight: 800; }
+      .stuck { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); font-weight: 800; font-size: 26px; color: #c6370d; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5" data-fps="60" data-width="2160" data-height="1680">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="5" data-track-index="0">
+          <div class="head">
+            <span class="badge bad" id="badge">ANTES</span>
+            <span class="title" id="ttl" style="font-size: 46px">Comprar era un trámite</span>
+          </div>
+          <div class="card browser" id="browser">
+            <div class="bar"><i></i><i></i><i></i><div class="url">tienda.com/registro</div></div>
+            <div class="steps"><span><b id="p1"></b></span><span><b id="p2"></b></span><span><b id="p3"></b></span><span><b id="p4"></b></span></div>
+            <div class="view" id="v1">
+              <h3>1. Crea tu cuenta</h3>
+              <div class="two"><div class="field"><label>Nombre</label><div class="in" id="f1"></div></div><div class="field"><label>Correo</label><div class="in" id="f2"></div></div></div>
+              <div class="two"><div class="field"><label>Contraseña</label><div class="in" id="f3"></div></div><div class="field"><label>Repetir contraseña</label><div class="in" id="f4"></div></div></div>
+            </div>
+            <div class="view" id="v2">
+              <h3>3. Pasarela de pago</h3>
+              <div class="field"><label>Número de tarjeta</label><div class="in" id="f5"></div></div>
+              <div class="two"><div class="field"><label>Vence</label><div class="in" id="f6"></div></div><div class="field"><label>CVV</label><div class="in" id="f7"></div></div></div>
+              <div class="spin" id="spin"></div>
+            </div>
+            <div class="toast" id="toast"><span class="x">✕</span>Error en el pago</div>
+            <div class="stuck" id="stuck">y el cliente se iba…</div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 4.65;
+      const ttl = GEX.split(document.getElementById("ttl"));
+      tl.fromTo("#badge", { scale: 0, rotation: -20, autoAlpha: 0 }, { scale: 1, rotation: -4, autoAlpha: 1, duration: 0.4, ease: "back.out(3)" }, 0.08);
+      GEX.reveal(tl, ttl.words, 0.2, "rise", { stagger: 0.07 });
+      tl.fromTo("#browser", { y: 200, rotationX: 18, transformPerspective: 1600, autoAlpha: 0 }, { y: 0, rotationX: 0, transformPerspective: 1600, autoAlpha: 1, duration: 0.6, ease: "expo.out" }, 0.25);
+      tl.set(["#p1", "#p2", "#p3", "#p4"], { scaleX: 0, transformOrigin: "left center" }, 0);
+      tl.set("#v2", { autoAlpha: 0 }, 0);
+
+      // Paso 1: formulario eterno
+      tl.to("#p1", { scaleX: 1, duration: 0.4, ease: "power2.out" }, 0.8);
+      GEX.type(tl, "#f1", "María López", 0.85, 0.35, true);
+      GEX.type(tl, "#f2", "maria@correo.com", 1.15, 0.4, true);
+      GEX.type(tl, "#f3", "••••••••", 1.5, 0.3, true);
+      GEX.type(tl, "#f4", "••••••••", 1.8, 0.3, true);
+      tl.to("#f4", { keyframes: [{ x: -10 }, { x: 10 }, { x: -6 }, { x: 0 }], borderColor: "#c6370d", duration: 0.3, ease: "none" }, 2.1);
+      tl.to("#p2", { scaleX: 1, duration: 0.35, ease: "power2.out" }, 2.35);
+      // Cambio a la pasarela
+      tl.to("#v1", { x: -300, autoAlpha: 0, duration: 0.3, ease: "power2.in" }, 2.45);
+      tl.fromTo("#v2", { x: 300, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out" }, 2.65);
+      tl.to("#p3", { scaleX: 0.5, duration: 0.6, ease: "power1.out" }, 2.7);
+      GEX.type(tl, "#f5", "4557 8812 •••• ••••", 2.75, 0.45, true);
+      GEX.type(tl, "#f6", "08/27", 3.15, 0.2, false);
+      GEX.type(tl, "#f7", "•••", 3.3, 0.15, false);
+      tl.fromTo("#spin", { rotation: 0, autoAlpha: 0 }, { rotation: 900, autoAlpha: 1, duration: EXIT - 3.3, ease: "none" }, 3.3);
+      tl.fromTo("#toast", { x: 360, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 3.65);
+      tl.to("#toast", { keyframes: [{ x: -8 }, { x: 8 }, { x: 0 }], duration: 0.25, ease: "none" }, 4.05);
+      tl.fromTo("#stuck", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "power2.out" }, 3.9);
+
+      tl.to("#browser", { y: 260, rotationX: -14, transformPerspective: 1600, autoAlpha: 0, duration: 0.33, ease: "power3.in" }, EXIT);
+      GEX.scatter(tl, ["#badge", ...ttl.words], EXIT, 5);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

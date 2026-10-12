@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1680" />
+    <title>GEX Catálogo 01 — Ventas x3</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex-light.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/gex-light.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .scene { flex-direction: row; gap: 50px; }
+      .right { display: flex; flex-direction: column; gap: 22px; width: 470px; }
+      .stat { padding: 30px 34px 26px; }
+      .stat .lbl { font-weight: 700; font-size: 26px; color: var(--muted); letter-spacing: 0.1em; }
+      .stat .big { display: flex; align-items: baseline; gap: 6px; font-weight: 800; line-height: 1; }
+      .stat .big .x { font-size: 90px; color: var(--orange-ink); }
+      .stat .big .n { font-size: 170px; color: var(--teal); font-variant-numeric: tabular-nums; }
+      .stat svg { width: 100%; height: 120px; overflow: visible; }
+      .tag { align-self: flex-start; padding: 16px 28px; font-weight: 800; font-size: 34px; }
+      .tag .dot { display: inline-block; width: 16px; height: 16px; border-radius: 50%; background: var(--wa); margin-right: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4" data-fps="60" data-width="2160" data-height="1680">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="4" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div class="phone" id="phone">
+            <div class="notch"></div>
+            <div class="scr">
+              <div class="web" id="web">
+                <div class="hdr"><span>TU TIENDA</span><i></i></div>
+                <div class="banner" id="banner">Nueva<br />colección</div>
+                <div class="grid" id="grid"></div>
+              </div>
+            </div>
+          </div>
+          <div class="right">
+            <div class="card stat" id="stat">
+              <div class="lbl">VENTAS</div>
+              <div class="big"><span class="x">x</span><span class="n" id="num">1</span></div>
+              <svg viewBox="0 0 400 120">
+                <path id="area" d="M0 110 L70 96 L140 100 L210 70 L280 58 L340 26 L400 8 L400 120 L0 120Z" fill="rgba(31,196,184,0.16)" />
+                <path id="line" d="M0 110 L70 96 L140 100 L210 70 L280 58 L340 26 L400 8" fill="none" stroke="#039991" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+                <circle id="tip" cx="400" cy="8" r="11" fill="#fe6820" />
+              </svg>
+            </div>
+            <div class="card tag" id="tag"><span class="dot"></span>con su nueva web</div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script>
+      GEX.tiles(document.getElementById("grid"));
+
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.65;
+      GEX.ambient(tl, GEX.lightParticles(document.getElementById("fx"), 10, 7, { x0: 20, x1: 1060, y0: 20, y1: 640 }), 0.1, EXIT + 0.3);
+
+      // Celular entra en 3D y la web se recorre
+      tl.fromTo("#phone", { y: 260, rotationY: -28, rotationX: 10, transformPerspective: 1400, autoAlpha: 0 }, { y: 0, rotationY: -10, rotationX: 4, transformPerspective: 1400, autoAlpha: 1, duration: 0.7, ease: "expo.out" }, 0.08);
+      tl.to("#phone", { rotationY: 6, rotationX: 0, transformPerspective: 1400, duration: EXIT - 0.8, ease: "sine.inOut" }, 0.8);
+      tl.fromTo("#banner", { scale: 0.8, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.45);
+      tl.fromTo(".tile", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(1.8)", stagger: 0.07 }, 0.55);
+      tl.to("#web", { y: -150, duration: 1.4, ease: "power2.inOut" }, 1.5);
+
+      // Tarjeta de ventas: x1 -> x3 con gráfico subiendo
+      tl.fromTo("#stat", { x: 120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 0.3);
+      const line = document.getElementById("line");
+      const L = line.getTotalLength();
+      tl.fromTo(line, { strokeDasharray: L, strokeDashoffset: L }, { strokeDasharray: L, strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut" }, 0.6);
+      tl.fromTo("#area", { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, transformOrigin: "50% 100%", duration: 1.2, ease: "power2.inOut" }, 0.6);
+      tl.fromTo("#tip", { scale: 0, svgOrigin: "400 8" }, { scale: 1, svgOrigin: "400 8", duration: 0.3, ease: "back.out(3)" }, 1.75);
+      tl.to("#tip", { scale: 1.5, svgOrigin: "400 8", duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 2.05);
+      const n = { v: 1 };
+      const numEl = document.getElementById("num");
+      tl.fromTo(n, { v: 1 }, { v: 3, duration: 1.1, ease: "power2.inOut", onUpdate: () => { numEl.textContent = Math.round(n.v); } }, 0.7);
+      tl.to("#num", { keyframes: [{ scale: 1.25, duration: 0.12 }, { scale: 1, duration: 0.35 }], transformOrigin: "20% 80%", ease: "back.out(3)" }, 1.8);
+      tl.fromTo("#tag", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2)" }, 1.2);
+      GEX.float(tl, "#tag", 1.7, EXIT, 8, 1.2);
+
+      // Salida
+      tl.to("#phone", { y: 300, rotationY: 20, transformPerspective: 1400, autoAlpha: 0, duration: 0.33, ease: "power3.in" }, EXIT);
+      tl.to(["#stat", "#tag"], { x: 200, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.05 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
