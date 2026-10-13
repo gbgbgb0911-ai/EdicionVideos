@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Precio 02 — Categorías</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex-subtle.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .row { display: flex; gap: 12px; padding-left: 8px; }
+      .tag { padding: 12px 24px; border-radius: 999px; background: #ffffff; color: #0b958b; font-weight: 800; font-size: 32px; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="3.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="3.5" data-track-index="0">
+        <div class="zone" id="zone">
+          <div class="pill" id="p1">
+            <span class="ic"><svg viewBox="0 0 40 40"><rect x="5" y="5" width="12" height="12" rx="3" fill="#0b958b" /><rect x="23" y="5" width="12" height="12" rx="3" fill="#ea5a14" /><rect x="5" y="23" width="12" height="12" rx="3" fill="#ea5a14" /><rect x="23" y="23" width="12" height="12" rx="3" fill="#0b958b" /></svg></span>
+            <span id="t1">Secciones por categoría</span><i class="shine" id="sh"></i>
+          </div>
+          <div class="row" id="row">
+            <span class="tag">Polos</span><span class="tag">Casacas</span><span class="tag">Vestidos</span><span class="tag">Jeans</span>
+          </div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.9"></audio>
+      <audio id="s-p1" src="assets/sfx/pop.wav" data-start="0.6" data-volume="0.4"></audio>
+      <audio id="s-p2" src="assets/sfx/pop.wav" data-start="0.72" data-volume="0.4"></audio>
+      <audio id="s-p3" src="assets/sfx/pop.wav" data-start="0.84" data-volume="0.4"></audio>
+      <audio id="s-p4" src="assets/sfx/pop.wav" data-start="0.96" data-volume="0.4"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh.wav" data-start="3.12" data-volume="0.7"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.15;
+      const t1 = GEX.split(document.getElementById("t1"));
+      tl.fromTo("#p1", { x: -620, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out" }, 0.05);
+      GEX.reveal(tl, t1.chars, 0.15, "rise", { stagger: 0.015, duration: 0.3 });
+      tl.fromTo(".tag", { y: -30, scale: 0.4, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", stagger: 0.12 }, 0.6);
+      tl.fromTo("#sh", { x: -120 }, { x: 700, duration: 0.6, ease: "power2.inOut" }, 1.4);
+      // las categorías se resaltan una por una (como recorriendo la web)
+      tl.to(".tag", { keyframes: [{ y: -10, duration: 0.15 }, { y: 0, duration: 0.2 }], ease: "sine.inOut", stagger: 0.18 }, 1.7);
+      GEX.float(tl, "#zone", 1.2, EXIT, 6, 1.6);
+      tl.to(["#p1", "#row"], { x: -700, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.05 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

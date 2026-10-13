@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Precio 06 — Indicadores del panel</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex-subtle.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .zone { gap: 12px; }
+      .head { font-weight: 800; font-size: 30px; letter-spacing: 0.14em; padding: 8px 18px; border-radius: 10px; background: var(--orange); white-space: nowrap; }
+      .it { display: flex; align-items: center; gap: 14px; padding: 12px 26px 12px 12px; border-radius: 999px; background: var(--teal); font-weight: 700; font-size: 36px; white-space: nowrap; }
+      .it .ck { display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 50%; background: #ffffff; flex: none; }
+      .it .ck svg { width: 28px; height: 28px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6" data-track-index="0">
+        <div class="zone" id="zone">
+          <div class="head" id="head">EL PANEL INCLUYE</div>
+          <div class="it"><span class="ck"></span>Consultas</div>
+          <div class="it"><span class="ck"></span>Productos más pedidos</div>
+          <div class="it"><span class="ck"></span>Colores más solicitados</div>
+          <div class="it"><span class="ck"></span>Categorías más vendidas</div>
+          <div class="it"><span class="ck"></span>Administración de productos</div>
+          <div class="it"><span class="ck"></span>Gestión del equipo</div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.8"></audio>
+      <audio id="s-t1" src="assets/sfx/tick.wav" data-start="0.55" data-volume="0.45"></audio>
+      <audio id="s-t2" src="assets/sfx/tick.wav" data-start="1.15" data-volume="0.45"></audio>
+      <audio id="s-t3" src="assets/sfx/tick.wav" data-start="1.75" data-volume="0.45"></audio>
+      <audio id="s-t4" src="assets/sfx/tick.wav" data-start="2.35" data-volume="0.45"></audio>
+      <audio id="s-t5" src="assets/sfx/tick.wav" data-start="2.95" data-volume="0.45"></audio>
+      <audio id="s-t6" src="assets/sfx/tick.wav" data-start="3.55" data-volume="0.45"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh.wav" data-start="5.6" data-volume="0.7"></audio>
+    </div>
+    <script>
+      const ck = '<svg viewBox="0 0 28 28"><path d="M6 15l5 5 11-12" fill="none" stroke="#0b958b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      document.querySelectorAll(".ck").forEach((e) => (e.innerHTML = ck));
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.65;
+      tl.fromTo("#head", { x: -420, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "power4.out" }, 0.05);
+      // un indicador cada 0.6s (ritmo de la narración; recorta en CapCut si hablas más rápido)
+      document.querySelectorAll(".it").forEach((it, i) => {
+        const t = 0.45 + i * 0.6;
+        tl.fromTo(it, { x: -520, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.38, ease: "back.out(1.6)" }, t);
+        tl.fromTo(it.querySelector(".ck svg"), { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.3, ease: "back.out(3)" }, t + 0.1);
+        GEX.float(tl, it, t + 0.5, EXIT, 4, 1.4 + i * 0.1);
+      });
+      tl.to(".it", { x: -720, autoAlpha: 0, duration: 0.28, ease: "power3.in", stagger: 0.04 }, EXIT);
+      tl.to("#head", { x: -500, autoAlpha: 0, duration: 0.28, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

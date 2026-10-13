@@ -1,0 +1,194 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"scene\"> is a timeline element that contains nested <div id=\"zone\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene",
+        "dataAttributes": {},
+        "sourceFile": "/home/user/EdicionVideos/videos/gex-precio-catalogo/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"scene\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 2,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "warning",
+        "time": 1.111,
+        "selector": "#sh",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -50,
+          "top": 304,
+          "right": 40,
+          "bottom": 444,
+          "width": 90,
+          "height": 140
+        },
+        "containerSelector": "#p1",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 70,
+          "top": 324,
+          "right": 414.48,
+          "bottom": 422,
+          "width": 344.48,
+          "height": 98
+        },
+        "overflow": {
+          "left": 120,
+          "top": 20,
+          "bottom": 22
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": -50,
+          "y": 304,
+          "width": 90,
+          "height": 140
+        },
+        "firstSeen": 0.667,
+        "lastSeen": 3.778,
+        "occurrences": 8,
+        "heldMs": 3110.9999999999995,
+        "times": [
+          0.667,
+          1.111,
+          1.556,
+          2,
+          2.444,
+          2.889,
+          3.333,
+          3.778
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "warning",
+        "time": 2.444,
+        "selector": "#sh",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": 610.62,
+          "top": 301.25,
+          "right": 704.2,
+          "bottom": 446.83,
+          "width": 93.58,
+          "height": 145.57
+        },
+        "containerSelector": "#p1",
+        "text": "",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 70,
+          "top": 322.05,
+          "right": 428.19,
+          "bottom": 423.95,
+          "width": 358.19,
+          "height": 101.9
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 610.62,
+          "y": 301.25,
+          "width": 93.58,
+          "height": 145.57
+        },
+        "firstSeen": 2.444,
+        "lastSeen": 3.778,
+        "occurrences": 4,
+        "heldMs": 1334,
+        "times": [
+          2.444,
+          2.889,
+          3.333,
+          3.778
+        ]
+      }
+    ],
+    "duration": 4,
+    "samples": [
+      0.222,
+      0.667,
+      1.111,
+      1.556,
+      2,
+      2.444,
+      2.889,
+      3.333,
+      3.778
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 2,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      0.222,
+      1.111,
+      2,
+      2.889,
+      3.778
+    ],
+    "checked": 197,
+    "passed": 197
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

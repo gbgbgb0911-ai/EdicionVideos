@@ -1,0 +1,761 @@
+{
+  "ok": false,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"scene\"> is a timeline element that contains nested <div id=\"zone\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene",
+        "dataAttributes": {},
+        "sourceFile": "/home/user/EdicionVideos/videos/gex-precio-catalogo/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"scene\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 4,
+    "infoCount": 2,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "warning",
+        "time": 0.222,
+        "selector": "#sh1",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -105.31,
+          "top": 240,
+          "right": -15.31,
+          "bottom": 380,
+          "width": 90,
+          "height": 140
+        },
+        "containerSelector": "#p1",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 14.69,
+          "top": 260,
+          "right": 427.82,
+          "bottom": 358,
+          "width": 413.13,
+          "height": 98
+        },
+        "overflow": {
+          "left": 120,
+          "top": 20,
+          "bottom": 22
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": -105.31,
+          "y": 240,
+          "width": 90,
+          "height": 140
+        },
+        "firstSeen": 0.222,
+        "lastSeen": 3.778,
+        "occurrences": 9,
+        "heldMs": 3556,
+        "times": [
+          0.222,
+          0.667,
+          1.111,
+          1.556,
+          2,
+          2.444,
+          2.889,
+          3.333,
+          3.778
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "warning",
+        "time": 2,
+        "selector": "#sh2",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": 609.43,
+          "top": 298.4,
+          "right": 742.87,
+          "bottom": 564.32,
+          "width": 133.44,
+          "height": 265.92
+        },
+        "containerSelector": "#price",
+        "text": "",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 65.6,
+          "top": 349.87,
+          "right": 520.3,
+          "bottom": 541.01,
+          "width": 454.7,
+          "height": 191.14
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 609.43,
+          "y": 298.4,
+          "width": 133.44,
+          "height": 265.92
+        },
+        "firstSeen": 2,
+        "lastSeen": 3.778,
+        "occurrences": 5,
+        "heldMs": 1778,
+        "times": [
+          2,
+          2.444,
+          2.889,
+          3.333,
+          3.778
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "warning",
+        "time": 2.444,
+        "selector": "#sh2",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 622.74,
+          "top": 293.2,
+          "right": 756.19,
+          "bottom": 559.13,
+          "width": 133.44,
+          "height": 265.92
+        },
+        "containerSelector": "#price",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 65.6,
+          "top": 345.37,
+          "right": 520.3,
+          "bottom": 536.5,
+          "width": 454.7,
+          "height": 191.14
+        },
+        "overflow": {
+          "right": 235.89,
+          "top": 52.17,
+          "bottom": 22.63
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 622.74,
+          "y": 293.2,
+          "width": 133.44,
+          "height": 265.92
+        },
+        "firstSeen": 0.667,
+        "lastSeen": 3.778,
+        "occurrences": 8,
+        "heldMs": 3110.9999999999995,
+        "times": [
+          0.667,
+          1.111,
+          1.556,
+          2,
+          2.444,
+          2.889,
+          3.333,
+          3.778
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "warning",
+        "time": 2.889,
+        "selector": "#sh1",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": 589.56,
+          "top": 235.5,
+          "right": 679.56,
+          "bottom": 375.5,
+          "width": 90,
+          "height": 140
+        },
+        "containerSelector": "#p1",
+        "text": "",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 70,
+          "top": 255.5,
+          "right": 483.13,
+          "bottom": 353.5,
+          "width": 413.13,
+          "height": 98
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 589.56,
+          "y": 235.5,
+          "width": 90,
+          "height": 140
+        },
+        "firstSeen": 2.889,
+        "lastSeen": 3.778,
+        "occurrences": 3,
+        "heldMs": 889.0000000000002,
+        "times": [
+          2.889,
+          3.333,
+          3.778
+        ]
+      },
+      {
+        "code": "text_box_overflow",
+        "severity": "info",
+        "time": 0.222,
+        "selector": "#t1 > span:nth-of-type(1) > span:nth-of-type(2)",
+        "message": "Text extends outside its nearest visual/container box.",
+        "rect": {
+          "left": 138.86,
+          "top": 318.45,
+          "right": 170.07,
+          "bottom": 364.13,
+          "width": 31.21,
+          "height": 45.68
+        },
+        "containerSelector": "#p1",
+        "text": "a",
+        "fixHint": "Text is 31px x 46px inside 413px x 98px and overflows by up to 6px; increase the container height to at least ~104px, or allow wrapping with max-width/fitTextFontSize.",
+        "containerRect": {
+          "left": 14.69,
+          "top": 260,
+          "right": 427.82,
+          "bottom": 358,
+          "width": 413.13,
+          "height": 98
+        },
+        "overflow": {
+          "bottom": 6.13
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 138.86,
+          "y": 318.45,
+          "width": 31.21,
+          "height": 45.68
+        },
+        "firstSeen": 0.222,
+        "lastSeen": 0.222,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          0.222
+        ]
+      },
+      {
+        "code": "text_box_overflow",
+        "severity": "info",
+        "time": 0.222,
+        "selector": "#t1 > span:nth-of-type(1) > span:nth-of-type(3)",
+        "message": "Text extends outside its nearest visual/container box.",
+        "rect": {
+          "left": 164.51,
+          "top": 331.35,
+          "right": 189.04,
+          "bottom": 376.76,
+          "width": 24.53,
+          "height": 45.41
+        },
+        "containerSelector": "#p1",
+        "text": "t",
+        "fixHint": "Text is 25px x 45px inside 413px x 98px and overflows by up to 19px; increase the container height to at least ~117px, or allow wrapping with max-width/fitTextFontSize.",
+        "containerRect": {
+          "left": 14.69,
+          "top": 260,
+          "right": 427.82,
+          "bottom": 358,
+          "width": 413.13,
+          "height": 98
+        },
+        "overflow": {
+          "bottom": 18.76
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 164.51,
+          "y": 331.35,
+          "width": 24.53,
+          "height": 45.41
+        },
+        "firstSeen": 0.222,
+        "lastSeen": 0.222,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          0.222
+        ]
+      }
+    ],
+    "duration": 4,
+    "samples": [
+      0.222,
+      0.667,
+      1.111,
+      1.556,
+      2,
+      2.444,
+      2.889,
+      3.333,
+      3.778
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 6,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": false,
+    "errorCount": 14,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.95:1; WCAG AA requires 3:1.",
+        "text": "C",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(15,168,158)",
+        "ratio": 2.95,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(1) > span:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 166,
+          "y": 287,
+          "width": 30.453125,
+          "height": 44
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.95:1; WCAG AA requires 3:1.",
+        "text": "a",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(15,168,158)",
+        "ratio": 2.95,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(1) > span:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 196.453125,
+          "y": 287,
+          "width": 26.546875,
+          "height": 44
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.95:1; WCAG AA requires 3:1.",
+        "text": "t",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(15,168,158)",
+        "ratio": 2.95,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(1) > span:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 223,
+          "y": 287,
+          "width": 18.046875,
+          "height": 44
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.95:1; WCAG AA requires 3:1.",
+        "text": "á",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(15,168,158)",
+        "ratio": 2.95,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(1) > span:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 241.046875,
+          "y": 287,
+          "width": 26.546875,
+          "height": 44
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.95:1; WCAG AA requires 3:1.",
+        "text": "l",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(15,168,158)",
+        "ratio": 2.95,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(1) > span:nth-of-type(5)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 267.59375,
+          "y": 287,
+          "width": 12.15625,
+          "height": 44
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.95:1; WCAG AA requires 3:1.",
+        "text": "o",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(15,168,158)",
+        "ratio": 2.95,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(1) > span:nth-of-type(6)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 279.75,
+          "y": 287,
+          "width": 25.609375,
+          "height": 44
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.95:1; WCAG AA requires 3:1.",
+        "text": "g",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(15,168,158)",
+        "ratio": 2.95,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(1) > span:nth-of-type(7)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 305.359375,
+          "y": 287,
+          "width": 25.875,
+          "height": 44
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.95:1; WCAG AA requires 3:1.",
+        "text": "o",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(15,168,158)",
+        "ratio": 2.95,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(1) > span:nth-of-type(8)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 331.234375,
+          "y": 287,
+          "width": 25.609375,
+          "height": 44
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.95:1; WCAG AA requires 3:1.",
+        "text": "w",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(15,168,158)",
+        "ratio": 2.95,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(2) > span:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 364.984375,
+          "y": 287,
+          "width": 35.203125,
+          "height": 44
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.95:1; WCAG AA requires 3:1.",
+        "text": "e",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(15,168,158)",
+        "ratio": 2.95,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(2) > span:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 400.1875,
+          "y": 287,
+          "width": 24.390625,
+          "height": 44
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.95:1; WCAG AA requires 3:1.",
+        "text": "b",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(15,168,158)",
+        "ratio": 2.95,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(1) > span:nth-of-type(2) > span:nth-of-type(2) > span:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 424.578125,
+          "y": 287,
+          "width": 26.546875,
+          "height": 44
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.91:1; WCAG AA requires 3:1.",
+        "text": "$",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(254,104,32)",
+        "ratio": 2.91,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(2) > span:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 109.21247863769531,
+          "y": 439.67938232421875,
+          "width": 46.52656555175781,
+          "height": 72.15045166015625
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889,
+          3.778
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.91:1; WCAG AA requires 3:1.",
+        "text": "344",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(254,104,32)",
+        "ratio": 2.91,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "#num",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 155.2411651611328,
+          "y": 373.2115783691406,
+          "width": 240.22877502441406,
+          "height": 144.04690551757812
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889,
+          3.778
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.91:1; WCAG AA requires 3:1.",
+        "text": "USD",
+        "fg": "rgb(255,255,255)",
+        "bg": "rgb(254,104,32)",
+        "ratio": 2.91,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(74,74,74)",
+        "large": true,
+        "selector": "div > section > div > div:nth-of-type(2) > span:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 406.990966796875,
+          "y": 453.7013244628906,
+          "width": 71.63668823242188,
+          "height": 37.614471435546875
+        },
+        "time": 1.111,
+        "times": [
+          1.111,
+          2,
+          2.889,
+          3.778
+        ]
+      }
+    ],
+    "enabled": true,
+    "samples": [
+      0.222,
+      1.111,
+      2,
+      2.889,
+      3.778
+    ],
+    "checked": 63,
+    "passed": 18
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

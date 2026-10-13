@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Precio 01 — $350</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex-subtle.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .price { position: relative; display: inline-flex; align-items: baseline; gap: 6px; padding: 16px 40px 20px; border-radius: 34px; background: var(--orange); font-weight: 800; line-height: 1; overflow: hidden; }
+      .price .cur { font-size: 70px; }
+      .price .n { font-size: 132px; font-variant-numeric: tabular-nums; }
+      .price .usd { font-size: 34px; margin-left: 8px; }
+      .price .shine { position: absolute; top: -40px; left: 0; width: 120px; height: 260px; background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 50%, rgba(255, 255, 255, 0) 100%); }
+      .spark { position: absolute; width: 14px; height: 14px; border-radius: 50%; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4" data-track-index="0">
+        <div class="zone" id="zone">
+          <div class="pill" id="p1">
+            <span class="ic"><svg viewBox="0 0 40 40"><path d="M6 20V8a2 2 0 0 1 2-2h12l14 14-14 14Z" fill="none" stroke="#0b958b" stroke-width="4" stroke-linejoin="round" /><circle cx="14" cy="14" r="3" fill="#0b958b" /></svg></span>
+            <span id="t1">Catálogo web</span><i class="shine" id="sh1"></i>
+          </div>
+          <div class="price" id="price"><span class="cur">$</span><span class="n" id="num">0</span><span class="usd">USD</span><i class="shine" id="sh2"></i></div>
+          <div class="sub" id="sub">precio del proyecto</div>
+        </div>
+      </section>
+      <audio id="sfx-whoosh" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.9"></audio>
+      <audio id="sfx-pop" src="assets/sfx/pop.wav" data-start="0.35" data-volume="0.5"></audio>
+      <audio id="sfx-tick1" src="assets/sfx/tick.wav" data-start="0.7" data-volume="0.35"></audio>
+      <audio id="sfx-tick2" src="assets/sfx/tick.wav" data-start="0.9" data-volume="0.35"></audio>
+      <audio id="sfx-tick3" src="assets/sfx/tick.wav" data-start="1.1" data-volume="0.35"></audio>
+      <audio id="sfx-ding" src="assets/sfx/ding.wav" data-start="1.45" data-volume="0.5"></audio>
+      <audio id="sfx-out" src="assets/sfx/whoosh.wav" data-start="3.6" data-volume="0.7"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.65;
+      const zone = document.getElementById("zone");
+      const t1 = GEX.split(document.getElementById("t1"));
+      tl.fromTo("#p1", { x: -420, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out" }, 0.05);
+      GEX.reveal(tl, t1.chars, 0.15, "rise", { stagger: 0.02, duration: 0.35 });
+      tl.fromTo("#price", { scale: 0.3, rotation: -8, autoAlpha: 0, transformOrigin: "0% 50%" }, { scale: 1, rotation: -3, autoAlpha: 1, transformOrigin: "0% 50%", duration: 0.45, ease: "back.out(2.4)" }, 0.35);
+      const n = { v: 0 };
+      const num = document.getElementById("num");
+      tl.fromTo(n, { v: 0 }, { v: 350, duration: 0.95, ease: "power3.out", onUpdate: () => { num.textContent = Math.round(n.v); } }, 0.5);
+      tl.to("#price", { keyframes: [{ scale: 1.12, duration: 0.1 }, { scale: 1, duration: 0.3 }], transformOrigin: "0% 50%", ease: "back.out(3)" }, 1.45);
+      tl.fromTo("#sh2", { x: -160 }, { x: 560, duration: 0.6, ease: "power2.inOut" }, 1.5);
+      tl.fromTo("#sh1", { x: -120 }, { x: 520, duration: 0.6, ease: "power2.inOut" }, 2.3);
+      // chispas al cerrar el número
+      for (let i = 0; i < 8; i++) {
+        const s = document.createElement("div");
+        s.className = "spark";
+        s.style.background = i % 2 ? "#fe6820" : "#1fc4b8";
+        s.style.left = "220px";
+        s.style.top = "170px";
+        zone.appendChild(s);
+        const a = (Math.PI * 2 * i) / 8;
+        tl.fromTo(s, { x: 0, y: 0, scale: 1, autoAlpha: 1 }, { x: Math.cos(a) * 230, y: Math.sin(a) * 110, scale: 0.2, autoAlpha: 0, duration: 0.6, ease: "expo.out" }, 1.45);
+      }
+      tl.fromTo("#sub", { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "power2.out" }, 1.0);
+      GEX.float(tl, "#zone", 1.8, EXIT, 6, 1.6);
+      tl.to(["#p1", "#price", "#sub"], { x: -500, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.05 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

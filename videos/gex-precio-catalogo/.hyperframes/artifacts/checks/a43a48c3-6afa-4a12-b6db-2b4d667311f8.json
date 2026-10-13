@@ -1,0 +1,280 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<section id=\"scene\"> is a timeline element that contains nested <div id=\"zone\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#scene",
+        "dataAttributes": {},
+        "sourceFile": "/home/user/EdicionVideos/videos/gex-precio-catalogo/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <section id=\"scene\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 3,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "warning",
+        "time": 0.222,
+        "selector": "#sh",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": -142.18,
+          "top": 240,
+          "right": -52.18,
+          "bottom": 380,
+          "width": 90,
+          "height": 140
+        },
+        "containerSelector": "#p1",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": -22.18,
+          "top": 260,
+          "right": 713.16,
+          "bottom": 358,
+          "width": 735.34,
+          "height": 98
+        },
+        "overflow": {
+          "left": 120,
+          "top": 20,
+          "bottom": 22
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": -142.18,
+          "y": 240,
+          "width": 90,
+          "height": 140
+        },
+        "firstSeen": 0.222,
+        "lastSeen": 3.778,
+        "occurrences": 9,
+        "heldMs": 3556,
+        "times": [
+          0.222,
+          0.667,
+          1.111,
+          1.556,
+          2,
+          2.444,
+          2.889,
+          3.333,
+          3.778
+        ]
+      },
+      {
+        "code": "text_box_overflow",
+        "severity": "info",
+        "time": 0.222,
+        "selector": "#t1 > span:nth-of-type(2) > span:nth-of-type(1)",
+        "message": "Text extends outside its nearest visual/container box.",
+        "rect": {
+          "left": 136.31,
+          "top": 320.97,
+          "right": 167.88,
+          "bottom": 366.77,
+          "width": 31.57,
+          "height": 45.8
+        },
+        "containerSelector": "#p1",
+        "text": "b",
+        "fixHint": "Text is 32px x 46px inside 735px x 98px and overflows by up to 9px; increase the container height to at least ~107px, or allow wrapping with max-width/fitTextFontSize.",
+        "containerRect": {
+          "left": -22.18,
+          "top": 260,
+          "right": 713.16,
+          "bottom": 358,
+          "width": 735.34,
+          "height": 98
+        },
+        "overflow": {
+          "bottom": 8.77
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 136.31,
+          "y": 320.97,
+          "width": 31.57,
+          "height": 45.8
+        },
+        "firstSeen": 0.222,
+        "lastSeen": 0.222,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          0.222
+        ]
+      },
+      {
+        "code": "text_box_overflow",
+        "severity": "info",
+        "time": 0.222,
+        "selector": "#t1 > span:nth-of-type(2) > span:nth-of-type(2)",
+        "message": "Text extends outside its nearest visual/container box.",
+        "rect": {
+          "left": 162.14,
+          "top": 331.44,
+          "right": 194.23,
+          "bottom": 377.6,
+          "width": 32.09,
+          "height": 46.16
+        },
+        "containerSelector": "#p1",
+        "text": "o",
+        "fixHint": "Text is 32px x 46px inside 735px x 98px and overflows by up to 20px; increase the container height to at least ~118px, or allow wrapping with max-width/fitTextFontSize.",
+        "containerRect": {
+          "left": -22.18,
+          "top": 260,
+          "right": 713.16,
+          "bottom": 358,
+          "width": 735.34,
+          "height": 98
+        },
+        "overflow": {
+          "bottom": 19.6
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 162.14,
+          "y": 331.44,
+          "width": 32.09,
+          "height": 46.16
+        },
+        "firstSeen": 0.222,
+        "lastSeen": 0.222,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          0.222
+        ]
+      },
+      {
+        "code": "escaped_container",
+        "severity": "info",
+        "time": 2.889,
+        "selector": "#sh",
+        "message": "Positioned element renders far outside its offset parent — its coordinates were likely computed in a different frame (canvas/viewport pixels).",
+        "rect": {
+          "left": 791.37,
+          "top": 240,
+          "right": 881.37,
+          "bottom": 380,
+          "width": 90,
+          "height": 140
+        },
+        "containerSelector": "#p1",
+        "text": "",
+        "fixHint": "Compute left/top in the offset parent's frame (subtract its rect), or mark intentional placement with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 70,
+          "top": 260,
+          "right": 805.34,
+          "bottom": 358,
+          "width": 735.34,
+          "height": 98
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 791.37,
+          "y": 240,
+          "width": 90,
+          "height": 140
+        },
+        "firstSeen": 2.889,
+        "lastSeen": 2.889,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          2.889
+        ]
+      }
+    ],
+    "duration": 4,
+    "samples": [
+      0.222,
+      0.667,
+      1.111,
+      1.556,
+      2,
+      2.444,
+      2.889,
+      3.333,
+      3.778
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 4,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      0.222,
+      1.111,
+      2,
+      2.889,
+      3.778
+    ],
+    "checked": 102,
+    "passed": 102
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}
