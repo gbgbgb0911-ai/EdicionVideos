@@ -19,7 +19,10 @@ Motion graphics con HyperFrames (`videos/<proyecto>/`). Editor del usuario: CapC
 - Salidas animadas (piezas que salen en direcciones distintas), no solo fade.
 - Ritmo rápido tipo TikTok: entradas 0.3–0.5s, golpes/rebotes en palabras clave.
 
-## Sonido
+## Sonido (premium, pedido del usuario: nada de "disparos de videojuego barato")
 
-- Incluir efectos de sonido en los MP4: whoosh en entradas/salidas, pop en apariciones, click en toques de cursor, ding/golpe en palabras clave y números.
-- Volumen moderado (el video lleva la voz del usuario encima).
+- Usar SIEMPRE el kit `assets-shared/sfx-premium/` (generado con `python3 tools/sfx_premium.py assets-shared/sfx-premium`); copiarlo a `assets/sfx/` de cada proyecto. No usar el kit viejo.
+- Mapa: `whoosh` entradas · `whoosh-out` salidas · `pop` apariciones · `click` toques de cursor · `tick` listas/checks · `ding` palabra clave · `success` logro/confirmación · `impact` sellos/números grandes · `shimmer` brillos/chispas.
+- Menos es más: no sonar en cada micro-animación; 3–6 sonidos por escena. No apilar >2 al mismo tiempo.
+- Volumen moderado (`data-volume` 0.25–0.5; whoosh ≤0.5). El video lleva la voz del usuario encima.
+- Prohibido: ondas cuadradas/sierra, ataques secos, ruido blanco crudo, tonos 8-bit.
