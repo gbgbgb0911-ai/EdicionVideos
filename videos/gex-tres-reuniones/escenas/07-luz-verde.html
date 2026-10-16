@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Reuniones 07 — Esperando luz verde</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex-subtle.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .line { display: flex; align-items: center; gap: 24px; }
+      .light { display: flex; flex-direction: column; gap: 14px; padding: 18px; border-radius: 40px; background: #ffffff; }
+      .lamp { position: relative; width: 74px; height: 74px; border-radius: 50%; border: 6px solid #c9d3d2; }
+      .lamp i { position: absolute; inset: -6px; border-radius: 50%; }
+      #r i { background: #e5402e; } #a i { background: #f5a524; } #g i { background: #1fb257; }
+      .txt { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+      .wait { padding: 14px 28px; border-radius: 999px; background: var(--orange); font-weight: 800; font-size: 42px; white-space: nowrap; }
+      .go { display: flex; align-items: center; gap: 12px; padding: 14px 28px; border-radius: 999px; background: var(--wa); font-weight: 800; font-size: 42px; white-space: nowrap; }
+      .dots i { display: inline-block; font-style: normal; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5" data-track-index="0">
+        <div class="zone" id="zone">
+          <div class="line">
+            <div class="light" id="light">
+              <span class="lamp" id="r"><i></i></span>
+              <span class="lamp" id="a"><i></i></span>
+              <span class="lamp" id="g"><i></i></span>
+            </div>
+            <div class="txt">
+              <div class="wait" id="wait">Esperando luz verde<span class="dots"><i id="d1">.</i><i id="d2">.</i><i id="d3">.</i></span></div>
+              <div class="go" id="go">para empezar el proyecto</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.8"></audio>
+      <audio id="s-r" src="assets/sfx/tick.wav" data-start="0.5" data-volume="0.4"></audio>
+      <audio id="s-a1" src="assets/sfx/tick.wav" data-start="1.0" data-volume="0.35"></audio>
+      <audio id="s-a2" src="assets/sfx/tick.wav" data-start="1.6" data-volume="0.35"></audio>
+      <audio id="s-a3" src="assets/sfx/tick.wav" data-start="2.2" data-volume="0.35"></audio>
+      <audio id="s-g" src="assets/sfx/ding.wav" data-start="2.8" data-volume="0.5"></audio>
+      <audio id="s-pop" src="assets/sfx/pop.wav" data-start="2.95" data-volume="0.45"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh.wav" data-start="4.62" data-volume="0.7"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 4.65;
+      gsap.set(["#r i", "#a i", "#g i"], { autoAlpha: 0 });
+      tl.fromTo("#light", { y: -200, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "bounce.out" }, 0.05);
+      tl.fromTo("#wait", { x: -200, scale: 0.6, autoAlpha: 0, transformOrigin: "0% 50%" }, { x: 0, scale: 1, autoAlpha: 1, transformOrigin: "0% 50%", duration: 0.45, ease: "back.out(2)" }, 0.25);
+      // rojo -> ámbar parpadea (esperando) -> verde
+      tl.to("#r i", { autoAlpha: 1, duration: 0.1, ease: "none" }, 0.5);
+      tl.to("#r i", { autoAlpha: 0, duration: 0.1, ease: "none" }, 0.95);
+      [1.0, 1.6, 2.2].forEach((t) => {
+        tl.to("#a i", { autoAlpha: 1, duration: 0.08, ease: "none" }, t);
+        tl.to("#a i", { autoAlpha: 0, duration: 0.12, ease: "none" }, t + 0.35);
+      });
+      tl.fromTo(["#d1", "#d2", "#d3"], { y: 0 }, { y: -12, duration: 0.2, ease: "sine.out", yoyo: true, repeat: 5, stagger: 0.1 }, 0.9);
+      tl.to("#g i", { autoAlpha: 1, duration: 0.1, ease: "none" }, 2.8);
+      tl.fromTo("#g", { scale: 1 }, { scale: 1.25, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" }, 2.8);
+      tl.to("#wait", { keyframes: [{ scale: 1.05, duration: 0.1 }, { scale: 1, duration: 0.25 }], transformOrigin: "0% 50%", ease: "sine.out" }, 2.8);
+      tl.fromTo("#go", { y: -20, scale: 0.4, autoAlpha: 0, transformOrigin: "0% 50%" }, { y: 0, scale: 1, autoAlpha: 1, transformOrigin: "0% 50%", duration: 0.45, ease: "back.out(2.6)" }, 2.95);
+      tl.to("#g", { scale: 1.12, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 3.3);
+      GEX.float(tl, "#light", 0.6, EXIT, 6, 1.6);
+      GEX.scatter(tl, ["#light", "#wait", "#go"], EXIT, 13);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

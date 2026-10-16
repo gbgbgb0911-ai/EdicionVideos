@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Reuniones 01 — Tres reuniones seguidas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/gex-subtle.css" />
+    <script src="assets/gex-fx.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .head { display: flex; align-items: center; gap: 14px; }
+      .num { display: flex; align-items: center; justify-content: center; width: 96px; height: 96px; border-radius: 50%; background: var(--orange); font-weight: 800; font-size: 64px; line-height: 1; }
+      .row { display: flex; gap: 16px; padding-left: 6px; }
+      .call { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 170px; padding: 18px 10px 14px; border-radius: 26px; background: #ffffff; }
+      .call svg { width: 74px; height: 56px; }
+      .call .h { font-weight: 800; font-size: 30px; color: #0b958b; white-space: nowrap; }
+      .call .ok { position: absolute; top: -14px; right: -14px; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: var(--teal); }
+      .call .ok svg { width: 28px; height: 28px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4" data-track-index="0">
+        <div class="zone" id="zone">
+          <div class="head">
+            <span class="num" id="num">3</span>
+            <div class="pill plain" id="p1"><span id="t1">reuniones seguidas</span><i class="shine" id="sh"></i></div>
+          </div>
+          <div class="row">
+            <div class="call" id="c1"><svg viewBox="0 0 74 56"><rect x="4" y="8" width="46" height="40" rx="8" fill="none" stroke="#0b958b" stroke-width="6" /><path d="M50 22l18-10v32L50 34" fill="none" stroke="#0b958b" stroke-width="6" stroke-linejoin="round" /></svg><span class="h">4:00</span><span class="ok"></span></div>
+            <div class="call" id="c2"><svg viewBox="0 0 74 56"><rect x="4" y="8" width="46" height="40" rx="8" fill="none" stroke="#0b958b" stroke-width="6" /><path d="M50 22l18-10v32L50 34" fill="none" stroke="#0b958b" stroke-width="6" stroke-linejoin="round" /></svg><span class="h">5:00</span><span class="ok"></span></div>
+            <div class="call" id="c3"><svg viewBox="0 0 74 56"><rect x="4" y="8" width="46" height="40" rx="8" fill="none" stroke="#0b958b" stroke-width="6" /><path d="M50 22l18-10v32L50 34" fill="none" stroke="#0b958b" stroke-width="6" stroke-linejoin="round" /></svg><span class="h">6:00</span><span class="ok"></span></div>
+          </div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.9"></audio>
+      <audio id="s-num" src="assets/sfx/pop.wav" data-start="0.1" data-volume="0.5"></audio>
+      <audio id="s-c1" src="assets/sfx/pop.wav" data-start="0.7" data-volume="0.4"></audio>
+      <audio id="s-c2" src="assets/sfx/pop.wav" data-start="0.95" data-volume="0.4"></audio>
+      <audio id="s-c3" src="assets/sfx/pop.wav" data-start="1.2" data-volume="0.4"></audio>
+      <audio id="s-k1" src="assets/sfx/tick.wav" data-start="1.6" data-volume="0.5"></audio>
+      <audio id="s-k2" src="assets/sfx/tick.wav" data-start="1.8" data-volume="0.5"></audio>
+      <audio id="s-k3" src="assets/sfx/tick.wav" data-start="2.0" data-volume="0.5"></audio>
+      <audio id="s-ding" src="assets/sfx/ding.wav" data-start="2.2" data-volume="0.35"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh.wav" data-start="3.62" data-volume="0.7"></audio>
+    </div>
+    <script>
+      const ck = '<svg viewBox="0 0 28 28"><path d="M6 15l5 5 11-12" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      document.querySelectorAll(".ok").forEach((e) => (e.innerHTML = ck));
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.65;
+      const t1 = GEX.split(document.getElementById("t1"));
+      tl.fromTo("#num", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.6)" }, 0.08);
+      tl.fromTo("#p1", { x: -120, scaleX: 0.2, transformOrigin: "left center", autoAlpha: 0 }, { x: 0, scaleX: 1, transformOrigin: "left center", autoAlpha: 1, duration: 0.45, ease: "power4.out" }, 0.2);
+      GEX.reveal(tl, t1.chars, 0.3, "rise", { stagger: 0.015, duration: 0.3 });
+      ["#c1", "#c2", "#c3"].forEach((id, i) => {
+        tl.fromTo(id, { y: -120, rotation: i % 2 ? 6 : -6, autoAlpha: 0 }, { y: 0, rotation: 0, autoAlpha: 1, duration: 0.5, ease: "bounce.out" }, 0.62 + i * 0.25);
+        tl.fromTo(id + " .ok", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.3, ease: "back.out(3)" }, 1.55 + i * 0.2);
+      });
+      tl.to("#num", { keyframes: [{ scale: 1.25, duration: 0.1 }, { scale: 1, duration: 0.3 }], ease: "back.out(3)" }, 2.2);
+      tl.fromTo("#sh", { x: -120 }, { x: 600, duration: 0.6, ease: "power2.inOut" }, 2.3);
+      ["#c1", "#c2", "#c3"].forEach((id, i) => GEX.float(tl, id, 2.0 + i * 0.12, EXIT, 6, 1.2 + i * 0.15));
+      GEX.scatter(tl, ["#num", "#p1", "#c1", "#c2", "#c3"], EXIT, 3);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
