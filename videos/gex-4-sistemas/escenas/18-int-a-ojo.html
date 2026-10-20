@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 18 — Ojo: no necesitas 4 sistemas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 22px; }
+      #ojo { font-size: 72px; padding: 18px 40px 18px 18px; }
+      #ojo .pi { width: 92px; height: 92px; }
+      #ojo .pi svg { width: 58px; height: 58px; }
+      #imp { font-weight: 800; font-size: 50px; white-space: nowrap; }
+      #imp .o { color: #fe6820; }
+      .row { position: relative; display: flex; gap: 16px; margin-top: 10px; }
+      .bx { width: 210px; height: 170px; border-radius: 28px; background: #ffffff; color: var(--teal); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 32px; white-space: nowrap; }
+      .bx .ico { width: 84px; height: 84px; }
+      #bigx { position: absolute; left: 50%; top: 50%; width: 200px; height: 200px; margin: -100px 0 0 -100px; }
+      #bigx svg { width: 100%; height: 100%; overflow: visible; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="8" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="top" id="top">
+          <div class="pill o" id="ojo"><span class="pi" data-ic="alert" data-col="#ea5a14" data-sw="5"></span>¡OJO!<i class="shine" id="sh"></i></div>
+          <div id="imp"><span class="o">algo</span> importante</div>
+          <div class="row" id="row">
+            <div class="bx" id="b1"><span class="ico" data-ic="users"></span>CRM</div>
+            <div class="bx" id="b2"><span class="ico" data-ic="building"></span>ERP</div>
+            <div class="bx" id="b3"><span class="ico" data-ic="cart"></span>POS</div>
+            <div class="bx" id="b4"><span class="ico" data-ic="user"></span>Personal</div>
+            <div id="bigx"><svg viewBox="0 0 100 100"><path id="x1" d="M10 10 90 90" stroke="#fe6820" stroke-width="13" stroke-linecap="round" /><path id="x2" d="M90 10 10 90" stroke="#fe6820" stroke-width="13" stroke-linecap="round" /></svg></div>
+          </div>
+          <div class="pill plain" id="no"><span id="nt">No necesitas 4 sistemas distintos</span></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-ojo" src="assets/sfx/ding.wav" data-start="0.2" data-volume="0.3"></audio>
+      <audio id="s-bx" src="assets/sfx/pop.wav" data-start="2.0" data-volume="0.3"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="5.0" data-volume="0.4"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.6;
+      const fx = document.getElementById("fx");
+      const parts = GEX.particles(fx, 6, 1818, { x0: 60, x1: 160, y0: 200, y1: 760 }).concat(GEX.particles(fx, 6, 1819, { x0: 920, x1: 1000, y0: 200, y1: 760 }));
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      const imp = GEX.split(document.getElementById("imp"));
+      const nt = GEX.split(document.getElementById("nt"));
+      gsap.set(["#no"], { autoAlpha: 0 });
+      tl.fromTo("#ojo", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(3)" }, 0.1);
+      tl.to("#ojo", { keyframes: [{ rotation: -6, duration: 0.07 }, { rotation: 6, duration: 0.07 }, { rotation: -4, duration: 0.07 }, { rotation: 4, duration: 0.07 }, { rotation: 0, duration: 0.07 }], ease: "none", repeat: 2, repeatDelay: 0.5 }, 0.6);
+      tl.fromTo("#ojo .pi", { scale: 1 }, { scale: 1.15, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 5 }, 0.6);
+      GEX.reveal(tl, imp.words, 0.45, "rise", { stagger: 0.08, duration: 0.4 });
+      tl.fromTo("#sh", { x: -140 }, { x: 400, duration: 0.6, ease: "power2.inOut" }, 1.0);
+      tl.set("#sh", { x: -140 }, 1.65);
+      // cuatro sistemas por separado...
+      ["#b1", "#b2", "#b3", "#b4"].forEach((id, i) => {
+        const t = 2.0 + i * 0.22;
+        tl.fromTo(id, { y: 80, scale: 0.4, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)" }, t);
+        tl.fromTo(id + " .ico", { rotation: -150 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, t + 0.05);
+        tl.to(id, { x: (i - 1.5) * 14, rotation: (i - 1.5) * 3, duration: 0.8, ease: "sine.inOut" }, 3.2);
+      });
+      // ...no hace falta
+      tl.fromTo(["#x1", "#x2"], { scale: 0, autoAlpha: 0, svgOrigin: "50 50" }, { scale: 1, autoAlpha: 1, svgOrigin: "50 50", duration: 0.25, ease: "back.out(2)", stagger: 0.1 }, 4.95);
+      tl.to(["#b1", "#b2", "#b3", "#b4"], { scale: 0.9, duration: 0.2, ease: "power2.out" }, 5.05);
+      tl.fromTo("#no", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 5.5);
+      GEX.reveal(tl, nt.words, 5.6, "rise", { stagger: 0.05, duration: 0.35 });
+      tl.to("#no", { scale: 1.05, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 3 }, 6.2);
+      // salida en piezas
+      GEX.scatter(tl, ["#ojo", "#b1", "#b2", "#b3", "#b4", "#bigx"], EXIT, 18);
+      tl.to(imp.words, { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.04 }, EXIT);
+      tl.to("#no", { y: 200, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

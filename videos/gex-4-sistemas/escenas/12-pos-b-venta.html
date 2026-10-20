@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 12 — POS: una venta de principio a fin</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #w { position: absolute; left: 60px; top: 290px; width: 960px; height: 964px; }
+      .ab { position: absolute; }
+      .tile { width: 292px; height: 130px; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 0 26px; border-radius: 22px; background: var(--soft); border-left: 10px solid #1fc4b8; }
+      .tile.o { border-left-color: #fe6820; }
+      .tile b { font-weight: 800; font-size: 36px; white-space: nowrap; }
+      .tile small { font-weight: 800; font-size: 30px; color: #c94a0c; }
+      .oh { left: 30px; top: 392px; font-weight: 800; font-size: 32px; white-space: nowrap; }
+      .row { left: 30px; width: 900px; height: 54px; display: flex; align-items: center; font-weight: 700; font-size: 32px; white-space: nowrap; }
+      .row span:first-child { flex: 1; }
+      .row .q { width: 90px; color: #3f7c78; }
+      .row .p { width: 150px; text-align: right; font-weight: 800; }
+      #sep { left: 30px; top: 630px; width: 900px; height: 4px; background: var(--line); }
+      #trow { left: 30px; top: 642px; width: 900px; height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; border-radius: 16px; }
+      #trow span { font-weight: 800; font-size: 36px; letter-spacing: 0.08em; }
+      #tot { font-weight: 800; font-size: 54px; color: #c94a0c; }
+      .pm { top: 732px; width: 292px; height: 84px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 20px; border: 4px solid var(--line); background: #ffffff; font-weight: 800; font-size: 30px; white-space: nowrap; color: var(--teal); }
+      .pm i { width: 38px; height: 38px; display: inline-block; }
+      #cob { left: 24px; top: 836px; width: 912px; height: 104px; display: flex; align-items: center; justify-content: center; gap: 16px; border-radius: 26px; background: var(--orange); color: #ffffff; font-weight: 800; font-size: 44px; white-space: nowrap; }
+      #ok { left: 0; top: 380px; width: 960px; height: 584px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; background: #ffffff; }
+      #okc { width: 170px; height: 170px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; }
+      #okc svg { width: 110px; height: 110px; }
+      #ok b { font-weight: 800; font-size: 52px; color: var(--green); }
+      .oks { position: absolute; left: 0; right: 0; text-align: center; font-weight: 800; font-size: 34px; color: var(--teal); white-space: nowrap; }
+      #caja { position: absolute; left: 60px; top: 1278px; width: 960px; height: 252px; padding: 24px 30px; display: flex; flex-direction: column; gap: 14px; }
+      #caja .h { display: flex; align-items: center; gap: 16px; font-weight: 800; font-size: 38px; white-space: nowrap; }
+      #caja .h .ico { width: 70px; height: 70px; }
+      #caja .h b { margin-left: auto; font-size: 48px; }
+      #caja .mv { position: relative; height: 54px; }
+      #caja .mv span { position: absolute; left: 0; top: 0; }
+      #caja .chip { font-size: 30px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="14" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="14" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">POS · ASÍ SE REGISTRA UNA VENTA</span></div>
+        <div class="win" id="w">
+          <div class="bar"><i></i><i></i><i></i><b>Caja 1 · Restaurante</b></div>
+          <div class="ab tile" id="p0" style="left: 24px; top: 100px"><b>Café</b><small>$8.00</small></div>
+          <div class="ab tile o" id="p1" style="left: 334px; top: 100px"><b>Sándwich</b><small>$12.00</small></div>
+          <div class="ab tile" id="p2" style="left: 644px; top: 100px"><b>Jugo</b><small>$7.00</small></div>
+          <div class="ab tile o" id="p3" style="left: 24px; top: 248px"><b>Postre</b><small>$9.00</small></div>
+          <div class="ab tile" id="p4" style="left: 334px; top: 248px"><b>Agua</b><small>$3.00</small></div>
+          <div class="ab tile o" id="p5" style="left: 644px; top: 248px"><b>Ensalada</b><small>$14.00</small></div>
+          <span class="ab oh" id="oa">Pedido #128</span><span class="ab oh" id="ob">Pedido #129</span>
+          <div class="ab row" id="a1" style="top: 450px"><span>Café</span><span class="q">x1</span><span class="p">$8.00</span></div>
+          <div class="ab row" id="a2" style="top: 508px"><span>Sándwich</span><span class="q">x1</span><span class="p">$12.00</span></div>
+          <div class="ab row" id="a3" style="top: 566px"><span>Jugo</span><span class="q">x1</span><span class="p">$7.00</span></div>
+          <div class="ab row" id="b1" style="top: 450px"><span>Ensalada</span><span class="q">x1</span><span class="p">$14.00</span></div>
+          <div class="ab row" id="b2" style="top: 508px"><span>Agua</span><span class="q">x1</span><span class="p">$3.00</span></div>
+          <div class="ab" id="sep"></div>
+          <div class="ab" id="trow"><span>TOTAL</span><b class="num" id="tot">$0.00</b></div>
+          <div class="ab pm" id="m0" style="left: 24px"><i data-ic="cash"></i>Efectivo</div>
+          <div class="ab pm" id="m1" style="left: 334px"><i data-ic="card"></i>Tarjeta</div>
+          <div class="ab pm" id="m2" style="left: 644px"><i data-ic="phone"></i>Transferencia</div>
+          <div class="ab" id="cob">Cobrar <span class="num" id="cobv">$0.00</span></div>
+          <div class="ab" id="ok" data-layout-allow-occlusion data-layout-allow-overlap><span id="okc" data-ic="check" data-col="#ffffff" data-sw="7"></span><b>Pago confirmado</b><span style="position: relative; width: 700px; height: 46px"><span class="oks" id="oka">Tarjeta · $27.00</span><span class="oks" id="okb">Efectivo · $17.00</span></span></div>
+        </div>
+        <div class="win" id="caja">
+          <div class="h"><span class="ico" data-ic="cash"></span>Caja del día<b class="num" id="ct">$1,818.00</b></div>
+          <div class="mv"><span class="chip g" id="mva">+$27.00 · Tarjeta · Pedido #128</span><span class="chip g" id="mvb">+$17.00 · Efectivo · Pedido #129</span></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-c1" src="assets/sfx/click.wav" data-start="1.0" data-volume="0.4"></audio>
+      <audio id="s-tot" src="assets/sfx/ding.wav" data-start="3.5" data-volume="0.28"></audio>
+      <audio id="s-ok1" src="assets/sfx/success.wav" data-start="6.35" data-volume="0.35"></audio>
+      <audio id="s-c2" src="assets/sfx/click.wav" data-start="9.2" data-volume="0.4"></audio>
+      <audio id="s-ok2" src="assets/sfx/success.wav" data-start="11.35" data-volume="0.32"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="13.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 13.6;
+      const parts = GEX.particles(document.getElementById("fx"), 8, 1212, { x0: 20, x1: 1060, y0: 200, y1: 1560 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      gsap.set(["#ob", "#a1", "#a2", "#a3", "#b1", "#b2", "#ok", "#okb", "#mva", "#mvb"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      tl.fromTo("#w", { y: 700, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 0.1);
+      tl.fromTo(".tile", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", stagger: 0.05 }, 0.35);
+      tl.fromTo("#caja", { y: 400, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.45);
+      const cur = GEX.cursor(document.getElementById("w"));
+      gsap.set(cur.r, { autoAlpha: 0 });
+      tl.fromTo(cur.c, { x: 880, y: 900, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 0.5);
+      // total del pedido (un solo contador para toda la escena)
+      const tot = { v: 0 };
+      const totEl = document.getElementById("tot"), cobEl = document.getElementById("cobv");
+      const showTot = () => { const s = "$" + tot.v.toFixed(2); totEl.textContent = s; cobEl.textContent = s; };
+      const setTot = (v, t) => tl.to(tot, { v: v, duration: 0.35, ease: "power2.out", onUpdate: showTot }, t);
+      const pick = (pid, row, x, y, t, v) => {
+        GEX.tap(tl, cur, x, y, t - 0.4, 0.4);
+        tl.to(pid, { keyframes: [{ scale: 0.92, backgroundColor: "#cdeeea", duration: 0.08 }, { scale: 1, backgroundColor: "#eef4f3", duration: 0.3 }], ease: "sine.out" }, t);
+        tl.fromTo(row, { x: -60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)" }, t + 0.05);
+        setTot(v, t + 0.05);
+      };
+      const pay = (mid, t) => {
+        GEX.tap(tl, cur, parseInt(document.querySelector(mid).style.left) + 140, 770, t - 0.4, 0.4);
+        tl.to(mid, { backgroundColor: "#0b958b", borderColor: "#0b958b", color: "#ffffff", duration: 0.2 }, t);
+        tl.to(mid + " svg", { stroke: "#ffffff", duration: 0.2 }, t);
+      };
+      const unpay = (mid, t) => {
+        tl.to(mid, { backgroundColor: "#ffffff", borderColor: "#dfe7e6", color: "#0b958b", duration: 0.2 }, t);
+        tl.to(mid + " svg", { stroke: "#0b958b", duration: 0.2 }, t);
+      };
+      const charge = (t, sub) => {
+        GEX.tap(tl, cur, 470, 880, t - 0.4, 0.4);
+        tl.to("#cob", { keyframes: [{ scale: 0.95, duration: 0.08 }, { scale: 1, duration: 0.2 }], ease: "sine.out" }, t);
+        tl.fromTo("#ok", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25, immediateRender: false }, t + 0.25);
+        tl.fromTo("#okc", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.5)", immediateRender: false }, t + 0.3);
+        tl.fromTo(sub, { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "power2.out", immediateRender: false }, t + 0.5);
+        tl.to("#okc", { scale: 1.08, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1 }, t + 0.9);
+      };
+      // pedido #128: café + sándwich + jugo, pago con tarjeta
+      pick("#p0", "#a1", 160, 150, 1.0, 8);
+      pick("#p1", "#a2", 470, 150, 1.8, 20);
+      pick("#p2", "#a3", 780, 150, 2.6, 27);
+      tl.to("#trow", { keyframes: [{ backgroundColor: "#ffe6d9", duration: 0.15 }, { backgroundColor: "#ffffff", duration: 0.6 }], ease: "none" }, 3.45);
+      GEX.punch(tl, "#tot", 3.45, 1.18);
+      pay("#m1", 5.0);
+      charge(6.0, "#oka");
+      // bajo el aviso opaco, el resto se oculta (no hay texto tapado)
+      tl.to(["#trow", "#sep", ".pm", "#cob", "#oa", "#a1", "#a2", "#a3"], { autoAlpha: 0, duration: 0.01 }, 6.55);
+      // se registra en caja
+      const ct = { v: 1818 };
+      const ctEl = document.getElementById("ct");
+      const showCt = () => { ctEl.textContent = "$" + GEX.fmt(ct.v, 2); };
+      tl.fromTo("#mva", { x: -80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 7.3);
+      tl.to(ct, { v: 1845, duration: 0.6, ease: "power2.out", onUpdate: showCt }, 7.35);
+      GEX.punch(tl, "#caja", 7.35, 1.04);
+      // pedido #129: ensalada + agua, pago en efectivo
+      tl.to("#ok", { autoAlpha: 0, duration: 0.25 }, 8.35);
+      tl.to(["#trow", "#sep", ".pm", "#cob"], { autoAlpha: 1, duration: 0.2 }, 8.35);
+      tl.to("#oka", { autoAlpha: 0, duration: 0.1 }, 8.4);
+      tl.to("#ob", { autoAlpha: 1, duration: 0.2 }, 8.6);
+      tl.to(tot, { v: 0, duration: 0.2, onUpdate: showTot }, 8.5);
+      unpay("#m1", 8.5);
+      pick("#p5", "#b1", 780, 298, 9.2, 14);
+      pick("#p4", "#b2", 470, 298, 9.85, 17);
+      pay("#m0", 10.55);
+      charge(11.1, "#okb");
+      tl.to(["#trow", "#sep", ".pm", "#cob", "#ob", "#b1", "#b2"], { autoAlpha: 0, duration: 0.01 }, 11.65);
+      tl.to("#mva", { y: -30, autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 12.1);
+      tl.fromTo("#mvb", { x: -80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 12.2);
+      tl.to(ct, { v: 1862, duration: 0.6, ease: "power2.out", onUpdate: showCt }, 12.25);
+      GEX.punch(tl, "#caja", 12.25, 1.04);
+      tl.to(cur.c, { x: 880, y: 900, duration: 0.5, ease: "power2.inOut" }, 12.0);
+      // salida
+      tl.to(cur.c, { autoAlpha: 0, duration: 0.15 }, EXIT);
+      tl.to("#w", { x: -1100, rotation: -6, autoAlpha: 0, duration: 0.38, ease: "power3.in" }, EXIT);
+      tl.to("#caja", { x: 1100, rotation: 6, autoAlpha: 0, duration: 0.38, ease: "power3.in" }, EXIT + 0.03);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 01 — Intro: 4 tipos de sistemas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 44px; }
+      .hero { display: flex; align-items: center; gap: 28px; }
+      #four { position: relative; width: 180px; height: 180px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 140px; line-height: 1; flex: none; }
+      #ring { position: absolute; inset: -18px; border-radius: 50%; border: 6px dashed #fe6820; }
+      .ht { display: flex; flex-direction: column; }
+      .ht small { font-weight: 800; font-size: 44px; letter-spacing: 0.14em; color: #1fc4b8; white-space: nowrap; }
+      .ht b { font-weight: 800; font-size: 104px; line-height: 0.95; white-space: nowrap; }
+      .chips { display: flex; gap: 14px; }
+      .ch { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px 12px 12px; border-radius: 999px; background: var(--teal); font-weight: 800; font-size: 36px; white-space: nowrap; }
+      .ch .pi { width: 54px; height: 54px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      .ch .pi svg { width: 34px; height: 34px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="8" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="top" id="top">
+          <div class="hero">
+            <div id="four"><span id="ring"></span><span id="n4">4</span></div>
+            <div class="ht"><small id="t1">TIPOS DE</small><b id="t2">SISTEMAS</b></div>
+          </div>
+          <div class="chips">
+            <span class="ch" id="c1"><span class="pi" data-ic="users"></span>CRM</span>
+            <span class="ch" id="c2"><span class="pi" data-ic="building"></span>ERP</span>
+            <span class="ch" id="c3"><span class="pi" data-ic="cart"></span>POS</span>
+            <span class="ch" id="c4"><span class="pi" data-ic="user"></span>PERSONAL</span>
+          </div>
+          <div class="pill o plain" id="q"><span id="qt">¿Para qué sirve cada uno?</span><i class="shine" id="sh"></i></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-hit" src="assets/sfx/impact.wav" data-start="0.22" data-volume="0.4"></audio>
+      <audio id="s-pop" src="assets/sfx/pop.wav" data-start="1.2" data-volume="0.3"></audio>
+      <audio id="s-shim" src="assets/sfx/shimmer.wav" data-start="1.75" data-volume="0.3"></audio>
+      <audio id="s-q" src="assets/sfx/pop.wav" data-start="5.6" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.6;
+      const fx = document.getElementById("fx");
+      const parts = GEX.particles(fx, 6, 101, { x0: 70, x1: 170, y0: 200, y1: 760 }).concat(GEX.particles(fx, 6, 102, { x0: 900, x1: 990, y0: 200, y1: 760 }));
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      const t2 = GEX.split(document.getElementById("t2"));
+      const qt = GEX.split(document.getElementById("qt"));
+      tl.fromTo("#four", { scale: 0, rotation: -200 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2)" }, 0.05);
+      tl.fromTo("#n4", { scale: 2.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "power4.in" }, 0.12);
+      tl.fromTo("#ring", { scale: 0.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.35);
+      tl.fromTo("#ring", { rotation: 0 }, { rotation: 180, duration: EXIT - 0.4, ease: "none" }, 0.4);
+      tl.fromTo("#t1", { x: -60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out" }, 0.3);
+      GEX.reveal(tl, t2.chars, 0.4, "drop", { stagger: 0.04, duration: 0.45 });
+      ["#c1", "#c2", "#c3", "#c4"].forEach((id, i) => {
+        const t = 1.2 + i * 0.18;
+        tl.fromTo(id, { y: 80, scale: 0.4, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.6)" }, t);
+        tl.fromTo(id + " .pi", { rotation: -180 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, t + 0.05);
+        GEX.float(tl, id, t + 0.6, EXIT, 8, 1.2 + i * 0.15);
+      });
+      // los 4 se iluminan uno por uno
+      ["#c1", "#c2", "#c3", "#c4"].forEach((id, i) => {
+        tl.to(id, { keyframes: [{ backgroundColor: "#ea5a14", duration: 0.15 }, { backgroundColor: "#0b958b", duration: 0.3 }], ease: "none" }, 2.6 + i * 0.25);
+      });
+      GEX.punch(tl, "#four", 3.0, 1.12);
+      tl.fromTo("#q", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)" }, 5.6);
+      GEX.reveal(tl, qt.chars, 5.68, "rise", { stagger: 0.015, duration: 0.3 });
+      tl.fromTo("#sh", { x: -140 }, { x: 800, duration: 0.7, ease: "power2.inOut" }, 6.3);
+      tl.set("#sh", { x: -140 }, 7.0);
+      tl.to("#q", { rotation: -3, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 3 }, 6.4);
+      // salida en piezas
+      GEX.scatter(tl, ["#four", "#t1", "#c1", "#c2", "#c3", "#c4"], EXIT, 5);
+      tl.to(t2.chars, { y: -200, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.02 }, EXIT);
+      tl.to("#q", { y: 200, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

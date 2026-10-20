@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 03 — CRM: llegan consultas y se organizan</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #hub { position: absolute; left: 340px; top: 310px; width: 400px; height: 150px; display: flex; align-items: center; gap: 20px; padding: 0 30px; border-radius: 34px; background: #ffffff; color: var(--teal); font-weight: 800; font-size: 40px; white-space: nowrap; }
+      #hub .ico { width: 92px; height: 92px; }
+      #badge { position: absolute; right: -22px; top: -22px; min-width: 70px; height: 70px; padding: 0 14px; border-radius: 35px; background: var(--orange); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 36px; }
+      .bub { position: absolute; display: flex; align-items: center; gap: 16px; padding: 14px 26px 14px 14px; border-radius: 30px; background: #ffffff; color: var(--teal); font-weight: 700; font-size: 36px; white-space: nowrap; }
+      .bub .ch { width: 40px; height: 40px; flex: none; }
+      .bub.l { left: 60px; border-bottom-left-radius: 8px; }
+      .bub.r { right: 60px; border-bottom-right-radius: 8px; }
+      #list { position: absolute; left: 60px; top: 540px; width: 960px; }
+      .row { position: relative; display: flex; align-items: center; gap: 20px; height: 140px; padding: 0 26px; border-bottom: 4px solid var(--line); }
+      .row:last-child { border-bottom: 0; }
+      .row .nm { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+      .row .nm b { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 36px; white-space: nowrap; }
+      .row .nm b span { width: 34px; height: 34px; display: inline-block; }
+      .row .nm small { font-weight: 700; font-size: 28px; color: #3f7c78; white-space: nowrap; }
+      #hl { position: absolute; left: 0; top: 0; width: 960px; height: 140px; background: #e4f6f4; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="11" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="11" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">CRM · TUS CLIENTES</span></div>
+        <div id="hub"><span class="ico" data-ic="store"></span>Tu empresa<span id="badge" class="num">0</span></div>
+        <div class="bub l" id="b1"><span class="av">ML</span>¿Cuánto cuesta una web?<span class="ch" data-ic="wa" data-col="#179a4a"></span></div>
+        <div class="bub r" id="b2"><span class="av o">CR</span>Envíame una cotización<span class="ch" data-ic="mail"></span></div>
+        <div class="bub l" id="b3"><span class="av g">AT</span>¿Tienen catálogo?<span class="ch" data-ic="wa" data-col="#179a4a"></span></div>
+        <div class="bub r" id="b4"><span class="av a">PD</span>Quiero cotizar un sistema<span class="ch" data-ic="phone" data-col="#ea5a14"></span></div>
+        <div class="bub l" id="b5"><span class="av">LV</span>¿Hacen tiendas online?<span class="ch" data-ic="chat"></span></div>
+        <div class="bub r" id="b6"><span class="av o">SG</span>Necesito una propuesta<span class="ch" data-ic="mail"></span></div>
+        <div class="win" id="list">
+          <div class="bar"><i></i><i></i><i></i><b>Clientes · CRM</b></div>
+          <div style="position: relative">
+            <div id="hl"></div>
+            <div class="row"><span class="av">ML</span><span class="nm"><b>María López <span data-ic="wa" data-col="#179a4a"></span></b><small>Interés: página web</small></span><span class="chip">Nuevo</span></div>
+            <div class="row"><span class="av o">CR</span><span class="nm"><b>Carlos Ruiz <span data-ic="mail"></span></b><small>Interés: sistema a medida</small></span><span class="chip o">Cotizado</span></div>
+            <div class="row"><span class="av g">AT</span><span class="nm"><b>Ana Torres <span data-ic="wa" data-col="#179a4a"></span></b><small>Interés: catálogo online</small></span><span class="chip">Nuevo</span></div>
+            <div class="row"><span class="av a">PD</span><span class="nm"><b>Pedro Díaz <span data-ic="phone" data-col="#ea5a14"></span></b><small>Interés: sistema de ventas</small></span><span class="chip a">Seguimiento</span></div>
+            <div class="row"><span class="av">LV</span><span class="nm"><b>Lucía Vega <span data-ic="chat"></span></b><small>Interés: tienda online</small></span><span class="chip o">Cotizado</span></div>
+          </div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-p1" src="assets/sfx/pop.wav" data-start="0.65" data-volume="0.3"></audio>
+      <audio id="s-t1" src="assets/sfx/tick.wav" data-start="2.15" data-volume="0.25"></audio>
+      <audio id="s-t2" src="assets/sfx/tick.wav" data-start="3.45" data-volume="0.25"></audio>
+      <audio id="s-list" src="assets/sfx/whoosh.wav" data-start="5.7" data-volume="0.4"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="10.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 10.6;
+      const parts = GEX.particles(document.getElementById("fx"), 14, 303, { x0: 60, x1: 1000, y0: 200, y1: 1560 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      tl.fromTo("#hub", { scale: 0.3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.5, ease: "back.out(2.2)" }, 0.15);
+      // consultas que llegan sin parar desde distintos canales
+      const badge = document.getElementById("badge");
+      const cnt = { v: 0 };
+      const ys = [600, 730, 860, 990, 1120, 1250];
+      ["#b1", "#b2", "#b3", "#b4", "#b5", "#b6"].forEach((id, i) => {
+        const el = document.querySelector(id);
+        const left = el.classList.contains("l");
+        const t = 0.65 + i * 0.65;
+        el.style.top = ys[i] + "px";
+        tl.fromTo(id, { x: left ? -560 : 560, scale: 0.8, autoAlpha: 0 }, { x: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(1.6)" }, t);
+        // vuela hacia la empresa
+        const hubX = 540 - (left ? 60 + el.offsetWidth / 2 : 1020 - el.offsetWidth / 2);
+        const hubY = 385 - (ys[i] + el.offsetHeight / 2);
+        tl.to(id, { x: hubX, y: hubY, scale: 0.15, autoAlpha: 0, duration: 0.5, ease: "power3.in" }, t + 1.1);
+        tl.to(cnt, { v: i + 1, duration: 0.05, ease: "none", onUpdate: () => { badge.textContent = Math.round(cnt.v); } }, t + 1.55);
+        tl.to("#hub", { keyframes: [{ scale: 1.07, duration: 0.08 }, { scale: 1, duration: 0.22 }], ease: "sine.out" }, t + 1.55);
+      });
+      tl.fromTo("#badge", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 2.1);
+      // se ordenan en el CRM
+      tl.fromTo("#list", { y: 700, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 5.7);
+      tl.fromTo("#list .row", { x: -80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out", stagger: 0.12 }, 6.0);
+      tl.fromTo("#list .chip", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.12 }, 6.3);
+      tl.fromTo("#hl", { y: 0, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.2 }, 7.0);
+      tl.to("#hl", { keyframes: [{ y: 140, duration: 0.35 }, { y: 140, duration: 0.4 }, { y: 420, duration: 0.35 }, { y: 420, duration: 0.4 }, { y: 560, duration: 0.3 }, { y: 560, duration: 0.4 }, { y: 0, duration: 0.45 }], ease: "power2.inOut" }, 7.4);
+      tl.to("#list .chip", { scale: 1.08, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.2 }, 8.2);
+      GEX.float(tl, "#hub", 5.0, EXIT, 6, 1.6);
+      // salida
+      tl.to("#list", { y: 600, rotation: 4, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT);
+      GEX.scatter(tl, ["#hub", "#tag"], EXIT, 3);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

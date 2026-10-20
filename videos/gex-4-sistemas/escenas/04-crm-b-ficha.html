@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 04 — CRM: ficha del cliente</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      .ghost { position: absolute; left: 90px; top: 320px; width: 900px; height: 760px; border-radius: 36px; background: #dfe9e8; }
+      #g1 { transform: rotate(-4deg); }
+      #g2 { transform: rotate(3deg); background: #c9dbd9; }
+      #card { position: absolute; left: 60px; top: 300px; width: 960px; }
+      .hd { display: flex; align-items: center; gap: 24px; padding: 30px 34px; border-bottom: 4px solid var(--line); }
+      .hd .av { width: 116px; height: 116px; font-size: 44px; }
+      .hd b { display: block; font-weight: 800; font-size: 52px; white-space: nowrap; }
+      .hd small { display: block; font-weight: 700; font-size: 30px; color: #3f7c78; white-space: nowrap; margin-top: 4px; }
+      .f { display: flex; align-items: center; gap: 22px; height: 150px; padding: 0 34px; border-bottom: 4px solid var(--line); }
+      .f:last-child { border-bottom: 0; }
+      .f .ico { width: 84px; height: 84px; }
+      .f .tx { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+      .f .v { font-weight: 800; font-size: 36px; white-space: nowrap; }
+      .f .chip { font-size: 32px; padding: 10px 22px; }
+      #pend { position: absolute; left: 0; right: 0; top: 1130px; display: flex; justify-content: center; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="9.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="9.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">CRM · FICHA DEL CLIENTE</span></div>
+        <div class="ghost" id="g2"></div>
+        <div class="ghost" id="g1"></div>
+        <div class="win" id="card">
+          <div class="hd" id="hd"><span class="av">ML</span><span><b>María López</b><small>Cliente desde: hoy</small></span></div>
+          <div class="f" id="f1"><span class="ico" data-ic="wa" data-col="#179a4a"></span><span class="tx"><span class="lbl">QUIÉN TE CONTACTÓ</span><span class="v">Por WhatsApp · 10:24 am</span></span></div>
+          <div class="f" id="f2"><span class="ico" data-ic="cart"></span><span class="tx"><span class="lbl">LE INTERESA</span><span class="chip">Página web + catálogo</span></span></div>
+          <div class="f" id="f3"><span class="ico" data-ic="doc" data-col="#179a4a"></span><span class="tx"><span class="lbl">COTIZACIÓN</span><span class="chip g" id="c3">Enviada ✓</span></span></div>
+          <div class="f" id="f4"><span class="ico" id="bell" data-ic="bell" data-col="#b86e00"></span><span class="tx"><span class="lbl">SEGUIMIENTO</span><span class="chip a" id="c4">Pendiente · llamar el jueves</span></span></div>
+        </div>
+        <div id="pend"><div class="pill o" id="pill"><span class="pi" data-ic="bell" data-col="#ea5a14"></span><span id="pt">3 clientes por seguir hoy</span><i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-1" src="assets/sfx/tick.wav" data-start="1.0" data-volume="0.28"></audio>
+      <audio id="s-2" src="assets/sfx/tick.wav" data-start="2.4" data-volume="0.28"></audio>
+      <audio id="s-3" src="assets/sfx/pop.wav" data-start="4.45" data-volume="0.3"></audio>
+      <audio id="s-4" src="assets/sfx/ding.wav" data-start="6.25" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="9.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 9.1;
+      const parts = GEX.particles(document.getElementById("fx"), 12, 404, { x0: 60, x1: 1000, y0: 200, y1: 1560 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      tl.fromTo("#g2", { x: 300, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "power3.out" }, 0.1);
+      tl.fromTo("#g1", { x: -300, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "power3.out" }, 0.15);
+      tl.fromTo("#card", { y: 500, rotation: 5, autoAlpha: 0 }, { y: 0, rotation: 0, autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 0.2);
+      tl.fromTo("#hd .av", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.5)" }, 0.5);
+      tl.fromTo("#hd b, #hd small", { x: -40, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out", stagger: 0.08 }, 0.6);
+      // cada dato aparece cuando se menciona
+      [["#f1", 1.0], ["#f2", 2.4], ["#f3", 4.3], ["#f4", 6.1]].forEach(([id, t]) => {
+        tl.fromTo(id, { x: -60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out" }, t);
+        tl.fromTo(id + " .ico", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(3)" }, t + 0.05);
+        tl.fromTo(id + " .lbl", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, t + 0.1);
+        tl.fromTo(id + " .chip, " + id + " .v", { scale: 0.4, autoAlpha: 0, transformOrigin: "0% 50%" }, { scale: 1, autoAlpha: 1, transformOrigin: "0% 50%", duration: 0.4, ease: "back.out(2.6)" }, t + 0.15);
+      });
+      GEX.punch(tl, "#c3", 4.75, 1.12);
+      // campana del seguimiento sonando
+      tl.to("#bell", { keyframes: [{ rotation: -18, duration: 0.1 }, { rotation: 16, duration: 0.12 }, { rotation: -12, duration: 0.12 }, { rotation: 8, duration: 0.12 }, { rotation: 0, duration: 0.14 }], transformOrigin: "50% 15%", ease: "sine.inOut", repeat: 3, repeatDelay: 0.4 }, 6.3);
+      tl.fromTo("#pill", { y: 60, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)" }, 7.0);
+      tl.fromTo("#sh", { x: -140 }, { x: 760, duration: 0.7, ease: "power2.inOut" }, 7.6);
+      tl.to("#pill", { scale: 1.05, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 1 }, 8.2);
+      GEX.float(tl, "#card", 1.2, EXIT, 5, 1.8);
+      tl.to("#g1", { rotation: -6, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.0);
+      tl.to("#g2", { rotation: 5, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.2);
+      // salida
+      tl.to("#card", { x: -900, rotation: -8, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT);
+      tl.to(["#g1", "#g2"], { x: 900, autoAlpha: 0, duration: 0.35, ease: "power3.in", stagger: 0.04 }, EXIT);
+      tl.to("#pill", { y: 300, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

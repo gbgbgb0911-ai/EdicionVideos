@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 20 — No llenar tu negocio de programas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #pile { position: relative; width: 760px; height: 380px; }
+      .ap { position: absolute; width: 124px; height: 124px; border-radius: 30px; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      .ap svg { width: 70px; height: 70px; }
+      #strike { position: absolute; left: -20px; top: 180px; width: 800px; height: 16px; border-radius: 8px; background: #fe6820; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="top" id="top">
+          <div id="pile"><i id="strike"></i></div>
+          <div class="pill o plain" id="no"><span id="nt">Más programas ≠ más control</span><i class="shine" id="sh"></i></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-pop" src="assets/sfx/pop.wav" data-start="0.3" data-volume="0.3"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="2.25" data-volume="0.4"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="4.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const APPS = [["chat", "#0b958b", 40, 230, -14], ["mail", "#ea5a14", 170, 250, 8], ["chart", "#0b958b", 300, 236, -6], ["cart", "#ea5a14", 430, 252, 12], ["doc", "#179a4a", 560, 236, -10], ["calendar", "#0b958b", 100, 110, 10], ["card", "#ea5a14", 240, 100, -12], ["folder", "#0b958b", 380, 116, 6], ["receipt", "#ea5a14", 510, 104, -8], ["users", "#179a4a", 630, 120, 14], ["grid", "#0b958b", 300, -10, -4], ["phone", "#ea5a14", 450, -6, 10]];
+      const pile = document.getElementById("pile");
+      APPS.forEach(([ic, c, x, y, r], i) => {
+        const a = document.createElement("span");
+        a.className = "ap"; a.id = "ap" + i;
+        a.style.left = x + "px"; a.style.top = y + "px";
+        a.setAttribute("data-ic", ic); a.setAttribute("data-col", c);
+        a.dataset.r = r;
+        pile.insertBefore(a, document.getElementById("strike"));
+      });
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 4.1;
+      const fx = document.getElementById("fx");
+      const parts = GEX.particles(fx, 5, 2020, { x0: 60, x1: 150, y0: 200, y1: 700 }).concat(GEX.particles(fx, 5, 2021, { x0: 930, x1: 1000, y0: 200, y1: 700 }));
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      const nt = GEX.split(document.getElementById("nt"));
+      gsap.set("#no", { autoAlpha: 0 });
+      // los programas se van amontonando
+      APPS.forEach((_, i) => {
+        const el = document.getElementById("ap" + i);
+        tl.fromTo(el, { y: -500, rotation: 0, autoAlpha: 0 }, { y: 0, rotation: +el.dataset.r, autoAlpha: 1, duration: 0.55, ease: "bounce.out" }, 0.2 + i * 0.12);
+        tl.to(el, { rotation: -el.dataset.r, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.7 + (i % 4) * 0.05);
+      });
+      tl.fromTo("#strike", { scaleX: 0, rotation: -8, transformOrigin: "0% 50%" }, { scaleX: 1, rotation: -8, transformOrigin: "0% 50%", duration: 0.3, ease: "power4.out" }, 2.2);
+      tl.to("#pile .ap", { scale: 0.88, duration: 0.2, ease: "power2.out" }, 2.3);
+      tl.fromTo("#no", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 2.5);
+      GEX.reveal(tl, nt.words, 2.6, "rise", { stagger: 0.05, duration: 0.35 });
+      tl.fromTo("#sh", { x: -140 }, { x: 760, duration: 0.6, ease: "power2.inOut" }, 3.2);
+      tl.set("#sh", { x: -140 }, 3.85);
+      // salida: cada programa sale volando
+      GEX.scatter(tl, Array.from(document.querySelectorAll("#pile .ap")), EXIT, 20);
+      tl.to("#strike", { scaleX: 0, duration: 0.25, ease: "power3.in" }, EXIT);
+      tl.to("#no", { y: 200, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

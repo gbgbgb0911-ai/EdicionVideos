@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 07 — ERP: áreas conectadas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      .lk { position: absolute; left: 540px; top: 846px; width: 370px; height: 8px; border-radius: 4px; background: #1fc4b8; transform-origin: 0% 50%; }
+      .lk i { position: absolute; left: 0; top: -7px; width: 22px; height: 22px; border-radius: 50%; background: #fe6820; }
+      .nd { position: absolute; width: 0; height: 0; }
+      .nd .ico { position: absolute; left: -78px; top: -78px; width: 156px; height: 156px; background: #ffffff; }
+      .nd .chip { position: absolute; left: 50%; top: 90px; transform: translateX(-50%); font-size: 32px; }
+      #hub { position: absolute; left: 410px; top: 720px; width: 260px; height: 260px; border-radius: 50%; background: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--teal); }
+      #hub b { font-weight: 800; font-size: 76px; line-height: 1; }
+      #hub small { font-weight: 800; font-size: 26px; letter-spacing: 0.1em; color: var(--orange); white-space: nowrap; }
+      .pulse { position: absolute; left: 410px; top: 720px; width: 260px; height: 260px; border-radius: 50%; border: 6px solid #1fc4b8; }
+      #onew { position: absolute; left: 0; right: 0; top: 1360px; display: flex; justify-content: center; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">ERP · TODA TU EMPRESA</span></div>
+        <div id="links"></div>
+        <span class="pulse" id="pu1"></span><span class="pulse" id="pu2"></span>
+        <div id="nodes"></div>
+        <div id="hub"><b>ERP</b><small>TU EMPRESA</small></div>
+        <div id="onew"><div class="pill" id="one"><span class="pi" data-ic="check"></span><span id="ot">Todo desde un solo lugar</span><i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-pop" src="assets/sfx/pop.wav" data-start="0.4" data-volume="0.3"></audio>
+      <audio id="s-hub" src="assets/sfx/impact.wav" data-start="2.4" data-volume="0.4"></audio>
+      <audio id="s-lk" src="assets/sfx/shimmer.wav" data-start="2.75" data-volume="0.3"></audio>
+      <audio id="s-one" src="assets/sfx/pop.wav" data-start="4.6" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const AREAS = [["box", "Inventario"], ["truck", "Compras"], ["card", "Pagos"], ["receipt", "Gastos"], ["chart", "Finanzas"]];
+      const ANG = [-90, -18, 54, 126, 198];
+      const R = 370, CX = 540, CY = 850;
+      const nodes = document.getElementById("nodes"), links = document.getElementById("links");
+      AREAS.forEach(([ic, name], i) => {
+        const a = (ANG[i] * Math.PI) / 180;
+        const n = document.createElement("div");
+        n.className = "nd"; n.id = "n" + i;
+        n.style.left = Math.round(CX + R * Math.cos(a)) + "px";
+        n.style.top = Math.round(CY + R * Math.sin(a)) + "px";
+        n.innerHTML = '<span class="ico" data-ic="' + ic + '"></span><span class="chip' + (i % 2 ? " o" : "") + '">' + name + "</span>";
+        nodes.appendChild(n);
+        const l = document.createElement("div");
+        l.className = "lk"; l.id = "l" + i;
+        l.innerHTML = "<i></i>";
+        links.appendChild(l);
+      });
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.1;
+      const parts = GEX.particles(document.getElementById("fx"), 12, 707, { x0: 60, x1: 1000, y0: 260, y1: 1500 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      // áreas sueltas
+      AREAS.forEach((_, i) => {
+        const t = 0.4 + i * 0.22;
+        tl.fromTo("#n" + i + " .ico", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, t);
+        tl.fromTo("#n" + i + " .chip", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)" }, t + 0.15);
+        tl.fromTo("#n" + i, { x: 0, y: 0 }, { x: i % 2 ? 10 : -10, y: i % 2 ? -12 : 12, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 1 }, t + 0.5);
+      });
+      // el ERP en el centro las une
+      tl.fromTo("#hub", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.5, ease: "back.out(2.2)" }, 2.35);
+      AREAS.forEach((_, i) => {
+        gsap.set("#l" + i, { rotation: ANG[i] });
+        tl.fromTo("#l" + i, { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, 2.7 + i * 0.07);
+        tl.fromTo("#l" + i + " i", { x: R - 20, autoAlpha: 0 }, { x: 120, autoAlpha: 1, duration: 0.9, ease: "none", repeat: 4, repeatDelay: 0.1 }, 3.2 + i * 0.17);
+        tl.to("#l" + i + " i", { autoAlpha: 0, duration: 0.1 }, EXIT - 0.1);
+        GEX.punch(tl, "#n" + i + " .ico", 2.9 + i * 0.07, 1.12);
+      });
+      [["#pu1", 3.0], ["#pu2", 3.8]].forEach(([id, t]) => {
+        tl.fromTo(id, { scale: 1, autoAlpha: 0.9 }, { scale: 1.9, autoAlpha: 0, duration: 1.4, ease: "power1.out", repeat: 1, repeatDelay: 0.2, immediateRender: false }, t);
+      });
+      gsap.set(".pulse", { autoAlpha: 0 });
+      tl.to("#hub", { scale: 1.06, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 5 }, 3.0);
+      tl.fromTo("#one", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)" }, 4.6);
+      tl.fromTo("#sh", { x: -140 }, { x: 800, duration: 0.7, ease: "power2.inOut" }, 5.3);
+      tl.set("#sh", { x: -140 }, 6.0);
+      // salida: las piezas salen en distintas direcciones
+      AREAS.forEach((_, i) => {
+        const a = (ANG[i] * Math.PI) / 180;
+        tl.to("#n" + i, { x: Math.cos(a) * 500, y: Math.sin(a) * 500, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT);
+        tl.to("#l" + i, { scaleX: 0, duration: 0.25, ease: "power3.in" }, EXIT);
+      });
+      tl.to("#hub", { scale: 0, autoAlpha: 0, duration: 0.35, ease: "back.in(2)" }, EXIT + 0.05);
+      tl.to("#one", { y: 300, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

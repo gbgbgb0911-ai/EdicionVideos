@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas — Título 3</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 10px; }
+      .head { display: flex; align-items: center; gap: 16px; }
+      .head .ico { width: 76px; height: 76px; background: #ffffff; }
+      .acr { position: relative; display: flex; flex-direction: column; align-items: center; }
+      .acr .ln { font-weight: 800; font-size: 240px; line-height: 0.95; letter-spacing: 0.02em; white-space: nowrap; }
+      .sl { position: absolute; top: 50%; width: 16px; height: 150px; margin-top: -75px; border-radius: 8px; }
+      #sl1 { left: -70px; background: #fe6820; }
+      #sl2 { right: -70px; background: #1fc4b8; }
+      .bar { position: relative; width: 560px; height: 14px; border-radius: 7px; background: #1fc4b8; overflow: hidden; margin-top: 6px; }
+      .bar .shine { top: -40px; height: 100px; width: 120px; }
+      .mean { font-weight: 700; font-size: 48px; white-space: nowrap; margin-top: 6px; }
+      .mean .pa { color: #fe6820; font-weight: 800; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="top" id="top">
+          <div class="head" id="head"><span class="ico" id="ic" data-ic="cart"></span><span class="tag">SISTEMA 3</span></div>
+          <div class="acr" id="acr"><i class="sl" id="sl1"></i><i class="sl" id="sl2"></i><span class="ln">POS</span></div>
+          <div class="bar" id="bar"><i class="shine" id="sh"></i></div>
+          <div class="mean" id="mean"><span class="pa">(</span>Punto de venta<span class="pa">)</span></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-hit" src="assets/sfx/impact.wav" data-start="0.5" data-volume="0.4"></audio>
+      <audio id="s-pop" src="assets/sfx/pop.wav" data-start="0.85" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="4.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 4.1;
+      const r = GEX.rng(3 * 17);
+      const letters = [];
+      document.querySelectorAll(".acr .ln").forEach((l) => letters.push(...GEX.split(l).chars));
+      const mean = GEX.split(document.getElementById("mean"));
+      tl.fromTo("#head", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      tl.fromTo("#ic", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.5)" }, 0.12);
+      letters.forEach((c, i) => {
+        tl.fromTo(c, { y: -320, rotation: (r() - 0.5) * 60, autoAlpha: 0 }, { y: 0, rotation: 0, autoAlpha: 1, duration: 0.5, ease: "bounce.out" }, 0.15 + i * 0.05);
+      });
+      const land = 0.15 + letters.length * 0.05 + 0.25;
+      tl.fromTo("#sl1", { x: -140, rotation: 20, autoAlpha: 0 }, { x: 0, rotation: 20, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, land - 0.1);
+      tl.fromTo("#sl2", { x: 140, rotation: 20, autoAlpha: 0 }, { x: 0, rotation: 20, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, land - 0.05);
+      tl.to(["#sl1", "#sl2"], { scaleY: 0.6, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.2 }, land + 0.4);
+      tl.fromTo("#bar", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "expo.out" }, land);
+      GEX.reveal(tl, mean.words, land + 0.15, "rise", { stagger: 0.06, duration: 0.4 });
+      tl.fromTo("#acr", { scale: 1 }, { scale: 1.04, duration: 0.7, ease: "sine.inOut", yoyo: true, repeat: 1 }, land + 0.6);
+      tl.fromTo("#sh", { x: -140 }, { x: 600, duration: 0.7, ease: "power2.inOut" }, land + 0.5);
+      tl.to("#sh", { x: 1300, duration: 0.7, ease: "power2.inOut" }, land + 2.0);
+      tl.to("#ic", { keyframes: [{ rotation: -12, duration: 0.15 }, { rotation: 10, duration: 0.2 }, { rotation: 0, duration: 0.2 }], ease: "sine.inOut" }, land + 1.4);
+      const fx = document.getElementById("fx");
+      const parts = GEX.particles(fx, 6, 3 * 31, { x0: 70, x1: 170, y0: 220, y1: 700 }).concat(GEX.particles(fx, 6, 3 * 37, { x0: 900, x1: 980, y0: 220, y1: 700 }));
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      // salida en piezas
+      GEX.scatter(tl, letters, EXIT, 3);
+      tl.to(mean.words, { y: 90, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.03 }, EXIT);
+      tl.to(["#sl1", "#sl2", "#bar"], { scale: 0, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      tl.to("#head", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT + 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

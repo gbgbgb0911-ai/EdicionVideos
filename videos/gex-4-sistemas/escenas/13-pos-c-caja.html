@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 13 — POS: control de caja</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #card { position: absolute; left: 60px; top: 300px; width: 960px; padding-bottom: 34px; }
+      .tot { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 36px 0 20px; }
+      .tot .ico { width: 120px; height: 120px; }
+      .tot small { font-weight: 800; font-size: 30px; letter-spacing: 0.14em; }
+      .tot b { font-weight: 800; font-size: 120px; line-height: 1; white-space: nowrap; }
+      .br { display: flex; align-items: center; gap: 20px; padding: 14px 40px; }
+      .br span { width: 250px; font-weight: 800; font-size: 34px; white-space: nowrap; }
+      .br .tr { flex: 1; height: 34px; border-radius: 17px; background: var(--soft); overflow: hidden; }
+      .br .tr i { display: block; height: 100%; border-radius: 17px; }
+      .br em { width: 90px; text-align: right; font-style: normal; font-weight: 800; font-size: 34px; }
+      .meta { display: flex; justify-content: center; gap: 16px; padding-top: 20px; }
+      .meta .chip { font-size: 32px; padding: 10px 24px; }
+      #okw { position: absolute; left: 0; right: 0; top: 1220px; display: flex; justify-content: center; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">POS · CONTROL DE CAJA</span></div>
+        <div class="win" id="card">
+          <div class="bar"><i></i><i></i><i></i><b>Cierre de caja · hoy</b></div>
+          <div class="tot"><span class="ico" id="drw" data-ic="cash"></span><small>VENTAS DEL DÍA</small><b class="num" id="tv">$0</b></div>
+          <div class="br"><span>Efectivo</span><span class="tr"><i id="b1" style="width: 45%; background: #1fc4b8"></i></span><em class="num" id="e1">45%</em></div>
+          <div class="br"><span>Tarjeta</span><span class="tr"><i id="b2" style="width: 35%; background: #fe6820"></i></span><em class="num" id="e2">35%</em></div>
+          <div class="br"><span>Transferencia</span><span class="tr"><i id="b3" style="width: 20%; background: #179a4a"></i></span><em class="num" id="e3">20%</em></div>
+          <div class="meta"><span class="chip" id="m1">43 ventas</span><span class="chip o" id="m2">Ticket prom. $43</span></div>
+        </div>
+        <div id="okw"><div class="pill g" id="ok"><span class="pi" data-ic="check" data-col="#179a4a" data-sw="6"></span>Caja cuadrada<i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-ding" src="assets/sfx/ding.wav" data-start="1.9" data-volume="0.28"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="3.7" data-volume="0.35"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.6;
+      const parts = GEX.particles(document.getElementById("fx"), 12, 1313, { x0: 40, x1: 1040, y0: 260, y1: 1500 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      tl.fromTo("#card", { y: 700, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 0.1);
+      tl.fromTo("#drw", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.5)" }, 0.4);
+      GEX.count(tl, document.getElementById("tv"), 0, 1862, 0.55, 1.4, "$");
+      GEX.punch(tl, "#tv", 1.95, 1.1);
+      [["#b1", "#e1", 45], ["#b2", "#e2", 35], ["#b3", "#e3", 20]].forEach(([b, e, v], i) => {
+        tl.fromTo(b, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, transformOrigin: "0% 50%", duration: 0.7, ease: "power3.out" }, 1.2 + i * 0.2);
+        GEX.count(tl, document.querySelector(e), 0, v, 1.2 + i * 0.2, 0.7, "", "%");
+      });
+      tl.fromTo(".meta .chip", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", stagger: 0.12 }, 2.3);
+      tl.fromTo("#ok", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)" }, 3.6);
+      tl.fromTo("#sh", { x: -140 }, { x: 600, duration: 0.6, ease: "power2.inOut" }, 4.2);
+      tl.set("#sh", { x: -140 }, 4.85);
+      tl.to("#drw", { keyframes: [{ y: -14, duration: 0.18 }, { y: 0, duration: 0.3 }], ease: "power2.out", repeat: 2, repeatDelay: 0.4 }, 2.6);
+      GEX.float(tl, "#card", 2.0, EXIT, 5, 1.6);
+      tl.to("#card", { y: 700, rotation: 5, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT);
+      tl.to("#ok", { x: 900, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 23 — Cómo trabaja GEX</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .logo { display: inline-flex; align-items: center; padding: 18px 34px; border-radius: 28px; background: #ffffff; }
+      .logo img { display: block; }
+      .top { align-items: flex-start; left: 110px; gap: 0; }
+      .stp { position: relative; display: flex; align-items: center; gap: 22px; }
+      .nb { width: 96px; height: 96px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; flex: none; }
+      .nb svg { width: 60px; height: 60px; overflow: visible; }
+      .stp .pill { font-size: 46px; padding: 18px 34px; }
+      .stp .pill small { font-weight: 800; font-size: 30px; color: #ffffff; margin-right: 6px; }
+      .cn { width: 8px; height: 46px; margin-left: 44px; border-radius: 4px; background: #1fc4b8; }
+      #lgw { margin-top: 26px; margin-left: 4px; }
+      #lgw img { height: 54px; }
+      #lgw { padding: 12px 26px; border-radius: 22px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="8" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="top" id="top">
+          <div class="stp" id="s1"><span class="nb" id="n1" data-ic="search" data-sw="5"></span><div class="pill"><small>1</small>Analizamos tu empresa</div></div>
+          <div class="cn" id="l1"></div>
+          <div class="stp" id="s2"><span class="nb" id="n2" data-ic="bulb" data-col="#ea5a14" data-sw="5"></span><div class="pill o"><small>2</small>Detectamos qué mejorar</div></div>
+          <div class="cn" id="l2"></div>
+          <div class="stp" id="s3"><span class="nb" id="n3" data-ic="code" data-col="#179a4a" data-sw="5"></span><div class="pill g"><small>3</small>Creamos tu sistema</div></div>
+          <span class="logo" id="lgw"><img src="assets/logo-v2/gex-full.png" alt="GEX" /></span>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-1" src="assets/sfx/tick.wav" data-start="0.3" data-volume="0.3"></audio>
+      <audio id="s-2" src="assets/sfx/tick.wav" data-start="2.55" data-volume="0.3"></audio>
+      <audio id="s-3" src="assets/sfx/success.wav" data-start="4.95" data-volume="0.35"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.6;
+      const fx = document.getElementById("fx");
+      const parts = GEX.particles(fx, 6, 2323, { x0: 920, x1: 1000, y0: 200, y1: 800 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      gsap.set(["#s2", "#s3", "#lgw"], { autoAlpha: 0 });
+      [["#s1", "#n1", 0.2], ["#s2", "#n2", 2.45], ["#s3", "#n3", 4.85]].forEach(([s, n, t], i) => {
+        tl.fromTo(s, { x: -700, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(1.6)", immediateRender: false }, t);
+        tl.fromTo(n, { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.5)" }, t + 0.1);
+        GEX.punch(tl, s + " .pill", t + 0.45, 1.08);
+      });
+      tl.fromTo("#l1", { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, transformOrigin: "50% 0%", duration: 0.35, ease: "power2.out" }, 2.15);
+      tl.fromTo("#l2", { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, transformOrigin: "50% 0%", duration: 0.35, ease: "power2.out" }, 4.55);
+      // íconos vivos
+      tl.to("#n1 svg", { x: 8, y: -6, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0.8);
+      tl.to("#n2", { scale: 1.12, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 3.0);
+      tl.to("#n3 svg", { rotation: 12, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 5, transformOrigin: "50% 50%" }, 5.4);
+      tl.fromTo("#lgw", { y: 30, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 5.6);
+      GEX.float(tl, "#s1", 1.0, EXIT, 5, 1.5);
+      GEX.float(tl, "#s2", 3.2, EXIT, 5, 1.4);
+      GEX.float(tl, "#s3", 5.6, EXIT, 5, 1.3);
+      // salida en piezas
+      GEX.scatter(tl, ["#s1", "#l1", "#s2", "#l2", "#s3", "#lgw"], EXIT, 23);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

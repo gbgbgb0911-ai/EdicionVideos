@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 17 — Personal: del cuaderno al sistema</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #paper { position: absolute; left: 200px; top: 330px; width: 680px; height: 760px; padding: 40px 44px; border-radius: 18px; background: #ffffff; color: var(--teal); }
+      #paper h3 { font-weight: 800; font-size: 40px; margin-bottom: 18px; white-space: nowrap; }
+      .pl { position: relative; display: flex; justify-content: space-between; height: 84px; align-items: center; border-bottom: 4px solid #cfe3e1; font-weight: 500; font-size: 36px; white-space: nowrap; }
+      .pl em { font-style: normal; font-weight: 800; color: #c94a0c; }
+      .st { position: absolute; left: -10px; top: 38px; width: 420px; height: 6px; border-radius: 3px; background: #ea5a14; }
+      #bigx { position: absolute; left: 340px; top: 520px; width: 400px; height: 400px; }
+      #bigx svg { width: 100%; height: 100%; }
+      #manw { position: absolute; left: 0; right: 0; top: 1130px; display: flex; justify-content: center; }
+      #phone { position: absolute; left: 500px; top: 300px; width: 480px; height: 960px; padding: 18px; border-radius: 64px; background: #ffffff; }
+      #scr { position: relative; width: 100%; height: 100%; border-radius: 48px; background: var(--soft); overflow: hidden; padding: 70px 22px 22px; color: var(--teal); }
+      #notch { position: absolute; left: 50%; top: 18px; width: 120px; height: 26px; margin-left: -60px; border-radius: 13px; background: #ffffff; }
+      #srch { display: flex; align-items: center; gap: 10px; height: 76px; padding: 0 20px; border-radius: 38px; background: #ffffff; font-weight: 700; font-size: 32px; }
+      #srch i { width: 38px; height: 38px; display: inline-block; }
+      #prof { margin-top: 22px; padding: 26px 22px; border-radius: 30px; background: #ffffff; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+      #prof .av { width: 120px; height: 120px; font-size: 44px; }
+      #prof b { font-weight: 800; font-size: 40px; white-space: nowrap; }
+      #prof small { font-weight: 700; font-size: 26px; color: #3f7c78; }
+      .st2 { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 14px 6px 0; border-top: 4px solid var(--line); font-weight: 800; font-size: 28px; white-space: nowrap; }
+      .st2 .chip { font-size: 24px; padding: 6px 14px; }
+      .kc { position: absolute; left: 60px; font-size: 34px; padding: 14px 26px; }
+      #fin { position: absolute; left: 0; right: 0; top: 1320px; display: flex; justify-content: center; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="10" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="10" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">PERSONAL · SIN CUADERNOS</span></div>
+        <div id="paper">
+          <h3>Asistencia — octubre</h3>
+          <div class="pl"><span>Ana · lun</span><em>✓</em></div>
+          <div class="pl"><span data-layout-allow-occlusion>Luis · lun</span><em>¿8:25?</em><i class="st" id="s1"></i></div>
+          <div class="pl"><span>Sofía · mar</span><em>✓</em></div>
+          <div class="pl"><span data-layout-allow-occlusion>Diego · mar</span><em>??</em><i class="st" id="s2"></i></div>
+          <div class="pl"><span>Carla · mié</span><em>vac?</em></div>
+          <div class="pl"><span data-layout-allow-occlusion>Jorge · mié</span><em>pagado?</em><i class="st" id="s3"></i></div>
+        </div>
+        <div id="bigx"><svg viewBox="0 0 100 100"><path id="x1" d="M14 14 86 86" stroke="#fe6820" stroke-width="12" stroke-linecap="round" /><path id="x2" d="M86 14 14 86" stroke="#fe6820" stroke-width="12" stroke-linecap="round" /></svg></div>
+        <div id="manw"><span class="chip gr" id="man" style="font-size: 36px; padding: 12px 28px">Controles a mano</span></div>
+        <div id="phone"><div id="scr"><span id="notch"></span>
+          <div id="srch"><i data-ic="search"></i><span id="q"></span></div>
+          <div id="prof"><span class="av g">SL</span><b>Sofía León</b><small>Atención · turno mañana</small>
+            <div class="st2"><span>Asistencia</span><span class="chip g">98%</span></div>
+            <div class="st2"><span>Vacaciones</span><span class="chip">7 días</span></div>
+            <div class="st2"><span>Último pago</span><span class="chip g">Pagado ✓</span></div>
+            <div class="st2"><span>Permisos</span><span class="chip o">1 aprobado</span></div>
+          </div>
+        </div></div>
+        <span class="chip kc" id="k1" style="top: 420px">12 trabajadores</span>
+        <span class="chip g kc" id="k2" style="top: 560px">11 en turno hoy</span>
+        <span class="chip o kc" id="k3" style="top: 700px">2 de vacaciones</span>
+        <span class="chip kc" id="k4" style="top: 840px">Planilla al día ✓</span>
+        <div id="fin"><div class="pill g" id="pf"><span class="pi" data-ic="users" data-col="#179a4a"></span>Equipo organizado<i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="2.55" data-volume="0.4"></audio>
+      <audio id="s-ph" src="assets/sfx/pop.wav" data-start="3.75" data-volume="0.3"></audio>
+      <audio id="s-q" src="assets/sfx/tick.wav" data-start="4.3" data-volume="0.28"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="7.55" data-volume="0.33"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="9.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 9.6;
+      const parts = GEX.particles(document.getElementById("fx"), 10, 1717, { x0: 40, x1: 1040, y0: 260, y1: 1500 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      gsap.set(["#phone", "#k1", "#k2", "#k3", "#k4", "#pf"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      // el cuaderno: controles a mano, desordenados
+      tl.fromTo("#paper", { y: 600, rotation: 12, autoAlpha: 0 }, { y: 0, rotation: -4, autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 0.1);
+      tl.fromTo("#paper .pl", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2, stagger: 0.12 }, 0.5);
+      tl.fromTo(["#s1", "#s2", "#s3"], { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, transformOrigin: "0% 50%", duration: 0.25, ease: "power2.out", stagger: 0.25 }, 1.4);
+      tl.to("#paper", { rotation: -1, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 2 }, 0.8);
+      tl.fromTo("#man", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.6)" }, 1.6);
+      tl.fromTo(["#x1", "#x2"], { scale: 0, autoAlpha: 0, svgOrigin: "50 50" }, { scale: 1, autoAlpha: 1, svgOrigin: "50 50", duration: 0.25, ease: "back.out(2)", stagger: 0.1 }, 2.5);
+      // se va y llega el sistema
+      tl.to(["#paper", "#bigx"], { x: -1000, rotation: -25, autoAlpha: 0, duration: 0.45, ease: "power3.in" }, 3.25);
+      tl.to("#man", { y: 200, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, 3.25);
+      tl.fromTo("#phone", { y: 900, rotation: 8, autoAlpha: 0 }, { y: 0, rotation: 0, autoAlpha: 1, duration: 0.6, ease: "power4.out", immediateRender: false }, 3.7);
+      tl.fromTo("#srch", { scale: 0.7, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(2)" }, 4.1);
+      GEX.type(tl, document.getElementById("q"), "Sofía", 4.3, 0.5);
+      tl.fromTo("#prof", { y: 60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(1.8)" }, 4.9);
+      tl.fromTo("#prof .av", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, 5.0);
+      tl.fromTo("#prof .st2", { x: 40, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "power3.out", stagger: 0.12 }, 5.2);
+      tl.fromTo("#prof .chip", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.12 }, 5.3);
+      ["#k1", "#k2", "#k3", "#k4"].forEach((id, i) => {
+        tl.fromTo(id, { x: 300, scale: 0.4, autoAlpha: 0 }, { x: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.2)", immediateRender: false }, 5.9 + i * 0.22);
+        GEX.float(tl, id, 6.5 + i * 0.22, EXIT, 7, 1.3 + i * 0.1);
+      });
+      tl.fromTo("#pf", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 7.5);
+      tl.fromTo("#sh", { x: -140 }, { x: 640, duration: 0.6, ease: "power2.inOut" }, 8.1);
+      tl.set("#sh", { x: -140 }, 8.75);
+      GEX.float(tl, "#phone", 4.5, EXIT, 8, 1.8);
+      // salida en piezas
+      tl.to("#phone", { x: 700, rotation: 10, autoAlpha: 0, duration: 0.38, ease: "power3.in" }, EXIT);
+      GEX.scatter(tl, ["#k1", "#k2", "#k3", "#k4"], EXIT, 17);
+      tl.to("#pf", { y: 300, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

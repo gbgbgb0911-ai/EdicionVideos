@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 05 — CRM: embudo de ventas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #board { position: absolute; left: 60px; top: 300px; width: 960px; height: 720px; }
+      .col { position: absolute; top: 96px; width: 296px; height: 604px; border-radius: 26px; background: var(--soft); }
+      .col .chip { position: absolute; left: 16px; top: 16px; font-size: 30px; }
+      .k { position: absolute; width: 268px; height: 112px; display: flex; align-items: center; gap: 12px; padding: 0 14px; border-radius: 20px; background: #ffffff; border: 4px solid var(--line); }
+      .k .av { width: 58px; height: 58px; font-size: 24px; }
+      .k b { display: block; font-weight: 800; font-size: 30px; white-space: nowrap; }
+      .k small { display: block; font-weight: 700; font-size: 22px; color: #3f7c78; white-space: nowrap; }
+      #ps2 { position: absolute; left: 0; bottom: 0; color: #c94a0c; }
+      #rem { position: absolute; left: 0; right: 0; top: 1060px; display: flex; justify-content: center; }
+      #kpi { position: absolute; left: 0; right: 0; top: 1190px; display: flex; justify-content: center; }
+      #kpi .chip { font-size: 36px; padding: 12px 26px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.2" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7.2" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">CRM · TUS VENTAS</span></div>
+        <div class="win" id="board">
+          <div class="bar"><i></i><i></i><i></i><b>Oportunidades de venta</b></div>
+          <div class="col" style="left: 20px"><span class="chip">Nuevo</span></div>
+          <div class="col" style="left: 332px"><span class="chip o">Cotizado</span></div>
+          <div class="col" style="left: 644px"><span class="chip g">Cerrado ✓</span></div>
+          <div class="k" id="kp"><span class="av a">PD</span><span style="position: relative"><b>Pedro</b><small id="ps1">Sistema ventas</small><small id="ps2">3 días sin respuesta</small></span></div>
+          <div class="k" id="kc"><span class="av o">CR</span><span><b>Carlos</b><small>Sistema a medida</small></span></div>
+          <div class="k" id="ka"><span class="av g">AT</span><span><b>Ana</b><small>Catálogo</small></span></div>
+          <div class="k" id="km"><span class="av">ML</span><span><b>María</b><small>Página web</small></span></div>
+          <div class="k" id="kl"><span class="av">LV</span><span><b>Lucía</b><small>Tienda online</small></span></div>
+          <div class="k" id="kj"><span class="av o">JR</span><span><b>Jorge</b><small>App delivery</small></span></div>
+        </div>
+        <div id="rem"><div class="pill o" id="pill"><span class="pi" id="bell" data-ic="bell" data-col="#ea5a14"></span>Recordatorio: llamar a Pedro<i class="shine" id="sh"></i></div></div>
+        <div id="kpi"><span class="chip g" id="kc2">Ventas cerradas: <span class="num" id="vn">1</span></span></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-c1" src="assets/sfx/click.wav" data-start="1.95" data-volume="0.4"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="3.55" data-volume="0.35"></audio>
+      <audio id="s-rem" src="assets/sfx/ding.wav" data-start="4.85" data-volume="0.3"></audio>
+      <audio id="s-c2" src="assets/sfx/click.wav" data-start="5.55" data-volume="0.4"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.78" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.8;
+      const COL = [34, 346, 658];
+      const SLOT = [180, 310, 440, 570];
+      const place = (id, c, s) => { const e = document.querySelector(id); e.style.left = COL[c] + "px"; e.style.top = SLOT[s] + "px"; };
+      place("#kp", 0, 0); place("#kc", 0, 1); place("#ka", 0, 2); place("#km", 1, 0); place("#kl", 1, 1); place("#kj", 2, 0);
+      const mv = (c0, s0, c1, s1) => ({ x: COL[c1] - COL[c0], y: SLOT[s1] - SLOT[s0] });
+      const parts = GEX.particles(document.getElementById("fx"), 12, 505, { x0: 60, x1: 1000, y0: 200, y1: 1560 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      tl.fromTo("#board", { y: 600, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 0.1);
+      tl.fromTo(".col", { y: 80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "power3.out", stagger: 0.08 }, 0.35);
+      tl.fromTo(".k", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", stagger: 0.07 }, 0.6);
+      tl.fromTo("#kpi", { y: 60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 1.0);
+      const cur = GEX.cursor(document.getElementById("board"));
+      tl.fromTo(cur.c, { x: 900, y: 680, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 1.3);
+      tl.set(cur.r, { autoAlpha: 0 }, 0);
+      // Carlos: Nuevo -> Cotizado (arrastre)
+      GEX.tap(tl, cur, COL[0] + 200, SLOT[1] + 60, 1.4, 0.55);
+      tl.set("#kc", { zIndex: 5 }, 1.95);
+      const d1 = mv(0, 1, 1, 2);
+      tl.to("#kc", { x: d1.x, y: d1.y, rotation: 4, duration: 0.6, ease: "power2.inOut" }, 2.05);
+      tl.to(cur.c, { x: COL[1] + 200, y: SLOT[2] + 60, duration: 0.6, ease: "power2.inOut" }, 2.05);
+      tl.to("#kc", { rotation: 0, duration: 0.2, ease: "back.out(3)" }, 2.65);
+      tl.to("#ka", { y: SLOT[1] - SLOT[2], duration: 0.35, ease: "power2.inOut" }, 2.7);
+      // María: Cotizado -> Cerrado
+      GEX.tap(tl, cur, COL[1] + 200, SLOT[0] + 60, 2.75, 0.35);
+      tl.set("#km", { zIndex: 5 }, 3.1);
+      const d2 = mv(1, 0, 2, 1);
+      tl.to("#km", { x: d2.x, y: d2.y, rotation: -4, duration: 0.45, ease: "power2.inOut" }, 3.12);
+      tl.to(cur.c, { x: COL[2] + 200, y: SLOT[1] + 60, duration: 0.45, ease: "power2.inOut" }, 3.12);
+      tl.to("#km", { rotation: 0, borderColor: "#179a4a", duration: 0.25, ease: "back.out(3)" }, 3.57);
+      GEX.punch(tl, "#km", 3.6, 1.1);
+      tl.to("#kl", { y: SLOT[0] - SLOT[1], duration: 0.35, ease: "power2.inOut" }, 3.6);
+      tl.to("#kc", { y: SLOT[1] - SLOT[1], duration: 0.35, ease: "power2.inOut" }, 3.7);
+      tl.to(cur.c, { x: 900, y: 680, duration: 0.5, ease: "power2.inOut" }, 3.8);
+      const v = { n: 1 };
+      const vn = document.getElementById("vn");
+      tl.to(v, { n: 2, duration: 0.05, onUpdate: () => { vn.textContent = Math.round(v.n); } }, 3.65);
+      GEX.punch(tl, "#kc2", 3.65, 1.12);
+      // Pedro se enfría... y el recordatorio lo rescata
+      tl.to("#kp", { rotation: -5, y: 22, backgroundColor: "#eef1f1", duration: 0.5, ease: "power2.inOut" }, 4.15);
+      gsap.set("#ps2", { autoAlpha: 0 });
+      tl.to("#ps1", { autoAlpha: 0, duration: 0.15 }, 4.3);
+      tl.fromTo("#ps2", { x: -20, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.25, ease: "power2.out" }, 4.35);
+      tl.fromTo("#pill", { y: 70, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)" }, 4.8);
+      tl.to("#bell", { keyframes: [{ rotation: -18, duration: 0.1 }, { rotation: 16, duration: 0.12 }, { rotation: -10, duration: 0.12 }, { rotation: 0, duration: 0.14 }], transformOrigin: "50% 15%", ease: "sine.inOut", repeat: 2, repeatDelay: 0.3 }, 5.0);
+      tl.fromTo("#sh", { x: -140, autoAlpha: 1 }, { x: 800, duration: 0.7, ease: "power2.inOut" }, 5.2);
+      tl.set("#sh", { x: -140 }, 5.92);
+      tl.to("#ps2", { autoAlpha: 0, duration: 0.15 }, 5.3);
+      tl.to("#ps1", { autoAlpha: 1, duration: 0.2 }, 5.4);
+      tl.to("#kp", { rotation: 0, y: 0, backgroundColor: "#ffffff", duration: 0.3, ease: "back.out(2)" }, 5.35);
+      // Pedro avanza a Cotizado
+      GEX.tap(tl, cur, COL[0] + 200, SLOT[0] + 60, 5.1, 0.45);
+      tl.set("#kp", { zIndex: 5 }, 5.55);
+      const d3 = mv(0, 0, 1, 2);
+      tl.to("#kp", { x: d3.x, y: d3.y, duration: 0.5, ease: "power2.inOut" }, 5.65);
+      tl.to(cur.c, { x: COL[1] + 200, y: SLOT[2] + 60, duration: 0.5, ease: "power2.inOut" }, 5.65);
+      tl.to("#kp", { scale: 1.08, duration: 0.15, ease: "sine.out", yoyo: true, repeat: 1 }, 6.15);
+      // salida
+      tl.to(cur.c, { autoAlpha: 0, duration: 0.15 }, EXIT);
+      tl.to("#board", { y: 700, rotation: 5, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT);
+      tl.to("#rem", { x: -900, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      tl.to("#kpi", { x: 900, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT + 0.03);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

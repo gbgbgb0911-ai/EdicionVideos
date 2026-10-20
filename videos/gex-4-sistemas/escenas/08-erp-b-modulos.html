@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 08 — ERP: módulos en acción</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      .m { position: absolute; left: 70px; width: 940px; height: 196px; display: flex; align-items: center; gap: 24px; padding: 0 30px; border-radius: 32px; background: #ffffff; color: var(--teal); }
+      .m .ico { width: 116px; height: 116px; }
+      .m .tx { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+      .m .tx b { font-weight: 800; font-size: 42px; white-space: nowrap; }
+      .m .tx small { font-weight: 700; font-size: 28px; color: #3f7c78; white-space: nowrap; }
+      .m .rt { position: relative; width: 250px; height: 140px; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 8px; }
+      .big { font-weight: 800; font-size: 52px; line-height: 1; white-space: nowrap; }
+      .big.o { color: #c94a0c; }
+      .unit { font-weight: 700; font-size: 26px; color: #3f7c78; }
+      #truck { position: absolute; right: 150px; top: 18px; width: 90px; height: 90px; }
+      #chart { position: absolute; right: 0; top: 10px; width: 240px; height: 120px; overflow: hidden; }
+      #chart svg { width: 240px; height: 120px; }
+      #cover { position: absolute; left: 0; top: 0; width: 240px; height: 120px; background: #ffffff; }
+      #up { position: absolute; right: 0; bottom: -10px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="8.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">ERP · LO QUE CONTROLAS</span></div>
+        <div class="m" id="m1" style="top: 300px"><span class="ico" data-ic="box"></span><span class="tx"><b>Inventario</b><small>Stock al día</small></span><span class="rt"><span class="big num" id="inv">0</span><span class="unit">unidades</span></span></div>
+        <div class="m" id="m2" style="top: 514px"><span class="ico" data-ic="truck" data-col="#ea5a14"></span><span class="tx"><b>Compras</b><small>Orden a proveedor</small></span><span class="rt"><span id="truck" data-ic="truck" data-col="#ea5a14"></span><span class="chip g" id="rec" style="margin-top: 70px">Recibido ✓</span></span></div>
+        <div class="m" id="m3" style="top: 728px"><span class="ico" data-ic="card"></span><span class="tx"><b>Pagos</b><small>A proveedores y servicios</small></span><span class="rt"><span class="big num" id="pay">$1,200</span><span class="chip g" id="paid">Pagado ✓</span></span></div>
+        <div class="m" id="m4" style="top: 942px"><span class="ico" data-ic="receipt" data-col="#ea5a14"></span><span class="tx"><b>Gastos</b><small>Luz, alquiler, insumos</small></span><span class="rt"><span class="big o num" id="gas">$0</span><span class="unit">este mes</span></span></div>
+        <div class="m" id="m5" style="top: 1156px"><span class="ico" data-ic="chart"></span><span class="tx"><b>Finanzas</b><small>Ingresos vs. gastos</small></span><span class="rt"><span id="chart"><svg viewBox="0 0 240 120"><path d="M8 104 L60 84 L104 92 L150 56 L196 44 L232 14" fill="none" stroke="#1fc4b8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" /><path d="M8 110 L60 104 L104 100 L150 98 L196 92 L232 90" fill="none" stroke="#fe6820" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 12" /></svg><span id="cover"></span></span><span class="chip g" id="up">+18% ↑</span></span></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-1" src="assets/sfx/pop.wav" data-start="0.9" data-volume="0.3"></audio>
+      <audio id="s-2" src="assets/sfx/tick.wav" data-start="2.3" data-volume="0.28"></audio>
+      <audio id="s-3" src="assets/sfx/tick.wav" data-start="3.7" data-volume="0.28"></audio>
+      <audio id="s-5" src="assets/sfx/ding.wav" data-start="6.5" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="8.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 8.1;
+      const parts = GEX.particles(document.getElementById("fx"), 10, 808, { x0: 40, x1: 1040, y0: 260, y1: 1500 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      const T = [0.9, 2.3, 3.7, 4.9, 6.1];
+      T.forEach((t, i) => {
+        const id = "#m" + (i + 1);
+        tl.fromTo(id, { x: i % 2 ? 1000 : -1000, rotation: i % 2 ? 4 : -4, autoAlpha: 0 }, { x: 0, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out" }, t);
+        tl.fromTo(id + " .ico", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.5)" }, t + 0.1);
+        tl.to(id + " .ico", { keyframes: [{ rotation: -10, duration: 0.15 }, { rotation: 8, duration: 0.2 }, { rotation: 0, duration: 0.2 }], ease: "sine.inOut" }, t + 1.0);
+      });
+      GEX.count(tl, document.getElementById("inv"), 0, 1240, 1.1, 1.0);
+      tl.fromTo("#truck", { x: 260, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.6, ease: "power3.out" }, 2.45);
+      tl.to("#truck", { y: -6, duration: 0.12, ease: "sine.inOut", yoyo: true, repeat: 5 }, 2.45);
+      tl.fromTo("#rec", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)" }, 3.05);
+      tl.fromTo("#pay", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "power3.out" }, 3.9);
+      tl.fromTo("#paid", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)" }, 4.2);
+      GEX.count(tl, document.getElementById("gas"), 0, 3450, 5.1, 0.9, "$");
+      tl.fromTo("#cover", { x: 0 }, { x: 250, duration: 0.9, ease: "power2.inOut" }, 6.3);
+      tl.fromTo("#up", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)" }, 6.9);
+      GEX.punch(tl, "#up", 7.4, 1.12);
+      // salida en piezas
+      ["#m1", "#m2", "#m3", "#m4", "#m5"].forEach((id, i) => {
+        tl.to(id, { x: i % 2 ? -1100 : 1100, rotation: i % 2 ? -5 : 5, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT + i * 0.03);
+      });
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

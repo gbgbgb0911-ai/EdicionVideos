@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 16 — Personal: asistencia, turnos, vacaciones, pagos</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #w { position: absolute; left: 60px; top: 290px; width: 960px; height: 880px; }
+      .tabs { position: absolute; left: 24px; top: 84px; width: 912px; height: 84px; display: flex; border-bottom: 4px solid var(--line); }
+      .tabs span { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 30px; white-space: nowrap; }
+      .tabs span i { width: 36px; height: 36px; display: inline-block; }
+      #ind { position: absolute; left: 24px; top: 162px; width: 228px; height: 8px; border-radius: 4px; background: #fe6820; }
+      .pn { position: absolute; left: 24px; top: 196px; width: 912px; height: 660px; }
+      .r { position: absolute; left: 0; width: 912px; height: 128px; display: flex; align-items: center; gap: 18px; padding: 0 18px; border-radius: 22px; background: var(--soft); }
+      .r .av { width: 76px; height: 76px; font-size: 30px; }
+      .r b { display: block; font-weight: 800; font-size: 36px; white-space: nowrap; }
+      .r small { display: block; font-weight: 700; font-size: 28px; color: #3f7c78; white-space: nowrap; }
+      .r .chip { margin-left: auto; font-size: 28px; }
+      .r .amt { margin-left: auto; font-weight: 800; font-size: 38px; }
+      .r .amt + .chip { margin-left: 16px; }
+      .wk { position: absolute; display: flex; align-items: center; font-weight: 800; font-size: 30px; }
+      .cell { position: absolute; width: 106px; height: 86px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 26px; color: #ffffff; }
+      .cell.m { background: #0b958b; } .cell.t { background: #ea5a14; } .cell.l { background: var(--soft); color: #3f7c78; }
+      .day { position: absolute; width: 112px; height: 62px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 28px; }
+      .day.v { background: #0b958b; color: #ffffff; } .day.p { background: #ea5a14; color: #ffffff; }
+      .leg { position: absolute; left: 0; top: 410px; display: flex; gap: 14px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="9" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="9" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">PERSONAL · PANEL DEL ADMINISTRADOR</span></div>
+        <div class="win" id="w">
+          <div class="bar"><i></i><i></i><i></i><b>Mi equipo</b></div>
+          <div class="tabs"><span id="tb0"><i data-ic="check"></i>Asistencia</span><span id="tb1"><i data-ic="clock"></i>Turnos</span><span id="tb2"><i data-ic="sun"></i>Vacaciones</span><span id="tb3"><i data-ic="cash"></i>Pagos</span></div>
+          <div id="ind"></div>
+          <div class="pn" id="pn0">
+            <div class="r" style="top: 0"><span class="av">AR</span><span><b>Ana Ruiz</b><small>Entrada 7:58 am</small></span><span class="chip g">Asistió ✓</span></div>
+            <div class="r" style="top: 146px"><span class="av o">LP</span><span><b>Luis Paz</b><small>Entrada 8:25 am</small></span><span class="chip a">Tarde</span></div>
+            <div class="r" style="top: 292px"><span class="av g">SL</span><span><b>Sofía León</b><small>Entrada 11:55 am</small></span><span class="chip g">Asistió ✓</span></div>
+            <div class="r" style="top: 438px"><span class="av a">DR</span><span><b>Diego Ríos</b><small>Sin marcar</small></span><span class="chip gr">Falta</span></div>
+          </div>
+          <div class="pn" id="pn1"></div>
+          <div class="pn" id="pn2"></div>
+          <div class="pn" id="pn3">
+            <div class="r" style="top: 0"><span class="av">AR</span><span><b>Ana Ruiz</b><small>Sueldo de octubre</small></span><span class="amt num">$1,200</span><span class="chip g">Pagado ✓</span></div>
+            <div class="r" style="top: 146px"><span class="av o">LP</span><span><b>Luis Paz</b><small>Sueldo + horas extra</small></span><span class="amt num">$1,350</span><span class="chip g">Pagado ✓</span></div>
+            <div class="r" style="top: 292px"><span class="av g">SL</span><span><b>Sofía León</b><small>Sueldo de octubre</small></span><span class="amt num">$1,150</span><span class="chip g">Pagado ✓</span></div>
+            <div class="r" style="top: 450px; background: #ffffff; border: 4px solid var(--line)"><span><b>Planilla del mes</b><small>12 trabajadores</small></span><span class="amt num" id="tot" style="color: #c94a0c; font-size: 48px">$0</span></div>
+          </div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-c1" src="assets/sfx/click.wav" data-start="2.6" data-volume="0.4"></audio>
+      <audio id="s-c2" src="assets/sfx/click.wav" data-start="4.2" data-volume="0.4"></audio>
+      <audio id="s-c3" src="assets/sfx/click.wav" data-start="6.2" data-volume="0.4"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="7.3" data-volume="0.32"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="8.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      // turnos: semana con bloques de mañana / tarde / libre
+      const pn1 = document.getElementById("pn1");
+      const D = ["L", "M", "M", "J", "V", "S"];
+      const SH = [["m", "m", "m", "m", "m", "l"], ["t", "t", "l", "t", "t", "t"], ["m", "l", "t", "t", "m", "m"]];
+      const NM = ["Ana", "Luis", "Sofía"];
+      let h = "";
+      D.forEach((d, j) => (h += '<span class="wk" style="left: ' + (190 + j * 118 + 40) + 'px; top: 0">' + d + "</span>"));
+      SH.forEach((row, i) => {
+        h += '<span class="wk" style="left: 0; top: ' + (66 + i * 106 + 26) + 'px">' + NM[i] + "</span>";
+        row.forEach((c, j) => (h += '<span class="cell ' + c + '" style="left: ' + (190 + j * 118) + "px; top: " + (66 + i * 106) + 'px">' + (c === "m" ? "Mañ." : c === "t" ? "Tarde" : "—") + "</span>"));
+      });
+      h += '<div class="leg"><span class="chip">Mañana 8–16</span><span class="chip o">Tarde 16–24</span></div>';
+      pn1.innerHTML = h;
+      // vacaciones y permisos: mini calendario
+      const pn2 = document.getElementById("pn2");
+      h = '<span class="wk" style="left: 0; top: 0">Octubre</span>';
+      for (let d = 1; d <= 31; d++) {
+        const k = d + 1, col = k % 7, row = Math.floor(k / 7);
+        const cls = d >= 15 && d <= 21 ? " v" : d === 9 ? " p" : "";
+        h += '<span class="day' + cls + '" style="left: ' + col * 130 + "px; top: " + (56 + row * 70) + 'px">' + d + "</span>";
+      }
+      h += '<div class="r" style="top: 420px; height: 110px"><span class="av g">SL</span><span><b>Sofía · Vacaciones</b><small>15 al 21 de octubre</small></span><span class="chip g" id="ap1">Aprobado ✓</span></div>';
+      h += '<div class="r" style="top: 544px; height: 110px"><span class="av o">LP</span><span><b>Luis · Permiso médico</b><small>9 de octubre</small></span><span class="chip g" id="ap2">Aprobado ✓</span></div>';
+      pn2.innerHTML = h;
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 8.6;
+      const parts = GEX.particles(document.getElementById("fx"), 10, 1616, { x0: 20, x1: 1060, y0: 200, y1: 1560 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      gsap.set(["#pn1", "#pn2", "#pn3"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      tl.fromTo("#w", { y: 700, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 0.1);
+      tl.fromTo("#tb0", { color: "#0b958b" }, { color: "#c94a0c", duration: 0.2 }, 0.4);
+      // asistencia
+      tl.fromTo("#pn0 .r", { x: -80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(1.8)", stagger: 0.15 }, 0.5);
+      tl.fromTo("#pn0 .chip", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.25 }, 1.1);
+      const cur = GEX.cursor(document.getElementById("w"));
+      gsap.set(cur.r, { autoAlpha: 0 });
+      tl.fromTo(cur.c, { x: 860, y: 780, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 1.8);
+      const sw = (from, to, t) => {
+        GEX.tap(tl, cur, 24 + to * 228 + 100, 110, t - 0.4, 0.4);
+        tl.to("#ind", { x: to * 228, duration: 0.35, ease: "power3.inOut" }, t);
+        tl.to("#tb" + from, { color: "#0b958b", duration: 0.2 }, t);
+        tl.to("#tb" + to, { color: "#c94a0c", duration: 0.2 }, t);
+        tl.to("#pn" + from, { x: -200, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, t);
+        tl.fromTo("#pn" + to, { x: 200, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, t + 0.2);
+      };
+      sw(0, 1, 2.6);
+      tl.fromTo("#pn1 .cell", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(2.6)", stagger: { each: 0.03, from: "start" }, immediateRender: false }, 2.85);
+      tl.fromTo("#pn1 .leg", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, immediateRender: false }, 3.5);
+      sw(1, 2, 4.2);
+      tl.fromTo("#pn2 .day.v, #pn2 .day.p", { scale: 0.3 }, { scale: 1, duration: 0.35, ease: "back.out(3)", stagger: 0.05, immediateRender: false }, 4.5);
+      tl.fromTo("#pn2 .r", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.4, immediateRender: false }, 4.9);
+      tl.fromTo(["#ap1", "#ap2"], { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.4, immediateRender: false }, 5.3);
+      sw(2, 3, 6.2);
+      tl.fromTo("#pn3 .chip", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.25, immediateRender: false }, 6.6);
+      GEX.count(tl, document.getElementById("tot"), 0, 6850, 6.7, 1.0, "$");
+      GEX.punch(tl, "#tot", 7.35, 1.12);
+      tl.to(cur.c, { x: 860, y: 780, duration: 0.5, ease: "power2.inOut" }, 6.7);
+      // salida
+      tl.to(cur.c, { autoAlpha: 0, duration: 0.15 }, EXIT);
+      tl.to("#w", { y: 800, rotation: -5, autoAlpha: 0, duration: 0.38, ease: "power3.in" }, EXIT);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

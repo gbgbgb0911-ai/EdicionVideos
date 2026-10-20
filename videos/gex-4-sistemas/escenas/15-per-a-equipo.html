@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 15 — Personal: tu equipo y sus horarios</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      .e { position: absolute; width: 465px; height: 210px; padding: 24px; border-radius: 30px; background: #ffffff; color: var(--teal); display: flex; flex-direction: column; justify-content: space-between; }
+      .e .t1 { display: flex; align-items: center; gap: 16px; }
+      .e .av { width: 76px; height: 76px; font-size: 30px; }
+      .e b { display: block; font-weight: 800; font-size: 36px; white-space: nowrap; }
+      .e small { display: block; font-weight: 700; font-size: 26px; color: #3f7c78; white-space: nowrap; }
+      .e .t2 { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 30px; white-space: nowrap; }
+      .e .t2 .ck { width: 40px; height: 40px; display: inline-block; }
+      .e .t2 .chip { margin-left: auto; font-size: 24px; padding: 6px 14px; }
+      #sumw { position: absolute; left: 0; right: 0; top: 1050px; display: flex; justify-content: center; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">PERSONAL · TU EQUIPO</span></div>
+        <div id="grid"></div>
+        <div id="sumw"><div class="pill" id="sum"><span class="pi" data-ic="users"></span>6 trabajadores · 3 turnos<i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-pop" src="assets/sfx/pop.wav" data-start="0.4" data-volume="0.3"></audio>
+      <audio id="s-shim" src="assets/sfx/shimmer.wav" data-start="2.9" data-volume="0.3"></audio>
+      <audio id="s-sum" src="assets/sfx/pop.wav" data-start="4.4" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const EMP = [
+        ["AR", "", "Ana Ruiz", "Cajera", "8:00 – 16:00", 1],
+        ["LP", "o", "Luis Paz", "Cocinero", "8:00 – 16:00", 1],
+        ["SL", "g", "Sofía León", "Atención", "12:00 – 20:00", 1],
+        ["DR", "a", "Diego Ríos", "Almacén", "8:00 – 16:00", 1],
+        ["CV", "", "Carla Vela", "Atención", "16:00 – 24:00", 0],
+        ["JS", "o", "Jorge Sáenz", "Reparto", "16:00 – 24:00", 0],
+      ];
+      const grid = document.getElementById("grid");
+      EMP.forEach(([ini, c, nm, role, hr, on], i) => {
+        const d = document.createElement("div");
+        d.className = "e"; d.id = "e" + i;
+        d.style.left = (60 + (i % 2) * 495) + "px";
+        d.style.top = (300 + Math.floor(i / 2) * 234) + "px";
+        d.innerHTML = '<div class="t1"><span class="av ' + c + '">' + ini + "</span><span><b>" + nm + "</b><small>" + role + '</small></span></div><div class="t2"><span class="ck" data-ic="clock"></span>' + hr + '<span class="chip ' + (on ? "g" : "gr") + '">' + (on ? "En turno" : "Libre") + "</span></div>";
+        grid.appendChild(d);
+      });
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.1;
+      const parts = GEX.particles(document.getElementById("fx"), 12, 1515, { x0: 40, x1: 1040, y0: 260, y1: 1500 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      EMP.forEach((_, i) => {
+        const id = "#e" + i;
+        tl.fromTo(id, { y: 120, scale: 0.6, rotation: i % 2 ? 6 : -6, autoAlpha: 0 }, { y: 0, scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2)" }, 0.4 + i * 0.12);
+        tl.fromTo(id + " .av", { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(3)" }, 0.5 + i * 0.12);
+        tl.fromTo(id + " .t2 .chip", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)" }, 2.9 + i * 0.1);
+        tl.fromTo(id + " .ck", { rotation: 0 }, { rotation: 360, transformOrigin: "50% 50%", duration: 1.2, ease: "power2.inOut" }, 2.8 + i * 0.1);
+        GEX.float(tl, id, 1.6 + i * 0.1, EXIT, 5, 1.3 + (i % 3) * 0.2);
+      });
+      tl.to(".t2 .chip.g", { scale: 1.1, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.1 }, 3.6);
+      tl.fromTo("#sum", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)" }, 4.4);
+      tl.fromTo("#sh", { x: -140 }, { x: 700, duration: 0.6, ease: "power2.inOut" }, 5.0);
+      tl.set("#sh", { x: -140 }, 5.65);
+      // salida en piezas
+      EMP.forEach((_, i) => {
+        tl.to("#e" + i, { x: i % 2 ? 700 : -700, rotation: i % 2 ? 8 : -8, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT + Math.floor(i / 2) * 0.04);
+      });
+      tl.to("#sum", { y: 300, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

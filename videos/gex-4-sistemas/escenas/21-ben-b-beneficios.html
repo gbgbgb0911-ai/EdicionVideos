@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>GEX Sistemas 21 — Beneficios para el dueño</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 20px; }
+      #sub { font-weight: 800; font-size: 46px; white-space: nowrap; }
+      #sub .t { color: #1fc4b8; }
+      .bn { font-size: 60px; padding: 20px 44px 20px 20px; }
+      .bn .pi { width: 96px; height: 96px; }
+      .bn .pi svg { width: 62px; height: 62px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="8" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="top" id="top">
+          <span class="tag" id="tag">LO QUE GANAS</span>
+          <div id="sub">Solo las herramientas <span class="t">que necesitas</span></div>
+          <div class="pill bn" id="p1"><span class="pi" id="i1" data-ic="clock" data-sw="5"></span>Ahorrar tiempo<i class="shine" id="sh1"></i></div>
+          <div class="pill o bn" id="p2"><span class="pi" id="i2" data-ic="shield" data-col="#ea5a14" data-sw="5"></span>Reducir errores<i class="shine" id="sh2"></i></div>
+          <div class="pill g bn" id="p3"><span class="pi" id="i3" data-ic="sliders" data-col="#179a4a" data-sw="5"></span>Mayor control<i class="shine" id="sh3"></i></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-1" src="assets/sfx/pop.wav" data-start="3.0" data-volume="0.32"></audio>
+      <audio id="s-2" src="assets/sfx/pop.wav" data-start="4.0" data-volume="0.32"></audio>
+      <audio id="s-3" src="assets/sfx/success.wav" data-start="5.0" data-volume="0.35"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.6;
+      const fx = document.getElementById("fx");
+      const parts = GEX.particles(fx, 6, 2121, { x0: 60, x1: 150, y0: 200, y1: 900 }).concat(GEX.particles(fx, 6, 2122, { x0: 930, x1: 1000, y0: 200, y1: 900 }));
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      const sub = GEX.split(document.getElementById("sub"));
+      gsap.set(["#p1", "#p2", "#p3"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.15);
+      GEX.reveal(tl, sub.words, 0.5, "rise", { stagger: 0.08, duration: 0.4 });
+      [["#p1", "#i1", "#sh1", 3.0], ["#p2", "#i2", "#sh2", 4.0], ["#p3", "#i3", "#sh3", 5.0]].forEach(([p, ic, sh, t], i) => {
+        tl.fromTo(p, { x: i % 2 ? 700 : -700, scale: 0.6, autoAlpha: 0 }, { x: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(1.8)", immediateRender: false }, t);
+        tl.fromTo(ic, { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.5)" }, t + 0.1);
+        GEX.punch(tl, p, t + 0.45, 1.1);
+        tl.fromTo(sh, { x: -140 }, { x: 700, duration: 0.6, ease: "power2.inOut" }, t + 0.55);
+        tl.set(sh, { x: -140 }, t + 1.2);
+        GEX.float(tl, p, t + 0.8, EXIT, 6, 1.4 + i * 0.15);
+      });
+      // íconos vivos: reloj gira, escudo late, controles se mueven
+      tl.to("#i1 svg path", { rotation: 360, svgOrigin: "24 24", duration: 1.2, ease: "none", repeat: 2 }, 3.5);
+      tl.to("#i2", { scale: 1.15, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 5 }, 4.6);
+      tl.to("#i3 circle", { x: (i) => (i === 1 ? -8 : 8), duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.1 }, 5.5);
+      // salida en piezas
+      tl.to("#p1", { x: -900, rotation: -8, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT);
+      tl.to("#p2", { x: 900, rotation: 8, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT + 0.03);
+      tl.to("#p3", { x: -900, rotation: -8, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT + 0.06);
+      tl.to(sub.words, { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.03 }, EXIT);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
