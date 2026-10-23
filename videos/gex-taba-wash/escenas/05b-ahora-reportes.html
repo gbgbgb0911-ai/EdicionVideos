@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Taba Wash 05b — Ahora: reportes al instante</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #w { position: absolute; left: 60px; top: 290px; width: 960px; height: 1010px; }
+      #ctl { position: absolute; left: 24px; top: 96px; width: 912px; display: flex; align-items: center; gap: 16px; }
+      #ctl .chip { font-size: 32px; padding: 14px 26px; }
+      #gen { margin-left: auto; height: 84px; padding: 0 34px; border-radius: 22px; background: var(--orange); color: #ffffff; display: flex; align-items: center; font-weight: 800; font-size: 36px; white-space: nowrap; }
+      #kp { position: absolute; left: 24px; top: 210px; width: 912px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .t { padding: 20px 22px; border-radius: 24px; background: var(--soft); display: flex; flex-direction: column; gap: 4px; }
+      .t span { font-weight: 800; font-size: 24px; letter-spacing: 0.08em; white-space: nowrap; }
+      .t b { font-weight: 800; font-size: 54px; line-height: 1.05; white-space: nowrap; }
+      .t.o b { color: #c94a0c; }
+      #chart { position: absolute; left: 24px; top: 400px; width: 912px; height: 330px; padding: 20px 30px 0; border-radius: 24px; background: var(--soft); }
+      #chart h6 { font-weight: 800; font-size: 26px; letter-spacing: 0.08em; }
+      #bars { display: flex; align-items: flex-end; gap: 40px; height: 220px; margin-top: 14px; border-bottom: 5px solid #cfdcdb; }
+      #bars div { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 6px; }
+      #bars i { width: 100%; border-radius: 12px 12px 0 0; background: #1fc4b8; }
+      #bars div:last-child i { background: #fe6820; }
+      #bars em { font-style: normal; font-weight: 800; font-size: 24px; color: var(--teal); }
+      #mix { position: absolute; left: 24px; top: 760px; width: 912px; }
+      #mix h6 { font-weight: 800; font-size: 26px; letter-spacing: 0.08em; margin-bottom: 10px; }
+      #mixb { display: flex; height: 50px; border-radius: 25px; overflow: hidden; }
+      #mixb i { display: flex; align-items: center; justify-content: center; font-style: normal; font-weight: 800; font-size: 24px; color: #ffffff; white-space: nowrap; }
+      #exp { position: absolute; left: 24px; top: 900px; display: flex; gap: 14px; }
+      #exp .chip { font-size: 30px; padding: 10px 24px; }
+      #fin { position: absolute; left: 0; right: 0; top: 1340px; display: flex; justify-content: center; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">AHORA · REPORTES EN UN CLIC</span></div>
+        <div class="win" id="w">
+          <div class="bar"><i></i><i></i><i></i><b>Reportes · Taba Wash</b></div>
+          <div id="ctl"><span class="chip">Mes: Octubre</span><span id="gen">Generar reporte</span></div>
+          <div id="kp">
+            <div class="t"><span>PEDIDOS</span><b class="num" id="v1">0</b></div>
+            <div class="t o"><span>INGRESOS</span><b class="num" id="v2">$0</b></div>
+            <div class="t"><span>CLIENTES NUEVOS</span><b class="num" id="v3">0</b></div>
+          </div>
+          <div id="chart"><h6>VENTAS POR SEMANA</h6><div id="bars"><div><i style="height: 55%"></i><em>Sem 1</em></div><div><i style="height: 68%"></i><em>Sem 2</em></div><div><i style="height: 62%"></i><em>Sem 3</em></div><div><i style="height: 88%"></i><em>Sem 4</em></div></div></div>
+          <div id="mix"><h6>MÉTODOS DE PAGO</h6><div id="mixb"><i style="width: 48%; background: #0b958b">Efectivo 48%</i><i style="width: 32%; background: #ea5a14">Tarjeta 32%</i><i style="width: 20%; background: #179a4a">Transf. 20%</i></div></div>
+          <div id="exp"><span class="chip o">⬇ PDF</span><span class="chip g">⬇ Excel</span></div>
+        </div>
+        <div id="fin"><div class="pill g" id="fp"><span class="pi" data-ic="check" data-col="#179a4a" data-sw="6"></span>Sin recontar ni armar desde cero<i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-c" src="assets/sfx/click.wav" data-start="1.1" data-volume="0.4"></audio>
+      <audio id="s-sh" src="assets/sfx/shimmer.wav" data-start="1.3" data-volume="0.3"></audio>
+      <audio id="s-d" src="assets/sfx/ding.wav" data-start="2.8" data-volume="0.28"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="5.2" data-volume="0.33"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.1;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 8, 5201, { x0: 40, x1: 1040, y0: 260, y1: 1560 });
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set(["#kp", "#chart", "#mix", "#exp", "#fp"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#w", { y: 700, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.25);
+      const cur = GEX.cursor(document.getElementById("w"));
+      tl.fromTo(cur.c, { x: 860, y: 600, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 0.5);
+      GEX.tap(tl, cur, 760, 120, 0.7, 0.4);
+      tl.to("#gen", { keyframes: [{ scale: 0.93, duration: 0.08 }, { scale: 1, duration: 0.2 }], ease: "sine.out" }, 1.1);
+      tl.to(cur.c, { x: 860, y: 980, autoAlpha: 0, duration: 0.4 }, 1.3);
+      // el reporte se arma solo
+      tl.fromTo("#kp", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 1.3);
+      GEX.count(tl, document.getElementById("v1"), 0, 412, 1.4, 1.2);
+      GEX.count(tl, document.getElementById("v2"), 0, 9840, 1.5, 1.2, "$");
+      GEX.count(tl, document.getElementById("v3"), 0, 86, 1.6, 1.2);
+      tl.fromTo("#chart", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 1.8);
+      tl.fromTo("#bars i", { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, transformOrigin: "50% 100%", duration: 0.5, ease: "back.out(1.6)", stagger: 0.1 }, 2.0);
+      tl.fromTo("#mix", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 2.5);
+      tl.fromTo("#mixb i", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, transformOrigin: "0% 50%", duration: 0.4, ease: "power3.out", stagger: 0.12 }, 2.6);
+      tl.fromTo("#exp", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 3.1);
+      tl.to("#exp .chip", { scale: 1.08, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.15 }, 3.6);
+      tl.fromTo("#fp", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 5.2);
+      tl.fromTo("#sh", { x: -140 }, { x: 800, duration: 0.6, ease: "power2.inOut" }, 5.7);
+      tl.set("#sh", { x: -140 }, 6.35);
+      tl.to("#bars div:last-child i", { scaleY: 1.05, transformOrigin: "50% 100%", duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 3 }, 4.2);
+      // salida + barrido
+      tl.to("#w", { y: 900, rotation: 5, autoAlpha: 0, duration: 0.38, ease: "power3.in" }, EXIT);
+      tl.to("#fp", { x: -900, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Taba Wash 01 — Gancho: +36 horas al mes</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #brand { position: absolute; left: 0; right: 0; top: 150px; display: flex; justify-content: center; align-items: center; gap: 22px; }
+      #bshoe { width: 150px; height: 150px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      #bshoe svg { width: 116px; height: 58px; }
+      .bt { display: flex; flex-direction: column; gap: 8px; }
+      .bt .tag { align-self: flex-start; font-size: 26px; padding: 8px 18px; }
+      .bt b { font-weight: 800; font-size: 72px; line-height: 0.95; white-space: nowrap; }
+      .bt small { font-weight: 800; font-size: 34px; color: #1fc4b8; white-space: nowrap; }
+      #res { position: absolute; left: 0; right: 0; top: 360px; display: flex; justify-content: center; align-items: center; gap: 26px; }
+      #clk { width: 190px; height: 190px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      #clk svg { width: 150px; height: 150px; overflow: visible; }
+      .num { display: flex; flex-direction: column; }
+      #n36 { font-weight: 800; font-size: 210px; line-height: 0.85; color: #fe6820; white-space: nowrap; }
+      .num span { font-weight: 800; font-size: 48px; white-space: nowrap; }
+      .num span.t { color: #1fc4b8; }
+      #qw { position: absolute; left: 0; right: 0; top: 700px; display: flex; justify-content: center; }
+      .bub { position: absolute; border-radius: 50%; border: 5px solid #1fc4b8; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="11" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="11" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="brand"><div id="bshoe" data-shoe="#1fc4b8"></div><div class="bt"><span class="tag" id="tag">CASO REAL</span><b id="bn">TABA WASH</b><small id="bs">Lavado de calzado</small></div></div>
+          <div id="res">
+            <div id="clk"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#0b958b" stroke-width="7" /><path id="hh" d="M50 50V28" stroke="#ea5a14" stroke-width="8" stroke-linecap="round" /><path id="hm" d="M50 50h22" stroke="#0b958b" stroke-width="6" stroke-linecap="round" /><circle cx="50" cy="50" r="6" fill="#ea5a14" /></svg></div>
+            <div class="num"><b id="n36">+0</b><span>horas ahorradas</span><span class="t">cada mes</span></div>
+          </div>
+          <div id="qw"><div class="pill o" id="q"><span class="pi" id="qi" data-ic="search" data-col="#ea5a14" data-sw="5"></span><span id="qt">¿Qué cambiaron?</span><i class="shine" id="sh"></i></div></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-pop" src="assets/sfx/pop.wav" data-start="0.35" data-volume="0.3"></audio>
+      <audio id="s-hit" src="assets/sfx/impact.wav" data-start="1.55" data-volume="0.4"></audio>
+      <audio id="s-ding" src="assets/sfx/ding.wav" data-start="3.0" data-volume="0.3"></audio>
+      <audio id="s-q" src="assets/sfx/pop.wav" data-start="6.6" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="10.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons(); GEX.shoes();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 10.6;
+      const fx = document.getElementById("fx");
+      // burbujas de lavado subiendo
+      const r = GEX.rng(101);
+      for (let i = 0; i < 12; i++) {
+        const b = document.createElement("i"); b.className = "bub";
+        const s = 18 + Math.round(r() * 34);
+        Object.assign(b.style, { width: s + "px", height: s + "px", left: Math.round(40 + r() * 1000) + "px", top: "980px", borderColor: i % 3 ? "#1fc4b8" : "#ffffff" });
+        fx.appendChild(b);
+        tl.fromTo(b, { y: 0, x: 0, autoAlpha: 0.9 }, { y: -(700 + r() * 300), x: (r() - 0.5) * 120, autoAlpha: 0, duration: 3 + r() * 2, ease: "sine.out", repeat: 1, delay: r() * 2 }, 0.5);
+      }
+      const bn = GEX.split(document.getElementById("bn"));
+      const qt = GEX.split(document.getElementById("qt"));
+      gsap.set("#q", { autoAlpha: 0 });
+      tl.fromTo("#bshoe", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.2)" }, 0.1);
+      tl.fromTo("#bshoe svg", { x: -60 }, { x: 0, duration: 0.6, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#tag", { y: -40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)" }, 0.25);
+      GEX.reveal(tl, bn.chars, 0.35, "drop", { stagger: 0.04, duration: 0.45 });
+      tl.fromTo("#bs", { x: -40, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out" }, 0.8);
+      // resultado: +36 horas
+      tl.fromTo("#clk", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.2)" }, 1.3);
+      tl.fromTo("#n36", { scale: 2.2, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "power4.in", transformOrigin: "30% 60%" }, 1.3);
+      GEX.count(tl, document.getElementById("n36"), 0, 36, 1.6, 1.4, "+");
+      tl.fromTo(".num span", { x: -40, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out", stagger: 0.1 }, 1.7);
+      tl.fromTo("#hm", { rotation: 0 }, { rotation: 360 * 6, svgOrigin: "50 50", duration: 3.2, ease: "power2.inOut" }, 1.5);
+      tl.fromTo("#hh", { rotation: 0 }, { rotation: 360, svgOrigin: "50 50", duration: 3.2, ease: "power2.inOut" }, 1.5);
+      GEX.punch(tl, "#n36", 3.0, 1.12);
+      tl.to("#n36", { scale: 1.05, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 3, transformOrigin: "30% 60%" }, 3.6);
+      GEX.float(tl, "#bshoe", 1.2, EXIT, 8, 1.6);
+      // y todo empezó con algo simple...
+      tl.fromTo("#q", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 6.6);
+      GEX.reveal(tl, qt.chars, 6.7, "rise", { stagger: 0.02, duration: 0.3 });
+      tl.to("#qi", { x: 10, y: -6, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 5 }, 7.2);
+      tl.fromTo("#sh", { x: -140 }, { x: 640, duration: 0.6, ease: "power2.inOut" }, 7.4);
+      tl.set("#sh", { x: -140 }, 8.05);
+      tl.to("#q", { rotation: -2, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 3 }, 8.6);
+      // salida en piezas
+      GEX.scatter(tl, ["#bshoe", "#tag", "#bs", "#clk", "#n36", "#q"], EXIT, 1);
+      tl.to(bn.chars, { y: -200, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.02 }, EXIT);
+      tl.to(".num span", { y: 120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Taba Wash 03b — Ahora: registro del cliente</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #w { position: absolute; left: 60px; top: 300px; width: 960px; height: 700px; }
+      .fd { position: absolute; left: 40px; width: 880px; }
+      .fd label { display: block; font-weight: 800; font-size: 28px; letter-spacing: 0.1em; margin-bottom: 10px; }
+      .fd .in { display: flex; align-items: center; gap: 14px; height: 100px; padding: 0 26px; border-radius: 22px; border: 5px solid var(--line); background: #ffffff; font-weight: 700; font-size: 44px; white-space: nowrap; }
+      .fd .in i { width: 48px; height: 48px; display: inline-block; flex: none; }
+      .fd .in .car { width: 4px; height: 50px; background: #0b958b; }
+      #btn { position: absolute; left: 40px; top: 530px; width: 880px; height: 110px; border-radius: 26px; background: var(--teal); color: #ffffff; display: flex; align-items: center; justify-content: center; gap: 14px; font-weight: 800; font-size: 44px; white-space: nowrap; }
+      #rec { position: absolute; left: 330px; top: 1060px; display: flex; align-items: center; gap: 14px; padding: 14px 26px 14px 14px; border-radius: 999px; background: #ffffff; color: var(--teal); font-weight: 800; font-size: 34px; white-space: nowrap; z-index: 5; }
+      #db { position: absolute; left: 0; right: 0; top: 1140px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+      #dbi { width: 200px; height: 220px; }
+      #dbi svg { width: 100%; height: 100%; }
+      #db b { font-weight: 800; font-size: 40px; white-space: nowrap; }
+      #db .chip { font-size: 34px; padding: 10px 24px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">AHORA · REGISTRO DIGITAL</span></div>
+        <div class="win" id="w">
+          <div class="bar"><i></i><i></i><i></i><b>Nuevo pedido · Taba Wash</b></div>
+          <div class="fd" style="top: 120px"><label>NOMBRE DEL CLIENTE</label><div class="in" id="in1"><i data-ic="user"></i><span id="t1"></span><span class="car" id="k1"></span></div></div>
+          <div class="fd" style="top: 320px"><label>CELULAR</label><div class="in" id="in2"><i data-ic="phone"></i><span id="t2"></span><span class="car" id="k2"></span></div></div>
+          <div id="btn"><span id="bt">Guardar cliente</span></div>
+        </div>
+        <div id="rec"><span class="av o">CR</span>Carla Ríos</div>
+        <div id="db">
+          <div id="dbi"><svg viewBox="0 0 100 110"><ellipse cx="50" cy="18" rx="42" ry="14" fill="#ffffff" /><path d="M8 18v74c0 8 19 14 42 14s42-6 42-14V18c0 8-19 14-42 14S8 26 8 18Z" fill="#ffffff" /><path d="M8 44c0 8 19 14 42 14s42-6 42-14 M8 70c0 8 19 14 42 14s42-6 42-14" fill="none" stroke="#1fc4b8" stroke-width="6" /></svg></div>
+          <b>Base de datos de clientes</b>
+          <span class="chip" id="dbc"><span class="num" id="dbn">1,247</span>&nbsp;clientes</span>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-ty" src="assets/sfx/tick.wav" data-start="0.8" data-volume="0.25"></audio>
+      <audio id="s-c" src="assets/sfx/click.wav" data-start="3.2" data-volume="0.4"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="3.45" data-volume="0.33"></audio>
+      <audio id="s-db" src="assets/sfx/pop.wav" data-start="4.45" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.1;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 8, 3201, { x0: 40, x1: 1040, y0: 260, y1: 1560 });
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set(["#rec", "#k2"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#w", { y: 600, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 0.25);
+      tl.fromTo("#db", { y: 300, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.5);
+      // escribe nombre y celular
+      GEX.type(tl, document.getElementById("t1"), "Carla Ríos", 0.8, 0.8);
+      tl.to("#in1", { borderColor: "#1fc4b8", duration: 0.15 }, 0.75);
+      tl.to("#k1", { autoAlpha: 0, duration: 0.05 }, 1.75);
+      tl.to("#in1", { borderColor: "#dfe7e6", duration: 0.15 }, 1.75);
+      tl.to("#k2", { autoAlpha: 1, duration: 0.05 }, 1.8);
+      tl.to("#in2", { borderColor: "#1fc4b8", duration: 0.15 }, 1.8);
+      GEX.type(tl, document.getElementById("t2"), "987 654 321", 1.9, 0.9);
+      tl.to("#k1", { opacity: 0.2, duration: 0.25, ease: "steps(1)", yoyo: true, repeat: 3 }, 0.8);
+      tl.to("#k2", { autoAlpha: 0, duration: 0.05 }, 2.9);
+      tl.to("#in2", { borderColor: "#dfe7e6", duration: 0.15 }, 2.9);
+      // guardar
+      const cur = GEX.cursor(document.getElementById("w"));
+      tl.fromTo(cur.c, { x: 840, y: 660, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 2.5);
+      GEX.tap(tl, cur, 470, 570, 2.8, 0.4);
+      tl.to("#btn", { keyframes: [{ scale: 0.95, duration: 0.08 }, { scale: 1, duration: 0.2 }], ease: "sine.out" }, 3.2);
+      tl.to("#btn", { backgroundColor: "#179a4a", duration: 0.2 }, 3.35);
+      tl.add(() => {}, 3.4);
+      const bt = document.getElementById("bt"), st = { v: 0 };
+      tl.to(st, { v: 1, duration: 0.01, onUpdate: () => { bt.textContent = st.v > 0.5 ? "Cliente guardado ✓" : "Guardar cliente"; } }, 3.4);
+      tl.to(cur.c, { x: 840, y: 660, autoAlpha: 0, duration: 0.35 }, 3.6);
+      // el registro viaja a la base de datos
+      tl.fromTo("#rec", { y: -230, scale: 0.6, autoAlpha: 0 }, { y: -230, scale: 1, autoAlpha: 1, duration: 0.25, ease: "back.out(2)", immediateRender: false }, 3.7);
+      tl.to("#rec", { y: 120, scale: 0.4, autoAlpha: 0, duration: 0.55, ease: "power3.in" }, 3.95);
+      const dn = { v: 1247 }, dbn = document.getElementById("dbn");
+      tl.to(dn, { v: 1248, duration: 0.05, onUpdate: () => { dbn.textContent = GEX.fmt(Math.round(dn.v)); } }, 4.45);
+      tl.to("#dbi", { keyframes: [{ scaleY: 0.9, scaleX: 1.08, duration: 0.1 }, { scaleY: 1, scaleX: 1, duration: 0.3 }], transformOrigin: "50% 100%", ease: "back.out(3)" }, 4.45);
+      GEX.punch(tl, "#dbc", 4.5, 1.15);
+      tl.to("#dbi", { y: -10, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 1 }, 5.0);
+      // salida + barrido
+      tl.to("#w", { x: -1100, rotation: -6, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT);
+      tl.to("#db", { x: 1100, rotation: 6, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT + 0.03);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

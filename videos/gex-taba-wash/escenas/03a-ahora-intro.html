@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Taba Wash 03a — Ahora: ingresa el calzado</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #now { position: absolute; left: 0; right: 0; top: 150px; display: flex; justify-content: center; }
+      #now .pill { font-size: 64px; padding: 18px 46px 18px 18px; }
+      #now .pi { width: 92px; height: 92px; }
+      #now .pi svg { width: 58px; height: 58px; }
+      #tab { position: absolute; left: 330px; top: 330px; width: 600px; height: 400px; border-radius: 40px; background: #ffffff; padding: 18px; }
+      #tab .scr { width: 100%; height: 100%; border-radius: 26px; background: var(--soft); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; color: var(--teal); }
+      #tab img { height: 60px; }
+      #tab b { font-weight: 800; font-size: 44px; white-space: nowrap; }
+      #tab .chip { font-size: 32px; }
+      #shoe { position: absolute; left: 70px; top: 560px; width: 340px; height: 170px; z-index: 3; }
+      #shoe svg { width: 100%; height: 100%; }
+      #arr { position: absolute; left: 140px; top: 470px; width: 160px; height: 60px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="3.2" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="3.2" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="now"><div class="pill" id="np"><span class="pi" data-ic="check" data-sw="6"></span>AHORA<i class="shine" id="sh"></i></div></div>
+          <div id="tab"><div class="scr"><img src="assets/logo-v2/gex-full.png" alt="GEX" /><b>Nuevo ingreso</b><span class="chip o" id="nc">+ Registrar calzado</span></div></div>
+          <div id="shoe" data-shoe="#fe6820"></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-pop" src="assets/sfx/pop.wav" data-start="0.45" data-volume="0.3"></audio>
+      <audio id="s-sh" src="assets/sfx/shimmer.wav" data-start="1.1" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="2.78" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons(); GEX.shoes();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 2.8;
+      const parts = GEX.particles(document.getElementById("fx"), 10, 3101, { x0: 40, x1: 1040, y0: 140, y1: 900 });
+      GEX.ambient(tl, parts, 0.2, EXIT + 0.3);
+      tl.fromTo("#np", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(3)" }, 0.05);
+      tl.fromTo("#tab", { y: 400, rotation: 6, autoAlpha: 0 }, { y: 0, rotation: 0, autoAlpha: 1, duration: 0.5, ease: "back.out(1.6)" }, 0.3);
+      tl.fromTo("#shoe", { x: -500, rotation: -10 }, { x: 0, rotation: 0, duration: 0.6, ease: "back.out(1.8)" }, 0.45);
+      tl.fromTo("#nc", { scale: 0 }, { scale: 1, duration: 0.35, ease: "back.out(3)" }, 0.9);
+      tl.fromTo("#sh", { x: -140 }, { x: 600, duration: 0.6, ease: "power2.inOut" }, 1.1);
+      tl.set("#sh", { x: -140 }, 1.75);
+      tl.to("#shoe", { y: -14, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.2);
+      tl.to("#nc", { scale: 1.08, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.8);
+      GEX.scatter(tl, ["#np", "#tab", "#shoe"], EXIT, 31);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

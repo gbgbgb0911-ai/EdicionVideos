@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Taba Wash 04b — Antes: contar comandas a mano</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #clock { position: absolute; left: 400px; top: 740px; font-size: 40px; padding: 12px 26px; }
+      #clock i { width: 42px; height: 42px; display: inline-block; }
+      .lbl2 { position: absolute; top: 300px; font-weight: 800; font-size: 34px; color: #1fc4b8; white-space: nowrap; }
+      .slip { position: absolute; left: 90px; top: 400px; width: 380px; height: 230px; padding: 22px 26px; border-radius: 12px; background: #ffffff; color: var(--teal); border-top: 12px dashed #fe6820; }
+      .slip h5 { font-weight: 800; font-size: 26px; letter-spacing: 0.1em; }
+      .slip b { display: block; font-weight: 800; font-size: 60px; color: #c94a0c; margin-top: 8px; }
+      .slip svg { width: 300px; height: 40px; }
+      #calc { position: absolute; left: 300px; top: 860px; width: 480px; height: 560px; padding: 28px; border-radius: 40px; background: #ffffff; }
+      #disp { height: 130px; border-radius: 20px; background: var(--soft); display: flex; align-items: center; justify-content: flex-end; padding: 0 26px; font-weight: 800; font-size: 72px; color: var(--teal); white-space: nowrap; }
+      #keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 24px; }
+      #keys i { height: 74px; border-radius: 16px; background: var(--soft); }
+      #keys i.o { background: #fe6820; }
+      #err { position: absolute; left: 0; right: 0; top: 1460px; display: flex; justify-content: center; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">ANTES · CIERRE DEL DÍA</span></div>
+        <span class="chip a" id="clock"><i data-ic="clock" data-col="#ffffff"></i><span class="num" id="cv">8:00 pm</span></span>
+        <span class="lbl2" id="l1" style="left: 90px">Comandas del día</span>
+        <span class="lbl2" id="l2" style="left: 640px">Contadas</span>
+        <div id="pile"></div>
+        <div id="calc"><div id="disp"><span class="num" id="dv">$0</span></div><div id="keys"><i></i><i></i><i></i><i class="o"></i><i></i><i></i><i></i><i class="o"></i><i></i><i></i><i></i><i class="o"></i><i></i><i></i><i></i><i class="o"></i></div></div>
+        <div id="err"><div class="pill o" id="ep"><span class="pi" data-ic="alert" data-col="#ea5a14" data-sw="5"></span>No cuadra… ¡a recontar!<i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-t1" src="assets/sfx/tick.wav" data-start="1.0" data-volume="0.28"></audio>
+      <audio id="s-t2" src="assets/sfx/tick.wav" data-start="2.2" data-volume="0.28"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="4.2" data-volume="0.38"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const AM = [15, 25, 18, 30, 15, 22, 25, 20];
+      const pile = document.getElementById("pile");
+      const r = GEX.rng(42);
+      AM.forEach((a, i) => {
+        const s = document.createElement("div");
+        s.className = "slip"; s.id = "s" + i;
+        s.innerHTML = '<h5 data-layout-allow-overlap data-layout-allow-occlusion>COMANDA #' + (230 + i) + "</h5><b data-layout-allow-overlap data-layout-allow-occlusion>$" + a + '</b><svg viewBox="0 0 300 40"><path d="M4 28c14-18 24 6 38-4s22-12 32 0 26-16 40-2" fill="none" stroke="#0b958b" stroke-width="6" stroke-linecap="round"/></svg>';
+        s.dataset.rot = ((r() - 0.5) * 14).toFixed(1);
+        pile.appendChild(s);
+        gsap.set(s, { rotation: +s.dataset.rot, x: (r() - 0.5) * 30, y: -i * 6 });
+      });
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.1;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 8, 4201, { x0: 40, x1: 1040, y0: 260, y1: 1560 });
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set("#ep", { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#clock", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.6)" }, 0.3);
+      tl.fromTo(["#l1", "#l2"], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, stagger: 0.2 }, 0.4);
+      tl.fromTo(".slip", { y: -600, autoAlpha: 0 }, { y: (i) => -i * 6, autoAlpha: 1, duration: 0.45, ease: "bounce.out", stagger: 0.05 }, 0.3);
+      tl.fromTo("#calc", { y: 600, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.5);
+      // una por una, a mano
+      const sum = { v: 0 }, dv = document.getElementById("dv");
+      let acc = 0;
+      AM.slice().reverse().forEach((a, k) => {
+        const i = AM.length - 1 - k, t = 1.0 + k * 0.38;
+        acc += a;
+        tl.to("#s" + i, { x: 520, y: 40 - k * 6, rotation: (k % 2 ? 6 : -5), duration: 0.3, ease: "power2.inOut" }, t);
+        tl.to(sum, { v: acc, duration: 0.2, ease: "none", onUpdate: () => { dv.textContent = "$" + Math.round(sum.v); } }, t + 0.15);
+        tl.to("#keys i:nth-child(" + ((k * 5) % 16 + 1) + ")", { keyframes: [{ scale: 0.85, duration: 0.06 }, { scale: 1, duration: 0.12 }] }, t + 0.1);
+      });
+      const cl = { v: 0 }, cv = document.getElementById("cv");
+      tl.to(cl, { v: 45, duration: 4.0, ease: "none", onUpdate: () => { cv.textContent = "8:" + String(Math.round(cl.v)).padStart(2, "0") + " pm"; } }, 0.8);
+      // error: no cuadra
+      tl.to("#disp", { keyframes: [{ x: -12, duration: 0.05 }, { x: 12, duration: 0.05 }, { x: -8, duration: 0.05 }, { x: 0, duration: 0.05 }], backgroundColor: "#ffe2d4" }, 4.2);
+      tl.fromTo("#ep", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 4.25);
+      tl.to(["#s0", "#s1", "#s2"], { x: 0, y: (i) => -i * 6, rotation: 0, duration: 0.4, ease: "power2.inOut", stagger: 0.08 }, 4.5);
+      tl.to(sum, { v: 0, duration: 0.4, ease: "power2.in", onUpdate: () => { dv.textContent = "$" + Math.round(sum.v); } }, 4.5);
+      tl.fromTo("#sh", { x: -140 }, { x: 760, duration: 0.6, ease: "power2.inOut" }, 4.9);
+      tl.set("#sh", { x: -140 }, 5.55);
+      GEX.punch(tl, "#clock", 4.3, 1.15);
+      // salida + barrido
+      GEX.scatter(tl, ["#clock", "#calc", "#ep", "#tag", "#l1", "#l2"], EXIT, 42);
+      tl.to(".slip", { y: 900, rotation: 20, autoAlpha: 0, duration: 0.35, ease: "power3.in", stagger: 0.02 }, EXIT);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

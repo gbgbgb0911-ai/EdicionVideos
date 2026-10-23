@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Taba Wash 04c — Ahora: ventas y caja automáticas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #w { position: absolute; left: 60px; top: 290px; width: 960px; height: 600px; }
+      #auto { position: absolute; right: 24px; top: 16px; font-size: 26px; }
+      .rw { position: absolute; left: 24px; width: 912px; height: 92px; display: flex; align-items: center; gap: 16px; padding: 0 18px; border-radius: 18px; background: var(--soft); font-weight: 700; font-size: 30px; white-space: nowrap; }
+      .rw .n { font-weight: 800; color: #c94a0c; width: 100px; }
+      .rw .s { flex: 1; }
+      .rw .chip { font-size: 24px; padding: 6px 14px; }
+      .rw .p { width: 110px; text-align: right; font-weight: 800; font-size: 34px; }
+      .cd { position: absolute; left: 60px; width: 960px; height: 170px; display: flex; align-items: center; gap: 24px; padding: 0 34px; border-radius: 32px; background: #ffffff; color: var(--teal); }
+      .cd .ico { width: 104px; height: 104px; }
+      .cd .tx { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+      .cd .tx span { font-weight: 800; font-size: 30px; white-space: nowrap; }
+      .cd b { font-weight: 800; font-size: 76px; white-space: nowrap; }
+      #cmp { position: absolute; left: 0; right: 0; top: 1330px; display: flex; justify-content: center; gap: 16px; }
+      #cmp .chip { font-size: 34px; padding: 12px 26px; }
+      #okc { position: absolute; right: 34px; top: -26px; font-size: 30px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">AHORA · CAJA AUTOMÁTICA</span></div>
+        <div class="win" id="w">
+          <div class="bar"><i></i><i></i><i></i><b>Ventas de hoy</b><span class="chip g" id="auto">● Registro automático</span></div>
+          <div id="rows"></div>
+        </div>
+        <div class="cd" id="exp" style="top: 930px"><span class="ico" data-ic="cash"></span><span class="tx"><span>Debería haber en caja</span><span style="color: #3f7c78; font-size: 26px">(efectivo según el sistema)</span></span><b class="num" id="ev">$0</b></div>
+        <div class="cd" id="real" style="top: 1130px"><span class="ico" data-ic="check" data-col="#179a4a"></span><span class="tx"><span>Dinero contado en caja</span></span><b class="num" style="color: #179a4a">$640</b><span class="chip g" id="okc">Caja cuadra ✓</span></div>
+        <div id="cmp"><span class="chip gr" id="c1">Antes: 45 min contando</span><span class="chip g" id="c2">Ahora: al instante</span></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-r1" src="assets/sfx/tick.wav" data-start="0.8" data-volume="0.25"></audio>
+      <audio id="s-r2" src="assets/sfx/tick.wav" data-start="2.0" data-volume="0.25"></audio>
+      <audio id="s-e" src="assets/sfx/ding.wav" data-start="3.6" data-volume="0.3"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="4.9" data-volume="0.33"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const SALES = [["#0251", "Lavado básico", "Efectivo", "", 15], ["#0252", "Lavado profundo", "Tarjeta", "o", 25], ["#0253", "Lavado + desinfección", "Efectivo", "", 30], ["#0254", "Lavado básico", "Transferencia", "g", 15], ["#0255", "Lavado profundo", "Efectivo", "", 25]];
+      const rows = document.getElementById("rows");
+      SALES.forEach(([n, s, m, c, p], i) => {
+        const d = document.createElement("div");
+        d.className = "rw"; d.id = "r" + i; d.style.top = (96 + i * 100) + "px";
+        d.innerHTML = '<span class="n">' + n + '</span><span class="s">' + s + '</span><span class="chip ' + c + '">' + m + '</span><span class="p">$' + p + "</span>";
+        rows.appendChild(d);
+      });
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.6;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 8, 4301, { x0: 40, x1: 1040, y0: 260, y1: 1560 });
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set([".rw", "#exp", "#real", "#c1", "#c2", "#okc"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#w", { y: 600, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.25);
+      tl.to("#auto", { scale: 1.06, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 9 }, 0.7);
+      SALES.forEach((_, i) => {
+        tl.fromTo("#r" + i, { x: 200, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 0.8 + i * 0.6);
+        tl.to("#r" + i, { keyframes: [{ backgroundColor: "#d6f3f0", duration: 0.15 }, { backgroundColor: "#eef4f3", duration: 0.5 }], ease: "none" }, 0.8 + i * 0.6);
+      });
+      tl.fromTo("#exp", { x: -1000, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out", immediateRender: false }, 3.4);
+      GEX.count(tl, document.getElementById("ev"), 0, 640, 3.6, 0.9, "$");
+      GEX.punch(tl, "#ev", 4.5, 1.12);
+      tl.fromTo("#real", { x: 1000, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out", immediateRender: false }, 4.5);
+      tl.fromTo("#okc", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(3)", immediateRender: false }, 4.9);
+      tl.fromTo("#c1", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 5.4);
+      tl.fromTo("#c2", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 5.6);
+      GEX.punch(tl, "#c2", 6.0, 1.1);
+      // salida + barrido
+      GEX.scatter(tl, ["#w", "#exp", "#real", "#c1", "#c2", "#tag"], EXIT, 43);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

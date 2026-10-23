@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Taba Wash 04a — El ahorro no termina ahí</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #wrap { position: absolute; left: 0; right: 0; top: 200px; display: flex; flex-direction: column; align-items: center; gap: 30px; }
+      .row { display: flex; align-items: center; gap: 26px; }
+      #clk { width: 200px; height: 200px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      #clk svg { width: 156px; height: 156px; overflow: visible; }
+      #big { display: flex; flex-direction: column; }
+      #big b { font-weight: 800; font-size: 120px; line-height: 0.9; color: #fe6820; white-space: nowrap; }
+      #big span { font-weight: 800; font-size: 44px; white-space: nowrap; }
+      #more { font-size: 54px; padding: 18px 40px 18px 18px; }
+      #more .pi { width: 80px; height: 80px; }
+      #more .pi svg { width: 50px; height: 50px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="3.4" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="3.4" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="wrap">
+            <div class="row">
+              <div id="clk"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#0b958b" stroke-width="7" /><path id="hh" d="M50 50V28" stroke="#ea5a14" stroke-width="8" stroke-linecap="round" /><path id="hm" d="M50 50h22" stroke="#0b958b" stroke-width="6" stroke-linecap="round" /><circle cx="50" cy="50" r="6" fill="#ea5a14" /></svg></div>
+              <div id="big"><b>+36 h</b><span>y sigue sumando…</span></div>
+            </div>
+            <div class="pill" id="more"><span class="pi" data-ic="plus" data-sw="6"></span>No termina ahí<i class="shine" id="sh"></i></div>
+          </div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-hit" src="assets/sfx/impact.wav" data-start="0.35" data-volume="0.38"></audio>
+      <audio id="s-p" src="assets/sfx/pop.wav" data-start="1.0" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="2.98" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.0;
+      const parts = GEX.particles(document.getElementById("fx"), 10, 4101, { x0: 40, x1: 1040, y0: 140, y1: 900 });
+      GEX.ambient(tl, parts, 0.2, EXIT + 0.3);
+      tl.fromTo("#clk", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.2)" }, 0.05);
+      tl.fromTo("#hm", { rotation: 0 }, { rotation: 1080, svgOrigin: "50 50", duration: 2.8, ease: "power1.inOut" }, 0.2);
+      tl.fromTo("#hh", { rotation: 0 }, { rotation: 180, svgOrigin: "50 50", duration: 2.8, ease: "power1.inOut" }, 0.2);
+      tl.fromTo("#big b", { scale: 2, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "power4.in", transformOrigin: "20% 60%" }, 0.15);
+      tl.fromTo("#big span", { x: -40, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out" }, 0.5);
+      tl.fromTo("#more", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)" }, 1.0);
+      tl.fromTo("#more .pi", { rotation: -180 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 1.05);
+      tl.fromTo("#sh", { x: -140 }, { x: 600, duration: 0.6, ease: "power2.inOut" }, 1.5);
+      tl.set("#sh", { x: -140 }, 2.15);
+      tl.to("#more", { scale: 1.05, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1 }, 2.2);
+      GEX.scatter(tl, ["#clk", "#big", "#more"], EXIT, 41);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

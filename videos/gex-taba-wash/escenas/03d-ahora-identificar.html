@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Taba Wash 03d — Ahora: identificación al instante</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #w { position: absolute; left: 60px; top: 290px; width: 960px; height: 360px; }
+      #srch { position: absolute; left: 30px; top: 96px; width: 900px; height: 84px; display: flex; align-items: center; gap: 14px; padding: 0 24px; border-radius: 42px; border: 5px solid #1fc4b8; font-weight: 700; font-size: 40px; }
+      #srch i { width: 44px; height: 44px; display: inline-block; }
+      #res { position: absolute; left: 30px; top: 196px; width: 900px; height: 140px; display: flex; align-items: center; gap: 22px; padding: 0 16px; border-radius: 24px; background: var(--soft); }
+      #res .th { width: 170px; height: 110px; border-radius: 16px; background: #ffffff; position: relative; flex: none; }
+      #res .th div { position: absolute; left: 10px; top: 22px; width: 150px; height: 75px; }
+      #res b { display: block; font-weight: 800; font-size: 36px; white-space: nowrap; }
+      #res .chip { margin-top: 6px; font-size: 26px; }
+      #timer { position: absolute; right: 84px; top: 302px; font-size: 32px; padding: 10px 22px; z-index: 3; }
+      .sl { position: absolute; width: 210px; height: 105px; }
+      .board { position: absolute; left: 60px; width: 960px; height: 12px; border-radius: 6px; background: #ffffff; }
+      #ring { position: absolute; width: 270px; height: 200px; border-radius: 40px; border: 8px solid #1fc4b8; }
+      #lab { position: absolute; font-size: 28px; z-index: 4; }
+      #chk { position: absolute; left: 0; right: 0; top: 1220px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+      #chk .pill { font-size: 40px; padding: 14px 30px 14px 14px; }
+      #chk .pi { width: 58px; height: 58px; }
+      #chk .pi svg { width: 36px; height: 36px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">AHORA · IDENTIFICACIÓN AL INSTANTE</span></div>
+        <div class="win" id="w">
+          <div class="bar"><i></i><i></i><i></i><b>Buscar pedido</b></div>
+          <div id="srch"><i data-ic="search"></i><span id="q"></span></div>
+          <div id="res"><span class="th"><div data-shoe="#1fc4b8"></div></span><span><b>#0245 · Carla Ríos</b><span class="chip o">Llegó con raspón en la punta</span></span></div>
+        </div>
+        <div id="shelf"></div>
+        <div id="ring"></div>
+        <span class="chip g" id="lab">#0245 · Carla Ríos</span>
+        <div id="chk">
+          <div class="pill" id="k1"><span class="pi" data-ic="check" data-sw="6"></span>Qué zapatillas son</div>
+          <div class="pill o" id="k2"><span class="pi" data-ic="check" data-col="#ea5a14" data-sw="6"></span>En qué condición llegaron</div>
+          <div class="pill g" id="k3"><span class="pi" data-ic="check" data-col="#179a4a" data-sw="6"></span>A qué cliente pertenecen</div>
+        </div>
+        <span class="chip g" id="timer">⏱ 5 segundos</span>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-ty" src="assets/sfx/tick.wav" data-start="0.8" data-volume="0.25"></audio>
+      <audio id="s-m" src="assets/sfx/ding.wav" data-start="2.4" data-volume="0.3"></audio>
+      <audio id="s-k1" src="assets/sfx/pop.wav" data-start="3.4" data-volume="0.3"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="5.0" data-volume="0.33"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const COLS = ["#f2f4f4", "#fe6820", "#1fc4b8", "#f2f4f4", "#cfd8d7", "#f2f4f4", "#179a4a", "#f2f4f4"];
+      const shelf = document.getElementById("shelf");
+      const SX = (i) => 70 + (i % 4) * 238, SY = (i) => 730 + Math.floor(i / 4) * 230;
+      COLS.forEach((c, i) => {
+        const s = document.createElement("div");
+        s.className = "sl"; s.id = "z" + i;
+        s.style.left = SX(i) + "px"; s.style.top = SY(i) + "px";
+        s.innerHTML = GEX.shoe(c, c === "#f2f4f4" || c === "#cfd8d7" ? "#9aaeac" : "#ffffff");
+        shelf.appendChild(s);
+      });
+      [0, 1].forEach((r) => { const b = document.createElement("div"); b.className = "board"; b.style.top = (730 + r * 230 + 108) + "px"; shelf.appendChild(b); });
+      GEX.icons(); GEX.shoes();
+      const ring = document.getElementById("ring"), lab = document.getElementById("lab");
+      ring.style.left = SX(2) - 30 + "px"; ring.style.top = SY(2) - 50 + "px";
+      lab.style.left = SX(2) - 40 + "px"; lab.style.top = SY(2) - 110 + "px";
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.1;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 8, 3401, { x0: 40, x1: 1040, y0: 260, y1: 1560 });
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set(["#res", "#ring", "#lab", "#k1", "#k2", "#k3", "#timer"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#w", { y: -500, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.25);
+      tl.fromTo(".board", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out", stagger: 0.08 }, 0.4);
+      tl.fromTo(".sl", { y: -60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "bounce.out", stagger: 0.04 }, 0.5);
+      GEX.type(tl, document.getElementById("q"), "Carla", 0.8, 0.5);
+      tl.fromTo("#res", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 1.5);
+      // la zapatilla correcta se ilumina
+      tl.to(".sl:not(#z2)", { autoAlpha: 0.35, duration: 0.3 }, 2.3);
+      tl.fromTo("#ring", { scale: 1.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", immediateRender: false }, 2.35);
+      tl.to("#z2", { y: -16, scale: 1.08, duration: 0.3, ease: "back.out(3)" }, 2.35);
+      tl.fromTo("#lab", { y: 20, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.6)", immediateRender: false }, 2.5);
+      tl.to("#ring", { scale: 1.06, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 7 }, 2.9);
+      tl.fromTo("#timer", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 2.6);
+      [["#k1", 3.4], ["#k2", 4.2], ["#k3", 5.0]].forEach(([id, t], i) => {
+        tl.fromTo(id, { x: i % 2 ? 700 : -700, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.42, ease: "back.out(1.8)", immediateRender: false }, t);
+        tl.fromTo(id + " .pi", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(3)" }, t + 0.1);
+      });
+      // salida + barrido
+      GEX.scatter(tl, ["#w", "#timer", "#k1", "#k2", "#k3", "#lab", "#ring", "#tag"], EXIT, 34);
+      tl.to(".sl, .board", { y: 600, autoAlpha: 0, duration: 0.35, ease: "power3.in", stagger: 0.015 }, EXIT);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Taba Wash 05a — Antes: cierre de mes a mano</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #cal { position: absolute; left: 60px; top: 300px; width: 300px; height: 270px; border-radius: 28px; background: #ffffff; overflow: hidden; color: var(--teal); text-align: center; }
+      #cal .hd { height: 74px; background: #ea5a14; color: #ffffff; font-weight: 800; font-size: 34px; letter-spacing: 0.1em; display: flex; align-items: center; justify-content: center; }
+      #cal b { display: block; font-weight: 800; font-size: 120px; line-height: 1.2; }
+      #cal small { font-weight: 800; font-size: 26px; }
+      .stk { position: absolute; top: 330px; width: 180px; }
+      .stk i { display: block; width: 180px; height: 22px; margin-top: 6px; border-radius: 6px; background: #ffffff; }
+      #stl { position: absolute; left: 430px; top: 290px; font-weight: 800; font-size: 30px; color: #1fc4b8; white-space: nowrap; }
+      #xl { position: absolute; left: 60px; top: 640px; width: 960px; height: 640px; }
+      #xl .bar b { color: #179a4a; }
+      #grid { position: absolute; left: 24px; top: 96px; display: grid; grid-template-columns: 70px repeat(5, 1fr); gap: 6px; width: 912px; }
+      #grid span { height: 64px; border-radius: 8px; background: var(--soft); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 26px; color: var(--teal); white-space: nowrap; }
+      #grid span.h { background: #179a4a; color: #ffffff; font-weight: 800; }
+      #grid span.e { background: #ffe2d4; color: #c94a0c; font-weight: 800; }
+      #hrs { position: absolute; left: 0; right: 0; top: 1330px; display: flex; justify-content: center; }
+      #hp { font-size: 52px; padding: 18px 40px 18px 18px; }
+      #hp .pi { width: 84px; height: 84px; }
+      #hp .pi svg { width: 52px; height: 52px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="9" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="9" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">ANTES · CIERRE DE MES</span></div>
+        <div id="cal"><div class="hd">OCTUBRE</div><b class="num" id="day">28</b><small>Fin de mes</small></div>
+        <span id="stl">Comandas del mes</span>
+        <div class="stk" id="k1" style="left: 430px"></div><div class="stk" id="k2" style="left: 630px"></div><div class="stk" id="k3" style="left: 830px"></div>
+        <div class="win" id="xl"><div class="bar"><i></i><i></i><i></i><b>reporte_octubre.xlsx</b></div><div id="grid"></div></div>
+        <div id="hrs"><div class="pill o" id="hp"><span class="pi" data-ic="clock" data-col="#ea5a14" data-sw="5"></span><span class="num" id="hv">+1 hora ordenando</span><i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-p" src="assets/sfx/pop.wav" data-start="0.45" data-volume="0.3"></audio>
+      <audio id="s-t1" src="assets/sfx/tick.wav" data-start="3.0" data-volume="0.25"></audio>
+      <audio id="s-t2" src="assets/sfx/tick.wav" data-start="4.6" data-volume="0.25"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="7.2" data-volume="0.38"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="8.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      ["#k1", "#k2", "#k3"].forEach((id, j) => { const k = document.querySelector(id); for (let i = 0; i < 7 + j; i++) k.appendChild(document.createElement("i")); });
+      const H = ["", "Fecha", "Cliente", "Servicio", "Pago", "Monto"];
+      const DATA = [["01/10", "Ana", "Básico", "Efect.", "$15"], ["01/10", "Luis", "Profundo", "Tarj.", "$25"], ["02/10", "Carla", "Desinf.", "Efect.", "$30"], ["02/10", "Jorge", "Básico", "Transf.", "$15"], ["03/10", "Sofía", "Profundo", "Efect.", "#¡REF!"], ["03/10", "…", "…", "…", "…"]];
+      const g = document.getElementById("grid");
+      H.forEach((h) => { const s = document.createElement("span"); s.className = "h"; s.textContent = h; g.appendChild(s); });
+      const cells = [];
+      DATA.forEach((row, r) => {
+        const n = document.createElement("span"); n.className = "h"; n.textContent = r + 1; g.appendChild(n);
+        row.forEach((v) => { const s = document.createElement("span"); s.dataset.v = v; if (v === "#¡REF!") s.className = "e"; g.appendChild(s); cells.push(s); });
+      });
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 8.6;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 8, 5101, { x0: 40, x1: 1040, y0: 260, y1: 1560 });
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set("#hp", { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#cal", { scale: 0, rotation: -12 }, { scale: 1, rotation: -3, duration: 0.45, ease: "back.out(2.4)" }, 0.3);
+      const d = { v: 28 }, day = document.getElementById("day");
+      tl.to(d, { v: 31, duration: 0.9, ease: "steps(3)", onUpdate: () => { day.textContent = Math.round(d.v); } }, 0.8);
+      tl.to("#cal", { rotation: 3, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 5 }, 0.8);
+      tl.fromTo("#stl", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 0.6);
+      tl.fromTo(".stk i", { y: -400, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "bounce.out", stagger: 0.03 }, 0.6);
+      tl.fromTo("#xl", { y: 700, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 2.0);
+      // pasando todo a Excel, celda por celda
+      cells.forEach((c, i) => {
+        const t = 2.6 + i * 0.13;
+        tl.fromTo(c, { backgroundColor: "#eef4f3" }, { backgroundColor: "#d6f3f0", duration: 0.06, immediateRender: false }, t);
+        tl.to(c, { backgroundColor: c.className === "e" ? "#ffe2d4" : "#eef4f3", duration: 0.2 }, t + 0.08);
+        const p = { v: 0 };
+        tl.to(p, { v: 1, duration: 0.05, onUpdate: () => { c.textContent = p.v > 0.5 ? c.dataset.v : ""; } }, t + 0.06);
+      });
+      tl.to(".stk", { y: 6, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 11, stagger: 0.1 }, 2.6);
+      const hv = document.getElementById("hv"), h = { v: 0 };
+      tl.fromTo("#hp", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 3.0);
+      tl.to(h, { v: 8, duration: 4.0, ease: "none", onUpdate: () => { { const n = Math.max(1, Math.round(h.v)); hv.textContent = "+" + n + (n === 1 ? " hora" : " horas") + " ordenando"; }; } }, 3.1);
+      GEX.punch(tl, "#hp", 7.2, 1.15);
+      tl.fromTo("#sh", { x: -140 }, { x: 760, duration: 0.6, ease: "power2.inOut" }, 7.5);
+      tl.set("#sh", { x: -140 }, 8.15);
+      // salida + barrido
+      GEX.scatter(tl, ["#cal", "#stl", "#k1", "#k2", "#k3", "#xl", "#hp", "#tag"], EXIT, 51);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

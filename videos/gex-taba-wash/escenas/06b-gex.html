@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Taba Wash 06b — Eso hacemos en GEX</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #lg { position: absolute; left: 0; right: 0; top: 150px; display: flex; justify-content: center; }
+      #lgc { padding: 26px 50px; border-radius: 36px; background: #ffffff; }
+      #lgc img { display: block; height: 110px; }
+      #tx { position: absolute; left: 0; right: 0; top: 380px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      #tx span { font-weight: 800; font-size: 56px; white-space: nowrap; line-height: 1.1; }
+      #l2 { color: #1fc4b8; } #l3 { color: #fe6820; }
+      #cs { position: absolute; left: 0; right: 0; top: 650px; display: flex; justify-content: center; }
+      #cs .chip { font-size: 34px; padding: 12px 26px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.5" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="6.5" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="lg"><div id="lgc"><img src="assets/logo-v2/gex-full.png" alt="GEX" /></div></div>
+          <div id="tx"><span id="l1">Sistemas que resuelven</span><span id="l2">problemas reales</span><span id="l3">en negocios reales</span></div>
+          <div id="cs"><span class="chip" id="cc">Caso Taba Wash ✓</span></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-lg" src="assets/sfx/shimmer.wav" data-start="0.3" data-volume="0.32"></audio>
+      <audio id="s-p" src="assets/sfx/pop.wav" data-start="2.4" data-volume="0.3"></audio>
+      <audio id="s-d" src="assets/sfx/ding.wav" data-start="4.2" data-volume="0.26"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.1;
+      const parts = GEX.particles(document.getElementById("fx"), 12, 6201, { x0: 30, x1: 1050, y0: 140, y1: 900 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      const ws = ["#l1", "#l2", "#l3"].map((id) => GEX.split(document.querySelector(id)));
+      gsap.set("#cc", { autoAlpha: 0 });
+      tl.fromTo("#lgc", { scale: 0.3, rotation: -8, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.55, ease: "back.out(2.4)" }, 0.1);
+      GEX.float(tl, "#lgc", 0.8, EXIT, 8, 1.6);
+      GEX.reveal(tl, ws[0].words, 1.2, "rise", { stagger: 0.08, duration: 0.4 });
+      GEX.reveal(tl, ws[1].words, 2.4, "pop", { stagger: 0.1, duration: 0.4 });
+      GEX.reveal(tl, ws[2].words, 3.4, "pop", { stagger: 0.1, duration: 0.4 });
+      GEX.punch(tl, "#l2", 3.0, 1.08);
+      GEX.punch(tl, "#l3", 4.1, 1.08);
+      tl.fromTo("#cc", { y: 40, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.6)", immediateRender: false }, 4.2);
+      GEX.scatter(tl, ["#lgc", "#cc"], EXIT, 62);
+      ws.forEach((w, i) => tl.to(w.words, { y: i === 1 ? 160 : -160, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.03 }, EXIT));
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

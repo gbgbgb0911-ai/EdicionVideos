@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Taba Wash 03c — Ahora: foto del calzado</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #ph { position: absolute; left: 290px; top: 290px; width: 500px; height: 760px; padding: 18px; border-radius: 64px; background: #ffffff; }
+      #scr { position: relative; width: 100%; height: 100%; border-radius: 48px; background: var(--soft); overflow: hidden; }
+      #vshoe { position: absolute; left: 32px; top: 220px; width: 400px; height: 200px; }
+      .br { position: absolute; width: 70px; height: 70px; border: 0 solid #1fc4b8; }
+      #b1 { left: 24px; top: 150px; border-left-width: 8px; border-top-width: 8px; border-top-left-radius: 18px; }
+      #b2 { right: 24px; top: 150px; border-right-width: 8px; border-top-width: 8px; border-top-right-radius: 18px; }
+      #b3 { left: 24px; top: 440px; border-left-width: 8px; border-bottom-width: 8px; border-bottom-left-radius: 18px; }
+      #b4 { right: 24px; top: 440px; border-right-width: 8px; border-bottom-width: 8px; border-bottom-right-radius: 18px; }
+      #shut { position: absolute; left: 50%; bottom: 40px; width: 120px; height: 120px; margin-left: -60px; border-radius: 50%; background: #ffffff; border: 10px solid #1fc4b8; }
+      #camlbl { position: absolute; left: 0; right: 0; top: 40px; text-align: center; font-weight: 800; font-size: 28px; letter-spacing: 0.12em; color: var(--teal); }
+      #flash { position: absolute; inset: 0; background: #ffffff; z-index: 30; }
+      #thumb { position: absolute; left: 380px; top: 560px; width: 320px; height: 220px; border-radius: 24px; background: var(--soft); border: 8px solid #ffffff; z-index: 12; }
+      #thumb .s { position: absolute; left: 20px; top: 40px; width: 264px; height: 132px; }
+      #ord { position: absolute; left: 60px; top: 1110px; width: 960px; height: 300px; padding: 26px; display: flex; gap: 26px; }
+      #oph { width: 280px; height: 248px; border-radius: 22px; background: var(--soft); position: relative; flex: none; }
+      #oph .s { position: absolute; left: 20px; top: 64px; width: 240px; height: 120px; }
+      .od { display: flex; flex-direction: column; gap: 10px; }
+      .od b { font-weight: 800; font-size: 42px; color: #c94a0c; white-space: nowrap; }
+      .od span.nm { font-weight: 800; font-size: 36px; white-space: nowrap; }
+      .od .chips { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 4px; }
+      .od .chip { font-size: 28px; }
+      #okw { position: absolute; left: 0; right: 0; top: 1450px; display: flex; justify-content: center; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">AHORA · FOTO DEL CALZADO</span></div>
+        <div id="ph"><div id="scr"><span id="camlbl">CÁMARA</span><div id="vshoe" data-shoe="#1fc4b8"></div><i class="br" id="b1"></i><i class="br" id="b2"></i><i class="br" id="b3"></i><i class="br" id="b4"></i><span id="shut"></span></div></div>
+        <div id="thumb"><div class="s" data-shoe="#1fc4b8"></div></div>
+        <div class="win" id="ord">
+          <div id="oph"><div class="s" data-shoe="#1fc4b8"></div></div>
+          <div class="od"><b>Pedido #0245</b><span class="nm">Carla Ríos</span><div class="chips"><span class="chip" id="c1">Lavado profundo</span><span class="chip o" id="c2">Llegó con raspón en la punta</span></div></div>
+        </div>
+        <div id="okw"><div class="pill g" id="ok"><span class="pi" data-ic="check" data-col="#179a4a" data-sw="6"></span>Foto unida al pedido<i class="shine" id="sh"></i></div></div>
+        <div id="flash"></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-c" src="assets/sfx/click.wav" data-start="1.6" data-volume="0.45"></audio>
+      <audio id="s-p" src="assets/sfx/pop.wav" data-start="2.9" data-volume="0.3"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="4.2" data-volume="0.33"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons(); GEX.shoes();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.6;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 8, 3301, { x0: 40, x1: 1040, y0: 260, y1: 1560 });
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set(["#flash", "#thumb", "#ord", "#ok", "#c1", "#c2"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#ph", { y: 700, rotation: 8 }, { y: 0, rotation: 0, duration: 0.55, ease: "power4.out" }, 0.25);
+      tl.fromTo("#vshoe", { x: -300 }, { x: 0, duration: 0.5, ease: "back.out(1.8)" }, 0.6);
+      tl.fromTo(".br", { scale: 1.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", stagger: 0.05 }, 0.8);
+      tl.to(".br", { scale: 0.9, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.25);
+      // ¡clic! foto
+      const cur = GEX.cursor(document.getElementById("ph"));
+      tl.fromTo(cur.c, { x: 420, y: 760, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 1.0);
+      GEX.tap(tl, cur, 230, 640, 1.2, 0.4);
+      tl.to("#shut", { keyframes: [{ scale: 0.85, duration: 0.08 }, { scale: 1, duration: 0.2 }], ease: "sine.out" }, 1.6);
+      tl.fromTo("#flash", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.05, immediateRender: false }, 1.65);
+      tl.to("#flash", { autoAlpha: 0, duration: 0.3, ease: "power2.out" }, 1.72);
+      tl.to(cur.c, { autoAlpha: 0, duration: 0.2 }, 1.8);
+      // la foto viaja al pedido
+      tl.fromTo("#thumb", { x: -120, y: -200, scale: 1.2, autoAlpha: 0 }, { x: -120, y: -200, scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 1.85);
+      tl.fromTo("#ord", { y: 400, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out", immediateRender: false }, 2.2);
+      tl.to("#thumb", { x: -326, y: 568, scale: 0.85, duration: 0.55, ease: "power3.inOut" }, 2.4);
+      tl.to("#thumb", { autoAlpha: 0, duration: 0.1 }, 2.95);
+      GEX.punch(tl, "#oph", 2.95, 1.08);
+      tl.fromTo("#c1", { scale: 0, autoAlpha: 0, transformOrigin: "0% 50%" }, { scale: 1, autoAlpha: 1, transformOrigin: "0% 50%", duration: 0.35, ease: "back.out(2.6)", immediateRender: false }, 3.2);
+      tl.fromTo("#c2", { scale: 0, autoAlpha: 0, transformOrigin: "0% 50%" }, { scale: 1, autoAlpha: 1, transformOrigin: "0% 50%", duration: 0.35, ease: "back.out(2.6)", immediateRender: false }, 3.55);
+      tl.fromTo("#ok", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 4.2);
+      tl.fromTo("#sh", { x: -140 }, { x: 600, duration: 0.6, ease: "power2.inOut" }, 4.7);
+      tl.set("#sh", { x: -140 }, 5.35);
+      GEX.float(tl, "#ph", 2.0, EXIT, 6, 1.6);
+      // salida + barrido
+      tl.to("#ph", { y: -1000, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT);
+      tl.to("#ord", { x: 1100, rotation: 6, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, EXIT);
+      tl.to("#ok", { y: 300, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

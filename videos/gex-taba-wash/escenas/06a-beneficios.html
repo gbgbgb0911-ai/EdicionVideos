@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Taba Wash 06a — Beneficios</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #hd { position: absolute; left: 0; right: 0; top: 150px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+      #hd span { font-weight: 800; font-size: 50px; white-space: nowrap; }
+      #dig { position: relative; display: inline-block; color: #fe6820; font-size: 64px !important; }
+      #strike { position: absolute; left: -6px; right: -6px; top: 100%; height: 10px; border-radius: 5px; background: #ffffff; }
+      #list { position: absolute; left: 0; right: 0; top: 340px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+      #list .pill { font-size: 40px; padding: 12px 32px 12px 12px; }
+      #list .pi { width: 62px; height: 62px; }
+      #list .pi svg { width: 38px; height: 38px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="9" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="9" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="hd"><span id="h1">No se trata solo de</span><span id="dig">digitalizar<i id="strike"></i></span></div>
+          <div id="list">
+            <div class="pill" id="p1"><span class="pi" data-ic="clock" data-sw="5"></span>Ahorro de tiempo · +36 h/mes</div>
+            <div class="pill o" id="p2"><span class="pi" data-ic="search" data-col="#ea5a14" data-sw="5"></span>Menos errores de identificación</div>
+            <div class="pill g" id="p3"><span class="pi" data-ic="sliders" data-col="#179a4a" data-sw="5"></span>Mayor control administrativo</div>
+            <div class="pill" id="p4"><span class="pi" data-ic="grid" data-sw="5"></span>Procesos más organizados</div>
+          </div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="1.5" data-volume="0.35"></audio>
+      <audio id="s-1" src="assets/sfx/pop.wav" data-start="3.6" data-volume="0.3"></audio>
+      <audio id="s-2" src="assets/sfx/pop.wav" data-start="4.6" data-volume="0.3"></audio>
+      <audio id="s-3" src="assets/sfx/success.wav" data-start="6.0" data-volume="0.33"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="8.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 8.6;
+      const fx = document.getElementById("fx");
+      const parts = GEX.particles(fx, 5, 6101, { x0: 30, x1: 140, y0: 140, y1: 900 }).concat(GEX.particles(fx, 5, 6102, { x0: 940, x1: 1040, y0: 140, y1: 800 }));
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      const h1 = GEX.split(document.getElementById("h1"));
+      gsap.set(["#p1", "#p2", "#p3", "#p4"], { autoAlpha: 0 });
+      GEX.reveal(tl, h1.words, 0.1, "rise", { stagger: 0.08, duration: 0.4 });
+      tl.fromTo("#dig", { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.6)" }, 0.6);
+      tl.fromTo("#strike", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, transformOrigin: "0% 50%", duration: 0.3, ease: "power4.out" }, 1.45);
+      tl.to("#dig", { scale: 0.9, rotation: -3, duration: 0.25, ease: "back.out(2)" }, 1.6);
+      [["#p1", 3.6], ["#p2", 4.6], ["#p3", 6.0], ["#p4", 7.2]].forEach(([id, t], i) => {
+        tl.fromTo(id, { x: i % 2 ? 900 : -900, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.42, ease: "back.out(1.7)", immediateRender: false }, t);
+        tl.fromTo(id + " .pi", { scale: 0, rotation: -150 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.6)" }, t + 0.08);
+        GEX.punch(tl, id, t + 0.42, 1.06);
+        GEX.float(tl, id, t + 0.8, EXIT, 4, 1.3 + i * 0.12);
+      });
+      GEX.scatter(tl, ["#p1", "#p2", "#p3", "#p4", "#dig"], EXIT, 61);
+      tl.to(h1.words, { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.03 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
