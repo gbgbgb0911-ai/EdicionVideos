@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Trip 06b — Ahora: cada pedido se contabiliza solo</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #ord { position: absolute; left: 180px; top: 300px; width: 720px; height: 130px; display: flex; align-items: center; gap: 18px; padding: 0 26px; border-radius: 30px; background: #ffffff; color: var(--teal); font-weight: 800; font-size: 34px; white-space: nowrap; z-index: 5; }
+      #ord .ico { width: 80px; height: 80px; }
+      #ord .chip { margin-left: auto; font-size: 26px; }
+      #mv { position: absolute; left: 60px; top: 500px; width: 960px; height: 700px; }
+      .mr { position: absolute; left: 24px; width: 912px; height: 92px; display: flex; align-items: center; gap: 16px; padding: 0 20px; border-radius: 18px; background: var(--soft); font-weight: 700; font-size: 30px; white-space: nowrap; }
+      .mr .n { font-weight: 800; color: #c94a0c; width: 100px; }
+      .mr .s { flex: 1; }
+      .mr .chip { font-size: 22px; padding: 4px 12px; }
+      .mr b { width: 110px; text-align: right; font-weight: 800; font-size: 34px; }
+      #tot { position: absolute; left: 24px; top: 590px; width: 912px; height: 86px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-radius: 20px; background: #0b958b; color: #ffffff; font-weight: 800; font-size: 32px; }
+      #tot b { font-size: 46px; }
+      #auto { position: absolute; left: 0; right: 0; top: 1240px; display: flex; justify-content: center; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">AHORA · CONTABILIDAD AUTOMÁTICA</span></div>
+        <div id="ord"><span class="ico" data-ic="bag"></span>#1843 · Burger Box · $24<span class="chip g">Registrado</span></div>
+        <div class="win" id="mv"><div class="bar"><i></i><i></i><i></i><b>Movimientos de hoy</b></div><div id="rows"></div><div id="tot"><span>Total contabilizado</span><b class="num" id="tv">$1,236</b></div></div>
+        <div id="auto"><div class="pill" id="ap"><span class="pi" data-ic="check" data-sw="6"></span>Sin cálculos a mano<i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-p" src="assets/sfx/pop.wav" data-start="0.5" data-volume="0.28"></audio>
+      <audio id="s-f" src="assets/sfx/whoosh.wav" data-start="1.5" data-volume="0.35"></audio>
+      <audio id="s-d" src="assets/sfx/ding.wav" data-start="2.1" data-volume="0.28"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="4.4" data-volume="0.32"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const R = [["#1840", "Pollería", "Juan", "", 30], ["#1841", "Farmacia", "Ana", "o", 12], ["#1842", "Burger Box", "Luis", "g", 24], ["#1843", "Burger Box", "Juan", "", 24]];
+      const rows = document.getElementById("rows");
+      R.forEach(([n, b, d, c, v], i) => {
+        const e = document.createElement("div");
+        e.className = "mr"; e.id = "r" + i; e.style.top = (90 + i * 102) + "px";
+        e.innerHTML = '<span class="n">' + n + '</span><span class="s">' + b + '</span><span class="chip ' + c + '">Driver ' + d + "</span><b>$" + v + "</b>";
+        rows.appendChild(e);
+      });
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.6;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 8, 6201, { x0: 40, x1: 1040, y0: 260, y1: 1560 });
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set(["#r3", "#ap"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#ord", { y: -300, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2)" }, 0.45);
+      tl.fromTo("#mv", { y: 700, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.6);
+      tl.fromTo(["#r0", "#r1", "#r2"], { x: -60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "power3.out", stagger: 0.1 }, 0.9);
+      // el pedido cae solo en movimientos
+      tl.to("#ord", { y: 586, scale: 0.6, autoAlpha: 0, duration: 0.55, ease: "power3.in" }, 1.5);
+      tl.fromTo("#r3", { scale: 1.2, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", immediateRender: false }, 2.05);
+      tl.to("#r3", { keyframes: [{ backgroundColor: "#d6f3f0", duration: 0.15 }, { backgroundColor: "#eef4f3", duration: 0.6 }], ease: "none" }, 2.1);
+      GEX.count(tl, document.getElementById("tv"), 1236, 1260, 2.1, 0.6, "$");
+      GEX.punch(tl, "#tot", 2.2, 1.04);
+      tl.fromTo("#ap", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 4.4);
+      tl.fromTo("#sh", { x: -140 }, { x: 600, duration: 0.6, ease: "power2.inOut" }, 4.9);
+      tl.set("#sh", { x: -140 }, 5.55);
+      tl.to(".mr", { x: 6, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.08 }, 3.0);
+      // salida + barrido
+      tl.to("#mv", { y: 800, rotation: 5, autoAlpha: 0, duration: 0.38, ease: "power3.in" }, EXIT);
+      tl.to("#ap", { x: -900, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      tl.to("#tag", { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

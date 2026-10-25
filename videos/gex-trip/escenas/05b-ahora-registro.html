@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Trip 05b — Ahora: la central registra el pedido en Trip</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      .stp { position: absolute; left: 60px; display: flex; align-items: center; gap: 14px; font-weight: 800; font-size: 34px; white-space: nowrap; }
+      .stp .n { width: 56px; height: 56px; border-radius: 50%; background: #fe6820; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+      .wa { position: absolute; left: 60px; top: 360px; display: flex; align-items: center; gap: 12px; padding: 16px 26px 16px 14px; border-radius: 26px 26px 26px 8px; background: #179a4a; font-weight: 700; font-size: 32px; white-space: nowrap; }
+      .wa i { width: 44px; height: 44px; display: inline-block; }
+      #still { position: absolute; left: 700px; top: 300px; font-size: 26px; }
+      #w { position: absolute; left: 60px; top: 600px; width: 960px; height: 640px; }
+      .fd { position: absolute; left: 30px; width: 900px; display: flex; align-items: center; gap: 16px; height: 96px; padding: 0 22px; border-radius: 20px; border: 5px solid var(--line); font-weight: 700; font-size: 36px; white-space: nowrap; }
+      .fd label { width: 190px; font-weight: 800; font-size: 26px; letter-spacing: 0.08em; color: #3f7c78; }
+      #btn { position: absolute; left: 30px; top: 470px; width: 900px; height: 110px; border-radius: 26px; background: var(--teal); color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 42px; white-space: nowrap; }
+      #man { position: absolute; right: 24px; top: 16px; font-size: 24px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">AHORA · EL PEDIDO ENTRA AL SISTEMA</span></div>
+        <div class="stp" id="s1" style="top: 290px"><span class="n">1</span>El negocio escribe</div>
+        <span class="chip gr" id="still">Sigue por WhatsApp</span>
+        <div class="wa" id="wa"><i data-ic="wa" data-col="#ffffff" data-sw="4"></i><b>Pollería:</b>&nbsp;2 pollos · Av. Lima 123 · $30</div>
+        <div class="stp" id="s2" style="top: 520px"><span class="n">2</span>La central lo registra en Trip</div>
+        <div class="win" id="w">
+          <div class="bar"><i></i><i></i><i></i><b>Trip · Nuevo pedido</b><span class="chip a" id="man">Registro manual</span></div>
+          <div class="fd" id="f1" style="top: 100px"><label>NEGOCIO</label><span id="v1"></span></div>
+          <div class="fd" id="f2" style="top: 220px"><label>DIRECCIÓN</label><span id="v2"></span></div>
+          <div class="fd" id="f3" style="top: 340px"><label>COBRO</label><span id="v3"></span></div>
+          <div id="btn"><span id="bt">Registrar pedido</span></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-wa" src="assets/sfx/pop.wav" data-start="0.6" data-volume="0.3"></audio>
+      <audio id="s-ty" src="assets/sfx/tick.wav" data-start="2.2" data-volume="0.25"></audio>
+      <audio id="s-c" src="assets/sfx/click.wav" data-start="4.6" data-volume="0.4"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="4.85" data-volume="0.33"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.6;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 8, 5201, { x0: 40, x1: 1040, y0: 260, y1: 1560 });
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#s1", { x: -400, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.35);
+      tl.fromTo("#wa", { x: -900, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(1.6)" }, 0.6);
+      tl.fromTo("#still", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)" }, 1.1);
+      tl.fromTo("#s2", { x: -400, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 1.6);
+      tl.fromTo("#w", { y: 700, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 1.7);
+      // la central copia los datos en Trip
+      [["#f1", "#v1", "Pollería Don Pepe", 2.2], ["#f2", "#v2", "Av. Lima 123", 2.95], ["#f3", "#v3", "$30 · efectivo", 3.6]].forEach(([fd, v, txt, t]) => {
+        tl.to(fd, { borderColor: "#1fc4b8", duration: 0.12 }, t - 0.05);
+        GEX.type(tl, document.querySelector(v), txt, t, 0.55);
+        tl.to(fd, { borderColor: "#dfe7e6", duration: 0.12 }, t + 0.6);
+      });
+      const cur = GEX.cursor(document.getElementById("w"));
+      tl.fromTo(cur.c, { x: 860, y: 620, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 3.9);
+      GEX.tap(tl, cur, 460, 510, 4.2, 0.4);
+      tl.to("#btn", { keyframes: [{ scale: 0.95, duration: 0.08 }, { scale: 1, duration: 0.2 }], ease: "sine.out" }, 4.6);
+      tl.to("#btn", { backgroundColor: "#179a4a", duration: 0.2 }, 4.75);
+      const bt = document.getElementById("bt"), b = { v: 0 };
+      tl.to(b, { v: 1, duration: 0.01, onUpdate: () => { bt.textContent = b.v > 0.5 ? "Publicado para los drivers ✓" : "Registrar pedido"; } }, 4.8);
+      GEX.punch(tl, "#btn", 4.85, 1.04);
+      tl.to(cur.c, { x: 860, y: 620, autoAlpha: 0, duration: 0.35 }, 5.1);
+      tl.to("#wa", { y: -6, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 5 }, 1.2);
+      // salida + barrido
+      GEX.scatter(tl, ["#s1", "#still", "#wa", "#s2", "#w", "#tag"], EXIT, 52);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Trip 06a — Otro cambio importante</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #wrap { position: absolute; left: 0; right: 0; top: 250px; display: flex; flex-direction: column; align-items: center; gap: 26px; }
+      #ic { width: 200px; height: 200px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      #ic svg { width: 130px; height: 130px; }
+      #pp { font-size: 60px; padding: 18px 46px; }
+      .coin { position: absolute; top: 0; width: 70px; height: 70px; border-radius: 50%; background: #ea5a14; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="3.2" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="3.2" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <span class="coin" id="k1" style="left: 200px">$</span><span class="coin" id="k2" style="left: 800px">$</span><span class="coin" id="k3" style="left: 330px">$</span><span class="coin" id="k4" style="left: 690px">$</span>
+          <div id="wrap"><div id="ic" data-ic="money" data-sw="4"></div><div class="pill o plain" id="pp"><span id="pt">Otro cambio importante</span><i class="shine" id="sh"></i></div></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-p" src="assets/sfx/pop.wav" data-start="0.5" data-volume="0.3"></audio>
+      <audio id="s-sh" src="assets/sfx/shimmer.wav" data-start="1.0" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="2.78" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 2.8;
+      const pt = GEX.split(document.getElementById("pt"));
+      tl.fromTo("#ic", { scale: 0, rotation: -160 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, 0.05);
+      tl.fromTo("#pp", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)" }, 0.45);
+      GEX.reveal(tl, pt.words, 0.55, "rise", { stagger: 0.07, duration: 0.35 });
+      tl.fromTo(".coin", { y: -120, rotation: 0, autoAlpha: 0 }, { y: 900, rotation: 360, autoAlpha: 1, duration: 1.6, ease: "power1.in", stagger: 0.2 }, 0.6);
+      tl.fromTo("#sh", { x: -140 }, { x: 800, duration: 0.6, ease: "power2.inOut" }, 1.1);
+      tl.set("#sh", { x: -140 }, 1.75);
+      tl.to("#ic", { rotation: 10, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.3);
+      GEX.scatter(tl, ["#ic", "#pp"], EXIT, 61);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

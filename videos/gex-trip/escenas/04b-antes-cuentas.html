@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Trip 04b — Antes: cuadrar cuentas revisando chats</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #cl { position: absolute; left: 60px; top: 290px; width: 440px; height: 760px; }
+      #cl .bar { font-size: 28px; padding: 14px 20px; }
+      .cr { position: absolute; left: 12px; width: 416px; height: 86px; display: flex; align-items: center; gap: 12px; padding: 0 14px; border-radius: 16px; font-weight: 800; font-size: 28px; white-space: nowrap; }
+      .cr .av { width: 54px; height: 54px; font-size: 22px; }
+      .cr small { margin-left: auto; font-weight: 700; font-size: 22px; color: #3f7c78; }
+      #hl { position: absolute; left: 6px; top: 0; width: 428px; height: 92px; border-radius: 18px; border: 6px solid #fe6820; }
+      #lg { position: absolute; left: 540px; top: 290px; width: 480px; height: 760px; padding: 26px 26px; border-radius: 16px; background: #ffffff; color: var(--teal); }
+      #lg h4 { font-weight: 800; font-size: 32px; letter-spacing: 0.08em; margin-bottom: 12px; }
+      .ln { display: flex; justify-content: space-between; align-items: center; height: 64px; border-bottom: 4px solid #cfe3e1; font-weight: 500; font-size: 30px; white-space: nowrap; }
+      .ln b { font-weight: 800; color: #c94a0c; }
+      #sum { position: absolute; left: 60px; top: 1090px; width: 960px; height: 150px; display: flex; align-items: center; gap: 20px; padding: 0 30px; border-radius: 30px; background: #ffffff; color: var(--teal); }
+      #sum .ico { width: 96px; height: 96px; }
+      #sum span { font-weight: 800; font-size: 34px; white-space: nowrap; }
+      #sum b { margin-left: auto; font-weight: 800; font-size: 64px; white-space: nowrap; }
+      #endw { position: absolute; left: 0; right: 0; top: 1290px; display: flex; justify-content: center; gap: 14px; }
+      #endw .chip { font-size: 36px; padding: 12px 26px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="8.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">ANTES · CUADRAR CUENTAS</span></div>
+        <div class="win" id="cl"><div class="bar"><i></i><i></i><i></i><b>Chats del día</b></div><div id="rows"></div><div id="hl"></div></div>
+        <div id="lg"><h4>CUADERNO DE CUENTAS</h4><div id="lns"></div></div>
+        <div id="sum"><span class="ico" data-ic="money"></span><span>Total del día</span><b class="num" id="sv">$0</b></div>
+        <div id="endw"><span class="chip a" id="e1">⏱ <span class="num" id="hv">0</span> h revisando</span><span class="chip o" id="e2">¿Cuadra? 🤔</span></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-t1" src="assets/sfx/tick.wav" data-start="1.3" data-volume="0.26"></audio>
+      <audio id="s-t2" src="assets/sfx/tick.wav" data-start="2.9" data-volume="0.26"></audio>
+      <audio id="s-t3" src="assets/sfx/tick.wav" data-start="4.5" data-volume="0.26"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="6.4" data-volume="0.36"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="8.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const CH = [["P", "", "Pollería", "48 msj"], ["F", "o", "Farmacia", "31 msj"], ["B", "g", "Burger Box", "56 msj"], ["M", "a", "Minimarket", "22 msj"], ["JR", "", "Driver Juan", "40 msj"], ["AN", "o", "Driver Ana", "37 msj"], ["LU", "g", "Driver Luis", "45 msj"]];
+      const rows = document.getElementById("rows");
+      CH.forEach(([a, c, n, m], i) => {
+        const d = document.createElement("div");
+        d.className = "cr"; d.style.top = (84 + i * 94) + "px";
+        d.innerHTML = '<span class="av ' + c + '">' + a + "</span>" + n + "<small>" + m + "</small>";
+        rows.appendChild(d);
+      });
+      const LN = [["#1832 Pollería", "$8"], ["#1833 Farmacia", "$6"], ["#1834 Burger", "$7"], ["#1835 ¿Juan o Ana?", "¿$9?"], ["#1836 Market", "$9"], ["#1837 Burger", "$7"], ["#1838 …", "…"]];
+      const lns = document.getElementById("lns");
+      LN.forEach(([n, v], i) => { const d = document.createElement("div"); d.className = "ln"; d.id = "l" + i; d.innerHTML = "<span>" + n + "</span><b>" + v + "</b>"; lns.appendChild(d); });
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 8.1;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set([".ln", "#e1", "#e2"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#cl", { x: -600, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.25);
+      tl.fromTo("#lg", { x: 600, rotation: 4, autoAlpha: 0 }, { x: 0, rotation: 1, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.35);
+      tl.fromTo("#sum", { y: 400, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.6);
+      // chat por chat, pedido por pedido
+      const sv = document.getElementById("sv"), s = { v: 0 };
+      let acc = 0;
+      LN.forEach((l, i) => {
+        const t = 1.2 + i * 0.75;
+        tl.to("#hl", { y: 80 + (i % 7) * 94, duration: 0.3, ease: "power2.inOut" }, t);
+        tl.fromTo("#l" + i, { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "power2.out", immediateRender: false }, t + 0.3);
+        const v = parseInt(l[1].replace(/\D/g, "")) || 0; acc += v;
+        tl.to(s, { v: acc, duration: 0.25, ease: "none", onUpdate: () => { sv.textContent = "$" + Math.round(s.v); } }, t + 0.35);
+      });
+      tl.set("#hl", { y: 80 }, 0);
+      tl.fromTo("#e1", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 2.0);
+      const hv = document.getElementById("hv"), h = { v: 0 };
+      tl.to(h, { v: 3, duration: 4.5, ease: "none", onUpdate: () => { hv.textContent = Math.round(h.v); } }, 2.0);
+      tl.fromTo("#e2", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 6.4);
+      tl.to("#l3", { keyframes: [{ x: -8, duration: 0.05 }, { x: 8, duration: 0.05 }, { x: 0, duration: 0.05 }], repeat: 2 }, 3.8);
+      tl.to("#e2", { rotation: -4, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 5 }, 6.8);
+      GEX.punch(tl, "#e1", 6.5, 1.12);
+      // salida + barrido
+      GEX.scatter(tl, ["#cl", "#lg", "#sum", "#e1", "#e2", "#tag"], EXIT, 42);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

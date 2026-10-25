@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Trip 07b — GEX y conversemos</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #lg { position: absolute; left: 0; right: 0; top: 140px; display: flex; justify-content: center; }
+      #lgc { padding: 20px 40px; border-radius: 30px; background: #ffffff; }
+      #lgc img { display: block; height: 90px; }
+      #tx { position: absolute; left: 0; right: 0; top: 330px; display: flex; flex-direction: column; align-items: center; }
+      #tx span { font-weight: 800; font-size: 54px; line-height: 1.12; white-space: nowrap; }
+      #l2 { color: #1fc4b8; }
+      #q { position: absolute; left: 0; right: 0; top: 520px; display: flex; justify-content: center; font-weight: 800; font-size: 40px; white-space: nowrap; }
+      #q .o { color: #fe6820; }
+      #ctaw { position: absolute; left: 0; right: 0; top: 610px; display: flex; justify-content: center; }
+      #cta { font-size: 62px; padding: 18px 48px 18px 18px; }
+      #cta .pi { width: 94px; height: 94px; }
+      #cta .pi svg { width: 60px; height: 60px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="8" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="lg"><span id="lgc"><img src="assets/logo-v2/gex-full.png" alt="GEX" /></span></div>
+          <div id="tx"><span id="l1">Sistemas que resuelven</span><span id="l2">problemas reales</span></div>
+          <div id="q"><span id="qq">¿Pierdes tiempo en <span class="o">procesos manuales</span>?</span></div>
+          <div id="ctaw"><div class="pill g" id="cta"><span class="pi" data-ic="wa" data-col="#179a4a" data-sw="4"></span>Conversemos<i class="shine" id="sh"></i></div></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-lg" src="assets/sfx/shimmer.wav" data-start="0.2" data-volume="0.3"></audio>
+      <audio id="s-q" src="assets/sfx/tick.wav" data-start="3.8" data-volume="0.28"></audio>
+      <audio id="s-cta" src="assets/sfx/pop.wav" data-start="5.9" data-volume="0.32"></audio>
+      <audio id="s-tap" src="assets/sfx/click.wav" data-start="6.55" data-volume="0.4"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.6;
+      const fx = document.getElementById("fx");
+      const parts = GEX.particles(fx, 5, 7201, { x0: 20, x1: 120, y0: 140, y1: 900 }).concat(GEX.particles(fx, 5, 7202, { x0: 960, x1: 1060, y0: 140, y1: 800 }));
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      const w1 = GEX.split(document.getElementById("l1")), w2 = GEX.split(document.getElementById("l2")), wq = GEX.split(document.getElementById("qq"));
+      gsap.set("#cta", { autoAlpha: 0 });
+      tl.fromTo("#lgc", { scale: 0.3, rotation: -8, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.5, ease: "back.out(2.4)" }, 0.1);
+      GEX.float(tl, "#lgc", 0.7, EXIT, 6, 1.6);
+      GEX.reveal(tl, w1.words, 1.0, "rise", { stagger: 0.08, duration: 0.4 });
+      GEX.reveal(tl, w2.words, 2.0, "pop", { stagger: 0.12, duration: 0.4 });
+      GEX.punch(tl, "#l2", 2.6, 1.08);
+      GEX.reveal(tl, wq.words, 3.8, "rise", { stagger: 0.06, duration: 0.35 });
+      tl.fromTo("#cta", { scale: 0.3, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.5, ease: "back.out(2.6)", immediateRender: false }, 5.9);
+      tl.fromTo("#cta .pi", { rotation: -180 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 5.95);
+      const cur = GEX.cursor(document.getElementById("ctaw"));
+      tl.fromTo(cur.c, { x: 760, y: 180, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 5.95);
+      GEX.tap(tl, cur, 560, 50, 6.15, 0.4);
+      tl.to("#cta", { keyframes: [{ scale: 0.93, duration: 0.08 }, { scale: 1.06, duration: 0.2 }, { scale: 1, duration: 0.2 }], ease: "sine.out" }, 6.55);
+      tl.fromTo("#sh", { x: -140 }, { x: 640, duration: 0.6, ease: "power2.inOut" }, 6.7);
+      tl.set("#sh", { x: -140 }, 7.35);
+      tl.to(cur.c, { autoAlpha: 0, duration: 0.2 }, 7.0);
+      GEX.scatter(tl, ["#lgc", "#cta"], EXIT, 72);
+      tl.to(w1.words.concat(w2.words, wq.words), { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.02 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

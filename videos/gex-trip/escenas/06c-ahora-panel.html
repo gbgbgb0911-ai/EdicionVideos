@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Trip 06c — Ahora: panel del administrador</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #w { position: absolute; left: 60px; top: 290px; width: 960px; height: 915px; }
+      .sec { position: absolute; left: 24px; width: 912px; padding: 18px 22px; border-radius: 24px; background: var(--soft); }
+      .sec h6 { font-weight: 800; font-size: 26px; letter-spacing: 0.08em; margin-bottom: 10px; }
+      .br { display: flex; align-items: center; gap: 14px; height: 50px; font-weight: 800; font-size: 28px; white-space: nowrap; }
+      .br .nm { width: 120px; }
+      .br .tr { flex: 1; height: 28px; border-radius: 14px; background: #ffffff; overflow: hidden; }
+      .br .tr i { display: block; height: 100%; border-radius: 14px; background: #1fc4b8; }
+      .br em { width: 60px; text-align: right; font-style: normal; }
+      .bz { display: flex; align-items: center; gap: 14px; height: 60px; font-weight: 800; font-size: 30px; white-space: nowrap; }
+      .bz .rk { width: 44px; height: 44px; border-radius: 50%; background: #ea5a14; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+      .bz span.nm { flex: 1; }
+      .bz .chip { font-size: 24px; }
+      .st { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+      .st div { padding: 14px 16px; border-radius: 18px; background: #ffffff; display: flex; flex-direction: column; gap: 2px; }
+      .st span { font-weight: 800; font-size: 22px; letter-spacing: 0.06em; white-space: nowrap; }
+      .st b { font-weight: 800; font-size: 48px; line-height: 1.05; white-space: nowrap; }
+      #cmp { position: absolute; left: 0; right: 0; top: 1250px; display: flex; justify-content: center; align-items: center; gap: 16px; }
+      #old { position: relative; font-size: 34px; padding: 12px 26px; }
+      #oldx { position: absolute; left: -6px; right: -6px; top: 50%; height: 7px; margin-top: -3px; border-radius: 4px; background: #ffffff; }
+      #new { font-size: 34px; padding: 12px 26px; }
+      #arr { font-weight: 800; font-size: 50px; color: #fe6820; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="9.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="9.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">AHORA · PANEL DEL ADMINISTRADOR</span></div>
+        <div class="win" id="w">
+          <div class="bar"><i></i><i></i><i></i><b>Trip · Administración</b></div>
+          <div class="sec" id="s1" style="top: 92px"><h6>PEDIDOS POR DRIVER · HOY</h6><div id="bars"></div></div>
+          <div class="sec" id="s2" style="top: 430px"><h6>NEGOCIOS QUE MÁS SOLICITAN</h6><div id="biz"></div></div>
+          <div class="sec" id="s3" style="top: 720px"><h6>ESTADÍSTICAS</h6><div class="st"><div><span>PEDIDOS HOY</span><b class="num" id="k1">0</b></div><div><span>PEDIDOS MES</span><b class="num" id="k2">0</b></div><div><span>NEGOCIOS</span><b class="num" id="k3">0</b></div></div></div>
+        </div>
+        <div id="cmp"><span class="chip gr" id="old">Revisar chats<i id="oldx"></i></span><span id="arr">→</span><span class="chip g" id="new">Consultar el panel ✓</span></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-b" src="assets/sfx/tick.wav" data-start="0.8" data-volume="0.26"></audio>
+      <audio id="s-z" src="assets/sfx/pop.wav" data-start="2.6" data-volume="0.28"></audio>
+      <audio id="s-d" src="assets/sfx/ding.wav" data-start="4.6" data-volume="0.26"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="6.6" data-volume="0.32"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="7.0" data-volume="0.32"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="9.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const DR = [["Juan", 42], ["Ana", 37], ["Luis", 33], ["Marco", 28]];
+      document.getElementById("bars").innerHTML = DR.map(([n, v], i) => '<div class="br"><span class="nm">' + n + '</span><span class="tr"><i id="b' + i + '" style="width: ' + Math.round((v / 45) * 100) + "%; background: " + (i === 0 ? "#fe6820" : "#1fc4b8") + '"></i></span><em>' + v + "</em></div>").join("");
+      const BZ = [["Pollería Don Pepe", 120], ["Burger Box", 96], ["Farmacia Sol", 74]];
+      document.getElementById("biz").innerHTML = BZ.map(([n, v], i) => '<div class="bz"><span class="rk">' + (i + 1) + '</span><span class="nm">' + n + '</span><span class="chip">' + v + " pedidos</span></div>").join("");
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 9.1;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set(["#s1", "#s2", "#s3", "#cmp"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#w", { y: 700, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.25);
+      // pedidos por driver
+      tl.fromTo("#s1", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 0.7);
+      tl.fromTo(".br .tr i", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, transformOrigin: "0% 50%", duration: 0.6, ease: "power3.out", stagger: 0.12 }, 0.85);
+      // negocios que más piden
+      tl.fromTo("#s2", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 2.5);
+      tl.fromTo(".bz", { x: -60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.15 }, 2.6);
+      tl.fromTo(".bz .rk", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.15 }, 2.7);
+      // estadísticas
+      tl.fromTo("#s3", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 4.4);
+      GEX.count(tl, document.getElementById("k1"), 0, 214, 4.5, 1.0);
+      GEX.count(tl, document.getElementById("k2"), 0, 5380, 4.6, 1.0);
+      GEX.count(tl, document.getElementById("k3"), 0, 46, 4.7, 1.0);
+      // antes vs ahora
+      tl.fromTo("#cmp", { y: 50, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)", immediateRender: false }, 6.2);
+      tl.fromTo("#oldx", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, transformOrigin: "0% 50%", duration: 0.3, ease: "power4.out" }, 6.6);
+      tl.fromTo("#new", { scale: 0.5 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, 7.0);
+      tl.to("#arr", { x: 10, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 5 }, 7.2);
+      tl.to("#b0", { scaleX: 1.04, transformOrigin: "0% 50%", duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.8);
+      // salida + barrido
+      tl.to("#w", { y: 800, rotation: 5, autoAlpha: 0, duration: 0.38, ease: "power3.in" }, EXIT);
+      GEX.scatter(tl, ["#old", "#arr", "#new", "#tag"], EXIT, 63);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
