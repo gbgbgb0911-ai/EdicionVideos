@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Excel 08 — Mantener vs usar la información</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 30px; top: 200px; }
+      .r1 { display: flex; align-items: center; gap: 20px; }
+      .xi { width: 100px; height: 100px; border-radius: 24px; background: #179a4a; position: relative; flex: none; }
+      .xi::before { content: ""; position: absolute; left: 18px; right: 18px; top: 18px; bottom: 18px; border-radius: 6px; background: #ffffff; background-image: linear-gradient(90deg, transparent 30%, #179a4a 30%, #179a4a 37%, transparent 37%, transparent 63%, #179a4a 63%, #179a4a 70%, transparent 70%), linear-gradient(transparent 28%, #179a4a 28%, #179a4a 36%, transparent 36%, transparent 64%, #179a4a 64%, #179a4a 72%, transparent 72%); }
+      #t1 { font-weight: 800; font-size: 60px; white-space: nowrap; }
+      #ok { font-size: 34px; padding: 10px 20px; }
+      #lbl { font-weight: 800; font-size: 34px; letter-spacing: 0.14em; color: #1fc4b8; white-space: nowrap; }
+      .br { width: 900px; display: flex; flex-direction: column; gap: 10px; }
+      .bh { display: flex; align-items: center; justify-content: space-between; font-weight: 800; font-size: 44px; white-space: nowrap; }
+      .bh span { display: inline-flex; align-items: center; gap: 14px; }
+      .bh .ico { width: 64px; height: 64px; background: #ffffff; }
+      .bf { height: 44px; border-radius: 22px; transform-origin: 0% 50%; }
+      #b1 .bf { width: 900px; background: #fe6820; }
+      #b2 .bf { width: 225px; background: #1fc4b8; }
+      #b1 .pc { color: #fe6820; }
+      #b2 .pc { color: #1fc4b8; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.4" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7.4" data-track-index="0">
+        <div class="top" id="top">
+          <div class="r1"><span class="xi" id="xi"></span><span id="t1">Excel no es el problema</span><span class="chip g" id="ok">✓</span></div>
+          <div id="lbl">TU TIEMPO SE VA EN…</div>
+          <div class="br" id="b1"><div class="bh"><span><span class="ico" id="gear" data-ic="gear" data-col="#ea5a14"></span>Mantener la información</span><b class="pc num" id="p1">0%</b></div><div class="bf" id="f1"></div></div>
+          <div class="br" id="b2"><div class="bh"><span><span class="ico" data-ic="chart"></span>Usarla</span><b class="pc num" id="p2">0%</b></div><div class="bf" id="f2"></div></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.4"></audio>
+      <audio id="s-ok" src="assets/sfx/pop.wav" data-start="0.75" data-volume="0.28"></audio>
+      <audio id="s-b1" src="assets/sfx/whoosh.wav" data-start="2.3" data-volume="0.32"></audio>
+      <audio id="s-hit" src="assets/sfx/impact.wav" data-start="4.1" data-volume="0.32"></audio>
+      <audio id="s-b2" src="assets/sfx/ding.wav" data-start="5.3" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.98" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.0;
+      const t1 = GEX.split(document.getElementById("t1"));
+      gsap.set(["#lbl", "#b1", "#b2"], { autoAlpha: 0 });
+      tl.fromTo("#xi", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, 0.05);
+      GEX.reveal(tl, t1.words, 0.15, "rise", { stagger: 0.08, duration: 0.4 });
+      tl.fromTo("#ok", { scale: 0, rotation: -60, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(3)" }, 0.75);
+      tl.to("#xi", { rotation: 8, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.1);
+      // el problema: mantenerla se come el tiempo
+      tl.fromTo("#lbl", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, 2.0);
+      tl.fromTo("#b1", { x: -80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)", immediateRender: false }, 2.2);
+      tl.fromTo("#f1", { scaleX: 0 }, { scaleX: 1, duration: 1.8, ease: "power2.inOut" }, 2.35);
+      GEX.count(tl, document.getElementById("p1"), 0, 80, 2.35, 1.8, "", "%");
+      tl.fromTo("#gear", { rotation: 0 }, { rotation: 540, duration: EXIT - 2.3, ease: "none" }, 2.3);
+      GEX.punch(tl, "#p1", 4.15, 1.3);
+      tl.to("#f1", { keyframes: [{ y: -4, duration: 0.08 }, { y: 4, duration: 0.08 }, { y: 0, duration: 0.08 }], repeat: 2, ease: "none" }, 4.15);
+      // en lugar de usarla
+      tl.fromTo("#b2", { x: 80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)", immediateRender: false }, 5.0);
+      tl.fromTo("#f2", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out" }, 5.15);
+      GEX.count(tl, document.getElementById("p2"), 0, 20, 5.15, 0.5, "", "%");
+      tl.to("#b2 .ico", { scale: 1.2, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 3 }, 5.7);
+      tl.to("#f1", { scaleY: 1.15, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 2 }, 5.6);
+      // salida en piezas
+      GEX.scatter(tl, ["#xi", "#ok", "#lbl", "#b1", "#b2"], EXIT, 81);
+      tl.to(t1.words, { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.03 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

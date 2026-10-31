@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Excel 05 — Tus números en el celular</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #ph { position: absolute; left: 290px; top: 290px; width: 500px; height: 960px; padding: 18px; border-radius: 64px; background: #ffffff; }
+      #scr { position: relative; width: 100%; height: 100%; border-radius: 48px; background: var(--soft); overflow: hidden; padding: 70px 20px 20px; color: var(--teal); display: flex; flex-direction: column; gap: 14px; }
+      #notch { position: absolute; left: 50%; top: 18px; width: 120px; height: 26px; margin-left: -60px; border-radius: 13px; background: #ffffff; }
+      #scr h5 { font-weight: 800; font-size: 32px; white-space: nowrap; }
+      .tl { padding: 16px 20px; border-radius: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 2px; border: 5px solid #ffffff; }
+      .tl span { font-weight: 800; font-size: 22px; letter-spacing: 0.08em; white-space: nowrap; }
+      .tl b { font-weight: 800; font-size: 50px; line-height: 1.05; white-space: nowrap; }
+      .tl.o b { color: #c94a0c; }
+      .bars { display: flex; align-items: flex-end; gap: 12px; height: 110px; margin-top: 6px; }
+      .bars i { flex: 1; border-radius: 10px 10px 0 0; background: #1fc4b8; }
+      .bars i:last-child { background: #fe6820; }
+      #any { position: absolute; left: 40px; top: 360px; font-size: 30px; padding: 10px 20px; }
+      .co { position: absolute; left: 810px; font-size: 26px; padding: 8px 16px; }
+      #endw { position: absolute; left: 0; right: 0; top: 1300px; display: flex; justify-content: center; }
+      #endw .pill { font-size: 48px; padding: 16px 36px 16px 16px; }
+      #endw .pi { width: 76px; height: 76px; }
+      #endw .pi svg { width: 48px; height: 48px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="10.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="10.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">LO IDEAL · EN CUALQUIER MOMENTO</span></div>
+        <div id="ph"><div id="scr"><span id="notch"></span><h5>Mi negocio · hoy</h5><span class="chip g" id="live" style="align-self: flex-start; font-size: 24px; padding: 6px 14px">● En vivo</span><div id="hand" style="display: flex; align-items: center; justify-content: center; height: 300px"><span class="ico" data-ic="phone" style="width: 160px; height: 160px; background: #ffffff"></span></div>
+          <div class="tl" id="t1"><span>VENDISTE HOY</span><b class="num" id="v1">$0</b></div>
+          <div class="tl o" id="t2"><span>PENDIENTES</span><b class="num" id="v2">0</b></div>
+          <div class="tl o" id="t3"><span>STOCK BAJO</span><b class="num" id="v3">0 productos</b></div>
+          <div class="tl" id="t4"><span>CÓMO VA EL NEGOCIO</span><div class="bars"><i style="height: 45%"></i><i style="height: 60%"></i><i style="height: 52%"></i><i style="height: 75%"></i><i style="height: 95%"></i></div></div>
+        </div></div>
+        <span class="chip co" id="c1" style="top: 470px">↑ hoy</span>
+        <span class="chip o co" id="c2" style="top: 610px">por atender</span>
+        <span class="chip o co" id="c3" style="top: 750px">reponer</span>
+        <span class="chip co" id="c4" style="top: 930px">en vivo</span>
+        <div id="endw"><div class="pill g" id="ep"><span class="pi" data-ic="check" data-col="#179a4a" data-sw="6"></span>Sin tener que preguntarle a nadie<i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-ph" src="assets/sfx/pop.wav" data-start="0.5" data-volume="0.28"></audio>
+      <audio id="s-1" src="assets/sfx/tick.wav" data-start="4.2" data-volume="0.26"></audio>
+      <audio id="s-2" src="assets/sfx/tick.wav" data-start="5.2" data-volume="0.26"></audio>
+      <audio id="s-3" src="assets/sfx/tick.wav" data-start="6.2" data-volume="0.26"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="8.6" data-volume="0.34"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="10.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 10.1;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set([".tl", ".co", "#ep"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#ph", { y: 1000, rotation: 10 }, { y: 0, rotation: 0, duration: 0.6, ease: "power4.out" }, 0.4);
+      GEX.float(tl, "#ph", 1.2, EXIT, 8, 1.8);
+      tl.fromTo("#live", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)" }, 1.1);
+      tl.to("#live", { scale: 1.08, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 7 }, 1.5);
+      tl.fromTo("#hand .ico", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.6)" }, 1.0);
+      tl.to("#hand .ico", { y: -14, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.6);
+      tl.to("#hand", { height: 0, autoAlpha: 0, duration: 0.01 }, 4.1);
+      // ventas · pendientes · stock · cómo va
+      [["#t1", "#c1", 4.2], ["#t2", "#c2", 5.2], ["#t3", "#c3", 6.2], ["#t4", "#c4", 7.4]].forEach(([t, c, s]) => {
+        tl.fromTo(t, { x: -120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, s);
+        tl.to(t, { keyframes: [{ borderColor: "#1fc4b8", duration: 0.15 }, { borderColor: "#ffffff", duration: 0.5 }], ease: "none" }, s + 0.2);
+        tl.fromTo(c, { x: 60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2.4)", immediateRender: false }, s + 0.15);
+      });
+      GEX.count(tl, document.getElementById("v1"), 0, 2340, 4.3, 0.8, "$");
+      GEX.count(tl, document.getElementById("v2"), 0, 5, 5.3, 0.5);
+      GEX.count(tl, document.getElementById("v3"), 0, 3, 6.3, 0.5, "", " productos");
+      tl.fromTo(".bars i", { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, transformOrigin: "50% 100%", duration: 0.5, ease: "back.out(1.6)", stagger: 0.08 }, 7.6);
+      tl.fromTo("#ep", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 8.6);
+      GEX.punch(tl, "#ep", 9.05, 1.06);
+      tl.fromTo("#sh", { x: -140 }, { x: 900, duration: 0.6, ease: "power2.inOut" }, 9.1);
+      tl.set("#sh", { x: -140 }, 9.75);
+      // salida + barrido
+      tl.to("#ph", { y: -1100, autoAlpha: 0, duration: 0.38, ease: "power3.in" }, EXIT);
+      GEX.scatter(tl, ["#c1", "#c2", "#c3", "#c4", "#ep", "#tag"], EXIT, 51);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

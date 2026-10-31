@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Excel 09 — Diseñado alrededor de tu negocio</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #core { position: absolute; left: 0; right: 0; top: 330px; display: flex; justify-content: center; }
+      #biz { font-size: 50px; padding: 16px 36px 16px 16px; }
+      #biz .pi { width: 76px; height: 76px; }
+      #biz .pi svg { width: 46px; height: 46px; }
+      #fr { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
+      .md { position: absolute; font-size: 34px; padding: 10px 22px; }
+      #msg { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font-weight: 800; font-size: 62px; line-height: 1.1; white-space: nowrap; }
+      #msg .hl { color: #fe6820; }
+      #lgw { position: absolute; left: 0; right: 0; top: 750px; display: flex; justify-content: center; }
+      .logo { display: inline-flex; align-items: center; padding: 14px 28px; border-radius: 24px; background: #ffffff; }
+      .logo img { display: block; width: 240px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.8" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5.8" data-track-index="0">
+        <svg id="fr" viewBox="0 0 1080 1920"><rect id="fb" x="190" y="250" width="700" height="280" rx="48" fill="none" stroke="#1fc4b8" stroke-width="8" stroke-linecap="round" /></svg>
+        <div id="core"><div class="pill o" id="biz"><span class="pi" data-ic="store" data-col="#ea5a14"></span>Tu negocio</div></div>
+        <span class="chip md" id="m1" style="left: 130px; top: 220px" data-layout-allow-overlap>Ventas</span>
+        <span class="chip md" id="m2" style="left: 800px; top: 220px" data-layout-allow-overlap>Stock</span>
+        <span class="chip md" id="m3" style="left: 140px; top: 500px" data-layout-allow-overlap>Caja</span>
+        <span class="chip md" id="m4" style="left: 785px; top: 500px" data-layout-allow-overlap>Equipo</span>
+        <div id="msg"><span id="mt">Diseñado alrededor de <span class="hl">tu negocio</span></span></div>
+        <div id="lgw"><span class="logo" id="lg"><img src="assets/logo-v2/gex-full.png" alt="GEX" /></span></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.4"></audio>
+      <audio id="s-fr" src="assets/sfx/shimmer.wav" data-start="0.6" data-volume="0.28"></audio>
+      <audio id="s-m" src="assets/sfx/tick.wav" data-start="1.5" data-volume="0.26"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="3.0" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.38" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.4;
+      const L = 2 * (700 + 280) - (8 - 2 * Math.PI) * 48;
+      gsap.set(["#m1", "#m2", "#m3", "#m4", "#lg"], { autoAlpha: 0 });
+      tl.fromTo("#biz", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, 0.05);
+      tl.fromTo("#biz .pi", { rotation: -180 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 0.1);
+      // el sistema se dibuja alrededor del negocio
+      tl.fromTo("#fb", { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut" }, 0.55);
+      [["#m1", -160, -80], ["#m2", 160, -80], ["#m3", -160, 80], ["#m4", 160, 80]].forEach(([id, dx, dy], i) => {
+        tl.fromTo(id, { x: dx, y: dy, rotation: dx > 0 ? 25 : -25, scale: 0.5, autoAlpha: 0 }, { x: 0, y: 0, rotation: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.6)", immediateRender: false }, 1.4 + i * 0.12);
+        GEX.float(tl, id, 2.0 + i * 0.1, EXIT, 6, 1.1 + i * 0.15);
+      });
+      GEX.punch(tl, "#biz", 2.0, 1.08);
+      tl.to("#fb", { attr: { "stroke-width": 12 }, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 5 }, 2.2);
+      const mt = GEX.split(document.getElementById("mt"));
+      GEX.reveal(tl, mt.words, 2.6, "rise", { stagger: 0.09, duration: 0.4 });
+      GEX.punch(tl, "#msg .hl", 3.15, 1.12);
+      tl.fromTo("#lg", { y: 40, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 4.0);
+      tl.to("#lg", { rotation: 3, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 4.5);
+      // salida
+      GEX.scatter(tl, ["#biz", "#m1", "#m2", "#m3", "#m4", "#lg"], EXIT, 91);
+      tl.to("#fb", { strokeDashoffset: -L, duration: 0.35, ease: "power3.in" }, EXIT);
+      tl.to(mt.words, { y: 120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.03 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

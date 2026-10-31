@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Excel 03a — Lo que ves ya no es lo que pasa</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      .col { position: absolute; top: 300px; width: 450px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+      .col h5 { font-weight: 800; font-size: 30px; letter-spacing: 0.08em; white-space: nowrap; }
+      #real { position: relative; width: 450px; height: 520px; border-radius: 32px; background: #ffffff; color: var(--teal); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
+      #real .ico { width: 130px; height: 130px; }
+      #sale { font-size: 32px; padding: 10px 22px; }
+      #real small { font-weight: 800; font-size: 26px; letter-spacing: 0.1em; }
+      #rv { font-weight: 800; font-size: 120px; line-height: 1; }
+      #ex { position: relative; width: 450px; height: 520px; }
+      #exs { position: absolute; left: 0; top: 0; width: 450px; }
+      #exbig { position: absolute; left: 0; right: 0; top: 330px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      #exbig small { font-weight: 800; font-size: 26px; letter-spacing: 0.1em; color: #1fc4b8; }
+      #ev { font-weight: 800; font-size: 120px; line-height: 1; color: #ffffff; }
+      #old { font-size: 28px; padding: 8px 18px; }
+      #neq { position: absolute; left: 490px; top: 600px; width: 100px; height: 100px; border-radius: 50%; background: #ea5a14; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 70px; z-index: 4; }
+      #forgot { position: absolute; left: 0; right: 0; top: 920px; display: flex; justify-content: center; }
+      #forgot .chip { font-size: 36px; padding: 12px 26px; }
+      #endw { position: absolute; left: 0; right: 0; top: 1040px; display: flex; justify-content: center; }
+      #endw .pill { font-size: 50px; padding: 16px 36px 16px 16px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.4" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6.4" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">SI ALGUIEN SE OLVIDA…</span></div>
+        <div class="col" id="cl" style="left: 50px"><h5>EN TU NEGOCIO</h5><div id="real"><span class="ico" data-ic="store"></span><span class="chip o" id="sale">🛒 Se vendieron 3 polos</span><small>STOCK REAL</small><b id="rv" class="num">37</b></div></div>
+        <div class="col" id="cr" style="left: 580px"><h5>EN TU EXCEL</h5><div id="ex"><div class="xl" id="exs"></div><div id="exbig"><small>STOCK EN EXCEL</small><b id="ev">37</b><span class="chip gr" id="old">Actualizado: ayer</span></div></div></div>
+        <div id="neq">≠</div>
+        <div id="forgot"><span class="chip a" id="fg">✗ Nadie lo actualizó</span></div>
+        <div id="endw"><div class="pill o plain" id="ep">Lo que ves ≠ lo que pasa<i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-s" src="assets/sfx/pop.wav" data-start="1.2" data-volume="0.3"></audio>
+      <audio id="s-f" src="assets/sfx/tick.wav" data-start="2.4" data-volume="0.28"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="3.4" data-volume="0.4"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.98" data-volume="0.4"></audio>
+    </div>
+    <script>
+      document.getElementById("exs").innerHTML = GEX.sheet("stock.xlsx", ["Producto", "Cant."], [["Polo", "37"], ["Gorra", "12"]]);
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.0;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set(["#sale", "#neq", "#fg", "#ep"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#cl", { x: -600, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.25);
+      tl.fromTo("#cr", { x: 600, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.35);
+      // en el negocio: se vende
+      tl.fromTo("#sale", { y: -40, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.6)", immediateRender: false }, 1.2);
+      GEX.count(tl, document.getElementById("rv"), 37, 34, 1.5, 0.6);
+      GEX.punch(tl, "#rv", 2.1, 1.12);
+      // en el excel: nada cambia
+      tl.fromTo("#fg", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 2.4);
+      tl.to("#old", { keyframes: [{ x: -8, duration: 0.05 }, { x: 8, duration: 0.05 }, { x: 0, duration: 0.05 }], repeat: 2 }, 2.6);
+      tl.fromTo("#neq", { scale: 0, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 3.4);
+      tl.to("#neq", { scale: 1.15, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 3.8);
+      tl.fromTo("#ep", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 4.0);
+      tl.fromTo("#sh", { x: -140 }, { x: 700, duration: 0.6, ease: "power2.inOut" }, 4.5);
+      tl.set("#sh", { x: -140 }, 5.15);
+      // salida + barrido
+      GEX.scatter(tl, ["#cl", "#cr", "#neq", "#fg", "#ep", "#tag"], EXIT, 31);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

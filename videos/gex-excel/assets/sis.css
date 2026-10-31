@@ -1,0 +1,78 @@
+/* GEX "4 sistemas": pantallas completas (UI blanca sobre negro) + títulos/overlays sobre cámara.
+   Todo claro y sólido sobre negro (apto para quitar el negro en CapCut). */
+:root {
+  --bg: #000000;
+  --ink: #ffffff;
+  --teal: #0b958b;
+  --teal-hi: #1fc4b8;
+  --orange: #ea5a14;
+  --or-hi: #fe6820;
+  --green: #179a4a;
+  --amber: #b86e00;
+  --grey: #6f807f;
+  --line: #dfe7e6;
+  --soft: #eef4f3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+#stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); font-family: "Outfit", sans-serif; color: var(--ink); }
+.scene { position: absolute; inset: 0; }
+.scene > :not(.fx-layer) { z-index: 1; }
+
+/* ---------- pantalla completa ---------- */
+/* zona segura: lejos de la UI de TikTok (abajo ~330px, derecha ~120px) */
+.full { position: absolute; left: 60px; right: 60px; top: 190px; bottom: 330px; display: flex; flex-direction: column; align-items: center; gap: 30px; }
+.tag { display: inline-flex; align-items: center; gap: 12px; padding: 10px 22px; border-radius: 12px; background: var(--orange); font-weight: 800; font-size: 30px; letter-spacing: 0.12em; white-space: nowrap; }
+.tag.t { background: var(--teal); }
+.win { position: relative; background: #ffffff; border-radius: 36px; color: var(--teal); overflow: hidden; }
+.win .bar { display: flex; align-items: center; gap: 10px; padding: 18px 26px; border-bottom: 4px solid var(--line); font-weight: 800; font-size: 32px; white-space: nowrap; }
+.win .bar i { width: 16px; height: 16px; border-radius: 50%; background: #cfdcdb; flex: none; }
+.win .bar i:nth-child(1) { background: var(--or-hi); }
+.win .bar i:nth-child(2) { background: var(--teal-hi); }
+.win .bar b { margin-left: 12px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 999px; font-weight: 800; font-size: 28px; line-height: 1.1; color: #ffffff; white-space: nowrap; background: var(--teal); }
+.chip.o { background: var(--orange); }
+.chip.g { background: var(--green); }
+.chip.a { background: var(--amber); }
+.chip.gr { background: var(--grey); }
+.av { display: flex; align-items: center; justify-content: center; width: 66px; height: 66px; border-radius: 50%; font-weight: 800; font-size: 28px; color: #ffffff; flex: none; background: var(--teal); }
+.av.o { background: var(--orange); }
+.av.g { background: var(--green); }
+.av.a { background: var(--amber); }
+.ico { display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--soft); flex: none; }
+.ico svg { width: 60%; height: 60%; overflow: visible; }
+.lbl { font-weight: 800; font-size: 24px; letter-spacing: 0.12em; color: var(--teal); white-space: nowrap; }
+.cursor { position: absolute; left: 0; top: 0; width: 70px; height: 70px; z-index: 30; }
+.cursor svg { width: 100%; height: 100%; overflow: visible; }
+.ripple { position: absolute; left: 0; top: 0; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%; border: 6px solid var(--or-hi); z-index: 29; opacity: 0; visibility: hidden; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- overlays sobre cámara (zona superior centrada) ---------- */
+.top { position: absolute; left: 60px; right: 60px; top: 200px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.pill { position: relative; display: inline-flex; align-items: center; gap: 16px; padding: 18px 34px 18px 18px; border-radius: 999px; background: var(--teal); font-weight: 800; font-size: 46px; line-height: 1; white-space: nowrap; overflow: hidden; }
+.pill.o { background: var(--orange); }
+.pill.g { background: var(--green); }
+.pill.plain { padding-left: 34px; }
+.pill .pi { display: flex; align-items: center; justify-content: center; width: 66px; height: 66px; border-radius: 50%; background: #ffffff; flex: none; }
+.pill .pi svg { width: 40px; height: 40px; overflow: visible; }
+.shine { position: absolute; top: 0; bottom: 0; left: 0; width: 90px; background: linear-gradient(100deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 50%, rgba(255, 255, 255, 0) 100%); }
+
+/* ---------- texto y partículas ---------- */
+.w { display: inline-block; white-space: nowrap; }
+.c { display: inline-block; }
+.fx-layer { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.fx-p { position: absolute; }
+.fx-p i { display: block; }
+.fx-dot { border-radius: 50%; }
+.fx-ring { border-radius: 50%; border: 5px solid currentColor; }
+.fx-dash { width: 8px; border-radius: 4px; }
+
+/* ---------- hoja de cálculo genérica (representación conceptual) ---------- */
+.xl { position: absolute; border-radius: 22px; background: #ffffff; overflow: hidden; color: #0b958b; }
+.xl .xh { display: flex; align-items: center; gap: 10px; height: 64px; padding: 0 18px; background: #179a4a; color: #ffffff; font-weight: 800; font-size: 28px; white-space: nowrap; }
+.xl .xh i { width: 34px; height: 34px; border-radius: 8px; background: #ffffff; display: inline-block; flex: none; background-image: linear-gradient(#179a4a, #179a4a), linear-gradient(#179a4a, #179a4a); background-size: 4px 100%, 100% 4px; background-position: 50% 0, 0 50%; background-repeat: no-repeat; }
+.xl .xg { display: grid; gap: 4px; padding: 10px; background: #dfe7e6; }
+.xl .xg span { height: 46px; display: flex; align-items: center; justify-content: center; background: #ffffff; font-weight: 700; font-size: 24px; white-space: nowrap; color: #0b958b; }
+.xl .xg span.h { background: #e4f6ea; font-weight: 800; color: #12703a; }
+.xico { position: relative; border-radius: 22%; background: #179a4a; flex: none; display: inline-block; }
+.xico::before { content: ""; position: absolute; inset: 18%; border-radius: 6%; background: #ffffff; background-image: linear-gradient(90deg, transparent 30%, #179a4a 30%, #179a4a 37%, transparent 37%, transparent 63%, #179a4a 63%, #179a4a 70%, transparent 70%), linear-gradient(transparent 28%, #179a4a 28%, #179a4a 36%, transparent 36%, transparent 64%, #179a4a 64%, #179a4a 72%, transparent 72%); }
