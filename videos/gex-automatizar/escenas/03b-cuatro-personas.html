@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Automatizar 03b — Una venta que pasa por cuatro personas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #sale { position: absolute; left: 240px; top: 290px; width: 600px; height: 120px; display: flex; align-items: center; gap: 18px; padding: 0 26px; border-radius: 28px; background: #ffffff; color: var(--teal); font-weight: 800; font-size: 40px; white-space: nowrap; }
+      #sale .ico { width: 76px; height: 76px; }
+      #sale .chip { margin-left: auto; font-size: 26px; }
+      #spine { position: absolute; left: 175px; top: 520px; width: 10px; height: 640px; border-radius: 5px; background: #2a3a39; }
+      #fill { position: absolute; left: 175px; top: 520px; width: 10px; height: 640px; border-radius: 5px; background: #1fc4b8; }
+      .ps { position: absolute; left: 100px; width: 880px; height: 160px; display: flex; align-items: center; gap: 24px; }
+      .ps .av { width: 150px; height: 150px; font-size: 54px; border: 8px solid #000000; }
+      .ps .tx { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+      .ps .tx b { font-weight: 800; font-size: 42px; white-space: nowrap; }
+      .ps .tx small { font-weight: 800; font-size: 26px; color: #1fc4b8; letter-spacing: 0.08em; white-space: nowrap; }
+      .ps .stt { position: relative; width: 250px; height: 60px; }
+      .ps .stt .chip { position: absolute; right: 0; top: 0; font-size: 28px; padding: 10px 20px; }
+      #chain { position: absolute; inset: 0; z-index: 2; }
+      #tok { position: absolute; left: 14px; top: 440px; width: 76px; height: 76px; border-radius: 22px; background: #fe6820; display: flex; align-items: center; justify-content: center; z-index: 6; }
+      #tok svg { width: 50px; height: 50px; }
+      #cnt { position: absolute; left: 0; right: 0; top: 1300px; display: flex; justify-content: center; }
+      #cnt .pill { font-size: 56px; padding: 16px 40px 16px 16px; }
+      #cnt .pi { width: 84px; height: 84px; }
+      #cnt .pi svg { width: 52px; height: 52px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">EJEMPLO · APROBAR UNA VENTA</span></div>
+        <div id="sale"><span class="ico" data-ic="doc"></span>Venta #208<span class="chip o">$1,500</span></div>
+        <div id="spine"></div><div id="fill"></div>
+        <div id="chain"></div>
+        <div id="tok" data-ic="doc" data-col="#ffffff" data-sw="4.5"></div>
+        <div id="cnt"><div class="pill o" id="cp"><span class="pi" data-ic="users" data-col="#ea5a14" data-sw="4.5"></span>4 personas para 1 venta<i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-p" src="assets/sfx/pop.wav" data-start="0.8" data-volume="0.28"></audio>
+      <audio id="s-a1" src="assets/sfx/tick.wav" data-start="2.4" data-volume="0.28"></audio>
+      <audio id="s-a2" src="assets/sfx/tick.wav" data-start="3.4" data-volume="0.28"></audio>
+      <audio id="s-a3" src="assets/sfx/tick.wav" data-start="4.4" data-volume="0.28"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="5.6" data-volume="0.38"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const P = [["S", "", "Supervisor", "PASO 1"], ["J", "o", "Jefe comercial", "PASO 2"], ["G", "g", "Gerente", "PASO 3"], ["F", "a", "Finanzas", "PASO 4"]];
+      const Y = (i) => 500 + i * 190;
+      const chain = document.getElementById("chain");
+      P.forEach(([ini, c, role, st], i) => {
+        const d = document.createElement("div");
+        d.className = "ps"; d.id = "ps" + i; d.style.top = Y(i) + "px";
+        d.innerHTML = '<span class="av ' + c + '">' + ini + '</span><span class="tx"><small>' + st + "</small><b>" + role + '</b></span><span class="stt"><span class="chip gr" id="wt' + i + '">🔒 Esperando</span><span class="chip g" id="ok' + i + '">Aprobó ✓</span></span>';
+        chain.appendChild(d);
+      });
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.6;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set(["#ok0", "#ok1", "#ok2", "#ok3", "#cp", "#tok"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#sale", { y: -300, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2)" }, 0.3);
+      tl.fromTo("#spine", { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, transformOrigin: "50% 0%", duration: 0.6, ease: "power2.out" }, 0.7);
+      tl.fromTo("#fill", { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 0, transformOrigin: "50% 0%", duration: 0.01 }, 0);
+      tl.fromTo(".ps", { x: -400, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(1.8)", stagger: 0.18 }, 0.8);
+      // la venta pasa de una persona a la siguiente; cada una espera a la anterior
+      tl.fromTo("#tok", { y: 0, scale: 0, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 1.7);
+      P.forEach((_, i) => {
+        const t = 2.0 + i * 1.0;
+        tl.to("#tok", { y: Y(i) - 440 + 40, duration: 0.4, ease: "power2.inOut" }, t);
+        tl.to("#fill", { scaleY: Math.min(1, (i + 0.5) / 3.6), duration: 0.4, ease: "power2.inOut" }, t);
+        tl.to("#wt" + i, { autoAlpha: 0, duration: 0.15 }, t + 0.4);
+        tl.fromTo("#ok" + i, { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, t + 0.42);
+        GEX.punch(tl, "#ps" + i + " .av", t + 0.42, 1.12);
+      });
+      tl.fromTo("#cp", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 5.6);
+      tl.fromTo("#sh", { x: -140 }, { x: 800, duration: 0.6, ease: "power2.inOut" }, 6.0);
+      tl.set("#sh", { x: -140 }, 6.62);
+      GEX.float(tl, "#sale", 1.0, EXIT, 5, 1.6);
+      // salida + barrido
+      GEX.scatter(tl, ["#sale", "#ps0", "#ps1", "#ps2", "#ps3", "#tok", "#cp", "#tag"], EXIT, 32);
+      tl.to(["#spine", "#fill"], { scaleY: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

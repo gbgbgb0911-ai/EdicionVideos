@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Automatizar 08 — Cierre: no digitalizar su desorden (sobre cámara)</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 4px; top: 200px; }
+      #a1 { font-weight: 800; font-size: 54px; white-space: nowrap; }
+      #a2 { font-weight: 800; font-size: 104px; line-height: 1; color: #1fc4b8; white-space: nowrap; }
+      #a3 { font-weight: 800; font-size: 46px; white-space: nowrap; }
+      #b1 { position: relative; font-weight: 800; font-size: 88px; line-height: 1; color: #fe6820; white-space: nowrap; margin-top: 26px; }
+      #b2 { font-weight: 800; font-size: 88px; line-height: 1; white-space: nowrap; }
+      #mess { position: absolute; left: 50%; top: 700px; width: 800px; height: 120px; margin-left: -400px; pointer-events: none; }
+      #mess svg { width: 100%; height: 100%; }
+      #lg { position: absolute; left: 0; right: 0; top: 860px; display: flex; justify-content: center; }
+      #lgc { padding: 12px 26px; border-radius: 20px; background: #ffffff; }
+      #lgc img { display: block; height: 46px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.6" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5.6" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="mess"><svg viewBox="0 0 900 140"><path id="sq" d="M20 70 C60 10 90 130 130 60 S200 0 230 90 S300 140 330 40 S410 10 440 100 S520 130 550 30 S640 20 660 110 S740 120 770 40 S850 30 880 80" fill="none" stroke="#1fc4b8" stroke-width="8" stroke-linecap="round" /></svg></div>
+        <div class="top" id="top">
+          <span id="a1">La tecnología debería</span>
+          <span id="a2">SIMPLIFICAR</span>
+          <span id="a3">un negocio.</span>
+          <span id="b1">NO DIGITALIZAR</span>
+          <span id="b2">SU DESORDEN</span>
+        </div>
+        <div id="lg"><span id="lgc"><img src="assets/logo-v2/gex-full.png" alt="GEX" /></span></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.4"></audio>
+      <audio id="s-s" src="assets/sfx/shimmer.wav" data-start="0.7" data-volume="0.28"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="2.7" data-volume="0.4"></audio>
+      <audio id="s-d" src="assets/sfx/ding.wav" data-start="4.3" data-volume="0.24"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.18" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.2;
+      const a1 = GEX.split(document.getElementById("a1")), a2 = GEX.split(document.getElementById("a2")), a3 = GEX.split(document.getElementById("a3"));
+      const b1 = GEX.split(document.getElementById("b1")), b2 = GEX.split(document.getElementById("b2"));
+      gsap.set(["#mess", "#lgc"], { autoAlpha: 0 });
+      GEX.reveal(tl, a1.words, 0.1, "rise", { stagger: 0.07, duration: 0.4 });
+      GEX.reveal(tl, a2.chars, 0.6, "pop", { stagger: 0.03, duration: 0.35 });
+      GEX.reveal(tl, a3.words, 1.2, "rise", { stagger: 0.07, duration: 0.35 });
+      tl.to("#a2", { scale: 1.04, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.4);
+      // no digitalizar su desorden
+      tl.fromTo("#mess", { scaleX: 0.3, autoAlpha: 0 }, { scaleX: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 2.6);
+      tl.fromTo("#sq", { strokeDashoffset: 0 }, { strokeDashoffset: -300, duration: 2.0, ease: "none" }, 2.6);
+      GEX.reveal(tl, b1.chars, 2.7, "drop", { stagger: 0.03, duration: 0.4 });
+      GEX.reveal(tl, b2.chars, 3.1, "drop", { stagger: 0.03, duration: 0.4 });
+      tl.to(["#b1", "#b2"], { keyframes: [{ x: -10, duration: 0.05 }, { x: 10, duration: 0.05 }, { x: 0, duration: 0.05 }] }, 3.6);
+      tl.to("#mess", { scaleY: 0.05, duration: 0.4, ease: "power3.inOut" }, 3.9);
+      tl.fromTo("#lgc", { y: 20, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)", immediateRender: false }, 4.3);
+      tl.to(["#b1", "#b2"], { scale: 1.03, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 1 }, 4.4);
+      // salida limpia
+      tl.to(a1.words.concat(a2.chars, a3.words), { y: -140, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.008 }, EXIT);
+      tl.to(b1.chars.concat(b2.chars), { y: 140, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.008 }, EXIT);
+      tl.to(["#mess", "#lgc"], { scale: 0, autoAlpha: 0, duration: 0.3, ease: "back.in(2)" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

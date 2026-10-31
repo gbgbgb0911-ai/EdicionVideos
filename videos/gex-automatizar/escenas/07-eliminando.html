@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Automatizar 07 — Empieza eliminando cosas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #code { position: absolute; left: 300px; top: 120px; width: 480px; height: 210px; border-radius: 26px; background: #ffffff; padding: 20px 24px; color: var(--teal); }
+      #code h5 { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 30px; }
+      #code h5 i { width: 40px; height: 40px; display: inline-block; }
+      .cl { height: 14px; border-radius: 7px; background: #1fc4b8; margin-top: 14px; }
+      #nox { position: absolute; left: 270px; right: 270px; top: 214px; height: 12px; border-radius: 6px; background: #fe6820; }
+      #chain { position: absolute; left: 0; right: 0; top: 400px; height: 200px; }
+      .pv { position: absolute; top: 0; width: 170px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+      .pv .av { width: 140px; height: 140px; font-size: 54px; }
+      .pv b { font-weight: 800; font-size: 26px; white-space: nowrap; }
+      .ar { position: absolute; top: 56px; font-weight: 800; font-size: 50px; color: #1fc4b8; }
+      #sc { position: absolute; left: 0; top: 0; width: 110px; height: 110px; z-index: 6; }
+      #sc svg { width: 100%; height: 100%; }
+      #res { position: absolute; left: 0; right: 0; top: 700px; display: flex; justify-content: center; }
+      #res .pill { font-size: 52px; padding: 16px 40px 16px 16px; }
+      #res .pi { width: 80px; height: 80px; }
+      #res .pi svg { width: 50px; height: 50px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.4" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="6.4" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="code"><h5><i data-ic="code"></i>Escribir código</h5><div class="cl" id="c1" style="width: 90%"></div><div class="cl" id="c2" style="width: 70%"></div><div class="cl" id="c3" style="width: 80%; background: #fe6820"></div><div class="cl" id="c4" style="width: 55%"></div></div>
+          <i id="nox"></i>
+          <div id="chain">
+            <div class="pv" id="v0" style="left: 75px"><span class="av">S</span><b>Supervisor</b></div>
+            <span class="ar" id="a0" style="left: 255px">→</span>
+            <div class="pv" id="v1" style="left: 320px"><span class="av o">J</span><b>Jefe comercial</b></div>
+            <span class="ar" id="a1" style="left: 500px">→</span>
+            <div class="pv" id="v2" style="left: 565px"><span class="av g">G</span><b>Gerente</b></div>
+            <span class="ar" id="a2" style="left: 745px">→</span>
+            <div class="pv" id="v3" style="left: 810px"><span class="av a">F</span><b>Finanzas</b></div>
+          </div>
+          <div id="sc" data-ic="scissors" data-col="#fe6820" data-sw="5"></div>
+          <div id="res"><div class="pill g" id="rp"><span class="pi" data-ic="check" data-col="#179a4a" data-sw="6"></span>Menos pasos, mejor sistema<i class="shine" id="sh"></i></div></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-t" src="assets/sfx/tick.wav" data-start="0.5" data-volume="0.26"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="2.0" data-volume="0.34"></audio>
+      <audio id="s-cut" src="assets/sfx/whoosh.wav" data-start="3.5" data-volume="0.36"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="4.7" data-volume="0.33"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.98" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.0;
+      const fx = document.getElementById("fx");
+      const parts = GEX.particles(fx, 5, 7101, { x0: 20, x1: 140, y0: 140, y1: 900 }).concat(GEX.particles(fx, 5, 7102, { x0: 940, x1: 1060, y0: 140, y1: 800 }));
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      gsap.set(["#nox", "#sc", "#rp"], { autoAlpha: 0 });
+      // no empieza escribiendo código
+      tl.fromTo("#code", { y: -200, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.1);
+      tl.fromTo(".cl", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, transformOrigin: "0% 50%", duration: 0.35, ease: "power1.inOut", stagger: 0.25 }, 0.5);
+      tl.fromTo("#nox", { scaleX: 0, autoAlpha: 1 }, { scaleX: 1, autoAlpha: 1, duration: 0.25, ease: "power4.out", immediateRender: false }, 2.0);
+      tl.to(["#code", "#nox"], { scale: 0.7, y: -40, duration: 0.4, ease: "power2.inOut" }, 2.5);
+      // empieza eliminando cosas
+      tl.fromTo([".pv", ".ar"], { y: 80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", stagger: 0.06 }, 1.0);
+      tl.fromTo("#sc", { x: 350, y: 320, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15, immediateRender: false }, 3.0);
+      tl.to("#sc", { x: 600, y: 420, rotation: -20, duration: 0.45, ease: "power2.inOut" }, 3.1);
+      tl.to(["#v1", "#a1"], { y: 500, rotation: -25, autoAlpha: 0, duration: 0.45, ease: "power3.in" }, 3.5);
+      tl.to(["#v2", "#a2"], { y: 500, rotation: 25, autoAlpha: 0, duration: 0.45, ease: "power3.in" }, 3.6);
+      tl.to("#sc", { x: 1100, rotation: 30, autoAlpha: 0, duration: 0.4, ease: "power2.in" }, 3.65);
+      tl.to("#v0", { x: 230, duration: 0.5, ease: "back.out(1.6)" }, 4.0);
+      tl.to("#a0", { x: 242, duration: 0.5, ease: "back.out(1.6)" }, 4.0);
+      tl.to("#v3", { x: -250, duration: 0.5, ease: "back.out(1.6)" }, 4.0);
+      GEX.punch(tl, ["#v0", "#v3"], 4.5, 1.1);
+      tl.fromTo("#rp", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 4.7);
+      tl.fromTo("#sh", { x: -140 }, { x: 700, duration: 0.6, ease: "power2.inOut" }, 5.2);
+      tl.set("#sh", { x: -140 }, 5.85);
+      GEX.scatter(tl, ["#code", "#nox", "#v0", "#a0", "#v3", "#rp"], EXIT, 71);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Automatizar 02b — El mismo proceso, pero digital</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #frame { position: absolute; left: 70px; top: 290px; width: 580px; height: 880px; border-radius: 36px; border: 6px solid #1fc4b8; }
+      #frame b { position: absolute; left: 24px; top: -26px; padding: 6px 18px; border-radius: 12px; background: #0b958b; font-weight: 800; font-size: 28px; white-space: nowrap; }
+      .st { position: absolute; left: 110px; width: 500px; height: 96px; display: flex; align-items: center; gap: 16px; padding: 0 22px; white-space: nowrap; }
+      .pa { background: #ffffff; border-radius: 6px; color: #3f7c78; font-weight: 500; font-size: 36px; }
+      .ap { background: #ffffff; border-radius: 22px; border: 5px solid #1fc4b8; color: var(--teal); font-weight: 800; font-size: 34px; }
+      .ap .ico { width: 58px; height: 58px; }
+      .wt { position: absolute; left: 300px; font-size: 24px; padding: 4px 14px; }
+      #loop { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
+      #beam { position: absolute; left: 80px; top: 300px; width: 560px; height: 14px; border-radius: 7px; background: #1fc4b8; }
+      .lab { position: absolute; left: 690px; font-size: 40px; padding: 14px 28px; }
+      #stamp { position: absolute; left: 150px; top: 1260px; padding: 20px 40px; border-radius: 26px; border: 10px solid #fe6820; color: #fe6820; font-weight: 800; font-size: 92px; letter-spacing: 0.04em; white-space: nowrap; }
+      .px { position: absolute; width: 26px; height: 26px; background: #1fc4b8; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="9.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="9.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">EL MISMO PROCESO…</span></div>
+        <div id="frame"><b>Sistema nuevo ✨</b></div>
+        <div id="steps"></div>
+        <svg id="loop" viewBox="0 0 1080 1920"><path id="lp" d="M110 1018 C40 1000 40 520 110 502" fill="none" stroke="#fe6820" stroke-width="8" stroke-linecap="round" stroke-dasharray="14 12" /><path id="lph" d="M86 486 L112 502 L88 522" fill="none" stroke="#fe6820" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        <div id="beam"></div>
+        <span class="chip o lab" id="l1" style="top: 560px">⏱ Lento</span>
+        <span class="chip o lab" id="l2" style="top: 760px">↺ Complicado</span>
+        <span class="chip o lab" id="l3" style="top: 960px">⚠ Mal diseñado</span>
+        <div id="stamp">PERO DIGITAL</div>
+        <div id="pxs"></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-p" src="assets/sfx/pop.wav" data-start="0.6" data-volume="0.28"></audio>
+      <audio id="s-sc" src="assets/sfx/shimmer.wav" data-start="2.4" data-volume="0.32"></audio>
+      <audio id="s-t1" src="assets/sfx/tick.wav" data-start="4.5" data-volume="0.28"></audio>
+      <audio id="s-t2" src="assets/sfx/tick.wav" data-start="6.3" data-volume="0.28"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="7.4" data-volume="0.42"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="9.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const S = [["Recibir pedido", "doc"], ["Imprimir", "receipt"], ["Firmar a mano", "user"], ["Escanear", "phone"], ["Revisar otra vez", "search"], ["Aprobar", "check"]];
+      const Y = (i) => 330 + i * 140;
+      const steps = document.getElementById("steps");
+      S.forEach(([t, ic], i) => {
+        const p = document.createElement("div"); p.className = "st pa"; p.id = "pa" + i; p.style.top = Y(i) + "px"; p.textContent = t;
+        const a = document.createElement("div"); a.className = "st ap"; a.id = "ap" + i; a.style.top = Y(i) + "px";
+        a.innerHTML = '<span class="ico" data-ic="' + ic + '"></span>' + t;
+        steps.appendChild(p); steps.appendChild(a);
+        if (i < S.length - 1) { const w = document.createElement("span"); w.className = "chip a wt"; w.id = "w" + i; w.style.top = (Y(i) + 100) + "px"; w.textContent = "⏱ 1 día"; steps.appendChild(w); }
+      });
+      const pxs = document.getElementById("pxs"), r = GEX.rng(22);
+      for (let i = 0; i < 16; i++) { const d = document.createElement("i"); d.className = "px"; d.style.left = (160 + r() * 760) + "px"; d.style.top = (1320 + r() * 200) + "px"; if (i % 3 === 0) d.style.background = "#fe6820"; pxs.appendChild(d); }
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 9.1;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set([".ap", "#frame", "#beam", ".lab", "#stamp", ".px"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      // proceso en papel: pasos de más, esperas y vueltas atrás
+      S.forEach((_, i) => tl.fromTo("#pa" + i, { x: -500, rotation: (i % 2 ? 4 : -4) * 2, autoAlpha: 0 }, { x: 0, rotation: i % 2 ? 2 : -2, autoAlpha: 1, duration: 0.35, ease: "back.out(1.6)" }, 0.5 + i * 0.12));
+      tl.fromTo(".wt", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.08 }, 1.2);
+      tl.fromTo("#lp", { strokeDashoffset: 0 }, { strokeDashoffset: -200, duration: 7, ease: "none" }, 1.4);
+      tl.fromTo(["#lp", "#lph"], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, 1.5);
+      // le haces un sistema: el escáner lo pasa a digital… igualito
+      tl.fromTo("#beam", { y: 0, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.1, immediateRender: false }, 2.35);
+      tl.to("#beam", { y: 820, duration: 1.1, ease: "power1.inOut" }, 2.4);
+      tl.to("#beam", { autoAlpha: 0, duration: 0.15 }, 3.5);
+      S.forEach((_, i) => {
+        const t = 2.4 + (i / (S.length - 1)) * 1.05;
+        tl.to("#pa" + i, { autoAlpha: 0, duration: 0.12 }, t);
+        tl.fromTo("#ap" + i, { scale: 0.85, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(2.4)", immediateRender: false }, t);
+      });
+      tl.fromTo("#frame", { scale: 0.92, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2)", immediateRender: false }, 3.5);
+      tl.to("#tag", { backgroundColor: "#0b958b", duration: 0.2 }, 3.5);
+      // …pero sigue lento, complicado y mal diseñado
+      [["#l1", 4.5, ".wt"], ["#l2", 5.3, "#lp"], ["#l3", 6.3, "#ap4"]].forEach(([id, t, tgt], i) => {
+        tl.fromTo(id, { x: 300, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)", immediateRender: false }, t);
+        GEX.punch(tl, id, t + 0.4, 1.1);
+      });
+      tl.to(".wt", { scale: 1.15, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.04 }, 4.6);
+      tl.to("#ap4", { keyframes: [{ x: -10, duration: 0.05 }, { x: 10, duration: 0.05 }, { x: 0, duration: 0.05 }], repeat: 2 }, 6.4);
+      // remate
+      tl.fromTo("#stamp", { scale: 2.6, rotation: -16, autoAlpha: 0 }, { scale: 1, rotation: -6, autoAlpha: 1, duration: 0.25, ease: "power4.in", immediateRender: false }, 7.35);
+      tl.fromTo(".px", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.2, ease: "back.out(3)", stagger: 0.02, immediateRender: false }, 7.6);
+      tl.to(".px", { y: (i) => -60 - (i % 5) * 30, x: (i) => (i % 2 ? 40 : -40), autoAlpha: 0, duration: 1.0, ease: "power2.out", stagger: 0.02 }, 7.9);
+      tl.to("#stamp", { scale: 1.05, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1 }, 8.2);
+      // salida + barrido
+      GEX.scatter(tl, ["#frame", ".ap", ".wt", "#lp", "#l1", "#l2", "#l3", "#stamp", "#tag"], EXIT, 22);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

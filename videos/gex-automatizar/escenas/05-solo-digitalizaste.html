@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Automatizar 05 — Solo lo digitalizaste (sobre cámara)</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 10px; top: 210px; }
+      #l1 { display: flex; align-items: center; gap: 18px; }
+      #xi { width: 84px; height: 84px; border-radius: 50%; background: #ea5a14; display: flex; align-items: center; justify-content: center; }
+      #xi svg { width: 54px; height: 54px; }
+      #t1 { font-weight: 800; font-size: 58px; white-space: nowrap; }
+      #t2 { font-weight: 800; font-size: 60px; line-height: 1; white-space: nowrap; margin-top: 18px; }
+      #t3 { font-weight: 800; font-size: 118px; line-height: 0.95; color: #fe6820; white-space: nowrap; }
+      .px { position: absolute; width: 24px; height: 24px; background: #1fc4b8; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="top" id="top">
+          <div id="l1"><span id="xi" data-ic="x" data-col="#ffffff" data-sw="7"></span><span id="t1">No resolviste el problema.</span></div>
+          <span id="t2">SOLO LO</span>
+          <span id="t3">DIGITALIZASTE</span>
+        </div>
+        <div id="pxs"></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.4"></audio>
+      <audio id="s-t" src="assets/sfx/tick.wav" data-start="0.35" data-volume="0.28"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="1.9" data-volume="0.42"></audio>
+      <audio id="s-sh" src="assets/sfx/shimmer.wav" data-start="2.3" data-volume="0.26"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="4.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const pxs = document.getElementById("pxs"), r = GEX.rng(55);
+      for (let i = 0; i < 14; i++) { const d = document.createElement("i"); d.className = "px"; d.style.left = (90 + r() * 880) + "px"; d.style.top = (420 + r() * 260) + "px"; if (i % 3 === 0) d.style.background = "#fe6820"; if (i % 4 === 1) d.style.background = "#ffffff"; pxs.appendChild(d); }
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 4.1;
+      const t1 = GEX.split(document.getElementById("t1")), t2 = GEX.split(document.getElementById("t2")), t3 = GEX.split(document.getElementById("t3"));
+      gsap.set(".px", { autoAlpha: 0 });
+      tl.fromTo("#xi", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(2.6)" }, 0.1);
+      GEX.reveal(tl, t1.words, 0.2, "rise", { stagger: 0.07, duration: 0.4 });
+      tl.to("#xi", { rotation: 12, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 5 }, 0.8);
+      tl.to("#l1", { scale: 0.9, duration: 0.3, ease: "power2.out" }, 1.85);
+      GEX.reveal(tl, t2.words, 1.85, "rise", { stagger: 0.08, duration: 0.35 });
+      GEX.reveal(tl, t3.chars, 1.95, "drop", { stagger: 0.035, duration: 0.42 });
+      tl.to("#t3", { keyframes: [{ x: -12, duration: 0.05 }, { x: 12, duration: 0.05 }, { x: -6, duration: 0.05 }, { x: 0, duration: 0.05 }] }, 2.5);
+      tl.fromTo(".px", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.2, ease: "back.out(3)", stagger: 0.03, immediateRender: false }, 2.3);
+      tl.to(".px", { y: (i) => -40 - (i % 4) * 30, rotation: 90, autoAlpha: 0, duration: 1.2, ease: "power2.out", stagger: 0.03 }, 2.6);
+      tl.to("#t3", { scale: 1.04, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 3.0);
+      GEX.scatter(tl, ["#xi"], EXIT, 5);
+      tl.to(t1.words.concat(t2.words), { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.02 }, EXIT);
+      tl.to(t3.chars, { y: (i) => (i % 2 ? 140 : -140), rotation: (i) => (i % 2 ? 20 : -20), autoAlpha: 0, duration: 0.32, ease: "power3.in", stagger: 0.015 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Automatizar 01 — Gancho: puede hacerlo peor</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #r1 { position: absolute; left: 0; right: 0; top: 140px; display: flex; justify-content: center; align-items: center; gap: 22px; }
+      #gr { width: 130px; height: 130px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      #gr svg { width: 92px; height: 92px; }
+      #aut { font-weight: 800; font-size: 92px; line-height: 1; white-space: nowrap; }
+      #r2 { position: absolute; left: 0; right: 0; top: 320px; display: flex; justify-content: center; align-items: center; gap: 22px; }
+      #eq { font-weight: 800; font-size: 90px; color: #1fc4b8; }
+      .res { position: relative; width: 330px; height: 110px; }
+      .res .chip { position: absolute; left: 0; top: 0; width: 330px; height: 110px; justify-content: center; font-size: 56px; }
+      #chart { width: 200px; height: 110px; }
+      #chart svg { width: 100%; height: 100%; overflow: visible; }
+      #big { position: absolute; left: 0; right: 0; top: 490px; display: flex; flex-direction: column; align-items: center; }
+      #big span { font-weight: 800; font-size: 110px; line-height: 1; color: #fe6820; white-space: nowrap; }
+      #big small { font-weight: 800; font-size: 50px; white-space: nowrap; margin-bottom: 4px; }
+      #more { position: absolute; left: 0; right: 0; top: 760px; display: flex; justify-content: center; }
+      #more .pill { font-size: 40px; padding: 12px 30px 12px 12px; }
+      #more .pi { width: 60px; height: 60px; }
+      #more .pi svg { width: 36px; height: 36px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="6" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="r1"><span id="gr" data-ic="gear" data-sw="5"></span><span id="aut">AUTOMATIZAR</span></div>
+          <div id="r2"><span id="eq">=</span><span class="res"><span class="chip g" id="good">MEJOR ✓</span><span class="chip o" id="bad">PEOR ✗</span></span><span id="chart"><svg viewBox="0 0 200 110"><path id="ln" d="M8 20 L60 40 L100 30 L150 80 L192 100" fill="none" stroke="#fe6820" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" /><path id="ah" d="M168 104 L192 100 L186 78" fill="none" stroke="#fe6820" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" /></svg></span></div>
+          <div id="big"><small id="sm">…puede hacerlo</small><span id="pe">PEOR</span></div>
+          <div id="more"><div class="pill" id="mp"><span class="pi" data-ic="search" data-sw="5"></span>Pasa más de lo que parece<i class="shine" id="sh"></i></div></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-g" src="assets/sfx/pop.wav" data-start="0.9" data-volume="0.3"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="1.75" data-volume="0.42"></audio>
+      <audio id="s-m" src="assets/sfx/tick.wav" data-start="3.6" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.6;
+      const fx = document.getElementById("fx");
+      const parts = GEX.particles(fx, 5, 1101, { x0: 20, x1: 120, y0: 140, y1: 900 }).concat(GEX.particles(fx, 5, 1102, { x0: 960, x1: 1060, y0: 140, y1: 800 }));
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      const aut = GEX.split(document.getElementById("aut")), pe = GEX.split(document.getElementById("pe"));
+      gsap.set(["#bad", "#chart", "#sm", "#mp"], { autoAlpha: 0 });
+      tl.fromTo("#gr", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, 0.05);
+      tl.fromTo("#gr svg", { rotation: 0 }, { rotation: 540, duration: 5.4, ease: "none" }, 0.1);
+      GEX.reveal(tl, aut.chars, 0.1, "drop", { stagger: 0.03, duration: 0.4 });
+      tl.fromTo("#eq", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)" }, 0.75);
+      tl.fromTo("#good", { rotationX: -90, autoAlpha: 0, transformPerspective: 600 }, { rotationX: 0, autoAlpha: 1, transformPerspective: 600, duration: 0.35, ease: "back.out(2)" }, 0.9);
+      // ...¿o peor?
+      tl.to("#good", { rotationX: 90, autoAlpha: 0, transformPerspective: 600, duration: 0.18, ease: "power2.in" }, 1.6);
+      tl.fromTo("#bad", { rotationX: -90, autoAlpha: 0, transformPerspective: 600 }, { rotationX: 0, autoAlpha: 1, transformPerspective: 600, duration: 0.3, ease: "back.out(2.4)", immediateRender: false }, 1.78);
+      tl.fromTo("#chart", { scale: 0.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 1.8);
+      tl.fromTo("#ln", { strokeDashoffset: 260, strokeDasharray: 260 }, { strokeDashoffset: 0, duration: 0.5, ease: "power2.in" }, 1.85);
+      tl.fromTo("#sm", { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, 1.8);
+      GEX.reveal(tl, pe.chars, 1.9, "drop", { stagger: 0.06, duration: 0.45 });
+      tl.to("#pe", { keyframes: [{ x: -10, duration: 0.05 }, { x: 10, duration: 0.05 }, { x: -6, duration: 0.05 }, { x: 0, duration: 0.05 }] }, 2.45);
+      tl.to("#pe", { scale: 1.06, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 3 }, 2.8);
+      tl.to(["#r1", "#r2"], { y: -6, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 3 }, 2.6);
+      tl.fromTo("#mp", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 3.6);
+      tl.fromTo("#sh", { x: -140 }, { x: 640, duration: 0.6, ease: "power2.inOut" }, 4.1);
+      tl.set("#sh", { x: -140 }, 4.75);
+      GEX.scatter(tl, ["#gr", "#eq", "#bad", "#chart", "#sm", "#mp"], EXIT, 1);
+      tl.to(aut.chars.concat(pe.chars), { y: -160, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.01 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

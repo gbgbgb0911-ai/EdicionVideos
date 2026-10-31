@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Automatizar 04 — Plataforma preciosa, mismas cuatro personas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #w { position: absolute; left: 60px; top: 290px; width: 960px; height: 960px; }
+      .ps { position: absolute; left: 24px; width: 500px; height: 180px; display: flex; align-items: center; gap: 18px; padding: 0 16px; border-radius: 26px; background: var(--soft); }
+      .ps .avw { position: relative; flex: none; }
+      .ps .av { width: 120px; height: 120px; font-size: 46px; }
+      .ps .bd { position: absolute; right: -6px; top: -6px; width: 44px; height: 44px; border-radius: 50%; background: #ea5a14; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 24px; border: 4px solid #eef4f3; }
+      .ps .nb { position: absolute; left: -14px; top: -14px; width: 60px; height: 60px; border-radius: 50%; background: #ea5a14; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 34px; border: 5px solid #ffffff; }
+      .ps .tx { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+      .ps .tx b { font-weight: 800; font-size: 34px; white-space: nowrap; }
+      .ps .tx .chip { font-size: 22px; padding: 4px 12px; }
+      .ps .bl { position: absolute; right: 14px; top: 14px; width: 44px; height: 44px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      .ps .bl svg { width: 28px; height: 28px; }
+      .fc { position: absolute; left: 548px; width: 388px; height: 180px; padding: 18px 20px; border-radius: 26px; background: #ffffff; border: 5px solid #1fc4b8; display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+      .fc .hd { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 32px; white-space: nowrap; }
+      .fc .hd .ico { width: 64px; height: 64px; }
+      .fc .mini { display: flex; gap: 6px; align-items: flex-end; height: 44px; }
+      .fc .mini i { width: 40px; border-radius: 6px 6px 0 0; background: #1fc4b8; }
+      .fc .mini .chip { font-size: 20px; padding: 4px 8px; }
+      .spk { position: absolute; font-size: 44px; color: #ea5a14; }
+      #endw { position: absolute; left: 0; right: 0; top: 1300px; display: flex; justify-content: center; }
+      #endw .pill { font-size: 54px; padding: 16px 40px 16px 16px; }
+      #endw .pi { width: 84px; height: 84px; }
+      #endw .pi svg { width: 52px; height: 52px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="9.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="9.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">UNA PLATAFORMA PRECIOSA…</span></div>
+        <div class="win" id="w">
+          <div class="bar"><i></i><i></i><i></i><b>Aprobación de ventas ✨</b></div>
+          <div id="rows"></div>
+          <div class="fc" id="f0" style="top: 106px"><div class="hd"><span class="ico" data-ic="bell" data-col="#ea5a14"></span>Notificaciones</div><div class="mini"><span class="chip o">3 nuevas</span></div></div>
+          <div class="fc" id="f1" style="top: 302px"><div class="hd"><span class="ico" data-ic="chart"></span>Dashboard</div><div class="mini"><i style="height: 40%"></i><i style="height: 70%"></i><i style="height: 55%"></i><i style="height: 95%; background: #fe6820"></i><i style="height: 80%"></i></div></div>
+          <div class="fc" id="f2" style="top: 498px"><div class="hd"><span class="ico" data-ic="grid"></span>Estados</div><div class="mini"><span class="chip gr">Pendiente</span><span class="chip a">Revisión</span><span class="chip g">Aprobado</span></div></div>
+          <div class="fc" id="f3" style="top: 694px"><div class="hd"><span class="ico" data-ic="bolt" data-col="#ea5a14"></span>Automatizaciones</div><div class="mini"><span class="chip">Recordatorio automático</span></div></div>
+        </div>
+        <span class="spk" id="k1" style="left: 6px; top: 214px">✦</span><span class="spk" id="k2" style="left: 1026px; top: 214px">✦</span><span class="spk" id="k3" style="left: 1026px; top: 1250px">✦</span><span class="spk" id="k4" style="left: 6px; top: 1250px">✦</span>
+        <div id="endw"><div class="pill o" id="ep"><span class="pi" data-ic="users" data-col="#ea5a14" data-sw="4.5"></span>Siguen siendo 4 personas<i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-sh" src="assets/sfx/shimmer.wav" data-start="0.5" data-volume="0.3"></audio>
+      <audio id="s-1" src="assets/sfx/pop.wav" data-start="3.0" data-volume="0.28"></audio>
+      <audio id="s-2" src="assets/sfx/pop.wav" data-start="4.0" data-volume="0.28"></audio>
+      <audio id="s-3" src="assets/sfx/tick.wav" data-start="6.0" data-volume="0.28"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="7.3" data-volume="0.4"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="9.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const P = [["S", "", "Supervisor", "gr", "Pendiente"], ["J", "o", "Jefe comercial", "a", "En revisión"], ["G", "g", "Gerente", "gr", "Pendiente"], ["F", "a", "Finanzas", "gr", "Pendiente"]];
+      const rows = document.getElementById("rows");
+      P.forEach(([ini, c, role, sc, st], i) => {
+        const d = document.createElement("div");
+        d.className = "ps"; d.id = "ps" + i; d.style.top = (106 + i * 196) + "px";
+        d.innerHTML = '<span class="avw"><span class="av ' + c + '">' + ini + '</span><span class="bd" id="bd' + i + '">1</span><span class="nb" id="nb' + i + '">' + (i + 1) + '</span></span><span class="tx"><b>' + role + '</b><span class="chip ' + sc + '" id="st' + i + '">' + st + '</span></span><span class="bl" id="bl' + i + '" data-ic="bolt" data-col="#ea5a14" data-sw="5"></span>';
+        rows.appendChild(d);
+      });
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 9.1;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set([".fc", ".bd", ".nb", ".tx .chip", ".bl", "#ep"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#w", { scale: 0.6, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.55, ease: "back.out(1.6)" }, 0.3);
+      tl.fromTo(".spk", { scale: 0, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(3)", stagger: 0.1 }, 0.6);
+      tl.to(".spk", { rotation: 180, scale: 0.7, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.2 }, 1.1);
+      tl.fromTo(".ps", { x: -300, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(1.8)", stagger: 0.12 }, 0.9);
+      // notificaciones · dashboard · estados · automatizaciones
+      const feat = (i, t) => {
+        tl.fromTo("#f" + i, { x: 300, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(1.8)", immediateRender: false }, t);
+        tl.fromTo("#f" + i + " .ico", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(3)" }, t + 0.08);
+      };
+      feat(0, 3.0);
+      tl.fromTo(".bd", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.08, immediateRender: false }, 3.2);
+      tl.to("#f0 .ico", { keyframes: [{ rotation: -16, duration: 0.1 }, { rotation: 14, duration: 0.12 }, { rotation: 0, duration: 0.14 }], transformOrigin: "50% 15%", repeat: 2 }, 3.5);
+      feat(1, 4.0);
+      tl.fromTo("#f1 .mini i", { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, transformOrigin: "50% 100%", duration: 0.4, ease: "back.out(2)", stagger: 0.06 }, 4.2);
+      feat(2, 5.0);
+      tl.fromTo(".tx .chip", { scale: 0, autoAlpha: 0, transformOrigin: "0% 50%" }, { scale: 1, autoAlpha: 1, transformOrigin: "0% 50%", duration: 0.3, ease: "back.out(3)", stagger: 0.08, immediateRender: false }, 5.2);
+      feat(3, 6.0);
+      tl.fromTo(".bl", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.08, immediateRender: false }, 6.2);
+      // pero siguen siendo cuatro personas
+      tl.to([".fc", ".spk"], { autoAlpha: 0.25, duration: 0.3 }, 7.2);
+      tl.to(".ps", { backgroundColor: "#ffe2d4", duration: 0.3 }, 7.25);
+      tl.to(".bd", { autoAlpha: 0, duration: 0.15 }, 7.25);
+      tl.fromTo(".nb", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.18, immediateRender: false }, 7.3);
+      tl.to(".ps .av", { scale: 1.12, duration: 0.15, ease: "sine.out", yoyo: true, repeat: 1, stagger: 0.18 }, 7.3);
+      tl.fromTo("#ep", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 7.9);
+      tl.fromTo("#sh", { x: -140 }, { x: 800, duration: 0.6, ease: "power2.inOut" }, 8.3);
+      tl.set("#sh", { x: -140 }, 8.95);
+      // salida + barrido
+      tl.to("#w", { y: 900, rotation: 5, autoAlpha: 0, duration: 0.38, ease: "power3.in" }, EXIT);
+      GEX.scatter(tl, ["#ep", "#tag", "#k1", "#k2", "#k3", "#k4"], EXIT, 40);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

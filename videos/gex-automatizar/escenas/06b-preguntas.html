@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Automatizar 06b — Las tres preguntas aplicadas al proceso</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #qc { position: absolute; left: 60px; top: 220px; width: 960px; height: 230px; border-radius: 34px; background: #ffffff; }
+      .qq { position: absolute; left: 0; top: 0; width: 960px; height: 230px; display: flex; align-items: center; gap: 24px; padding: 0 34px; }
+      .qq .n { width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 64px; color: #ffffff; flex: none; }
+      .qq b { font-weight: 800; font-size: 50px; line-height: 1.12; color: var(--teal); }
+      .ps { position: absolute; left: 60px; width: 600px; height: 150px; display: flex; align-items: center; gap: 20px; padding: 0 20px; border-radius: 26px; background: #ffffff; border: 6px solid #ffffff; }
+      .ps .av { width: 110px; height: 110px; font-size: 42px; }
+      .ps b { font-weight: 800; font-size: 36px; color: var(--teal); white-space: nowrap; }
+      .rs { position: absolute; left: 690px; width: 340px; font-size: 28px; padding: 10px 20px; justify-content: center; }
+      .vd { position: absolute; left: 470px; width: 170px; font-size: 26px; padding: 8px 16px; justify-content: center; }
+      #lens { position: absolute; left: 0; top: 0; width: 200px; height: 200px; z-index: 8; }
+      #lens svg { width: 100%; height: 100%; overflow: visible; }
+      #byp { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
+      #res { position: absolute; left: 0; right: 0; top: 1360px; display: flex; justify-content: center; }
+      #res .pill { font-size: 54px; padding: 16px 40px 16px 16px; }
+      #res .pi { width: 84px; height: 84px; }
+      #res .pi svg { width: 52px; height: 52px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="10.5" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="10.5" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="qc">
+          <div class="qq" id="qa"><span class="n" style="background: #0b958b">1</span><b>¿Por qué hacemos<br />este paso?</b></div>
+          <div class="qq" id="qb"><span class="n" style="background: #ea5a14">2</span><b>¿Quién realmente necesita intervenir?</b></div>
+          <div class="qq" id="qd"><span class="n" style="background: #179a4a">3</span><b>¿Y qué pasaría si simplemente lo eliminamos?</b></div>
+        </div>
+        <div id="rows"></div>
+        <svg id="byp" viewBox="0 0 1080 1920"><path id="bp" d="M60 640 C-10 740 -10 1100 60 1180" fill="none" stroke="#1fc4b8" stroke-width="10" stroke-linecap="round" stroke-dasharray="16 12" /></svg>
+        <div id="lens"><svg viewBox="0 0 100 100"><circle cx="40" cy="40" r="30" fill="none" stroke="#fe6820" stroke-width="9" /><path d="M62 62l26 26" stroke="#fe6820" stroke-width="12" stroke-linecap="round" /></svg></div>
+        <div id="res"><div class="pill g" id="rp"><span class="pi" data-ic="users" data-col="#179a4a" data-sw="4.5"></span>De 4 personas a 2<i class="shine" id="sh"></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-q1" src="assets/sfx/pop.wav" data-start="0.35" data-volume="0.3"></audio>
+      <audio id="s-q2" src="assets/sfx/pop.wav" data-start="3.4" data-volume="0.3"></audio>
+      <audio id="s-q3" src="assets/sfx/pop.wav" data-start="6.4" data-volume="0.3"></audio>
+      <audio id="s-cut" src="assets/sfx/whoosh.wav" data-start="7.8" data-volume="0.36"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="8.7" data-volume="0.33"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="10.08" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const P = [["S", "", "Supervisor", "Revisa el precio", "", "Necesario ✓", "g"], ["J", "o", "Jefe comercial", "Repite lo del supervisor", "o", "¿Hace falta?", "gr"], ["G", "g", "Gerente", "Por costumbre", "o", "¿Hace falta?", "gr"], ["F", "a", "Finanzas", "Valida el pago", "", "Necesario ✓", "g"]];
+      const Y = (i) => 560 + i * 180;
+      const rows = document.getElementById("rows");
+      P.forEach(([ini, c, role, why, wc, v, vc], i) => {
+        const d = document.createElement("div");
+        d.className = "ps"; d.id = "ps" + i; d.style.top = Y(i) + "px";
+        d.innerHTML = '<span class="av ' + c + '">' + ini + "</span><b>" + role + "</b>";
+        rows.appendChild(d);
+        const r = document.createElement("span"); r.className = "chip rs " + wc; r.id = "rs" + i; r.style.top = (Y(i) + 44) + "px"; r.textContent = why; rows.appendChild(r);
+        const k = document.createElement("span"); k.className = "chip vd " + vc; k.id = "vd" + i; k.style.top = (Y(i) - 22) + "px"; k.textContent = v; rows.appendChild(k);
+      });
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 10.1;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set(["#qb", "#qd", ".rs", ".vd", "#rp", "#bp", "#lens"], { autoAlpha: 0 });
+      tl.fromTo("#qc", { y: -300, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(1.8)" }, 0.2);
+      tl.fromTo("#qa .n", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(3)" }, 0.35);
+      tl.fromTo(".ps", { x: -500, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(1.8)", stagger: 0.1 }, 0.4);
+      // 1. ¿por qué hacemos este paso?
+      tl.fromTo("#lens", { x: 800, y: 1500, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2, immediateRender: false }, 0.9);
+      P.forEach((_, i) => {
+        const t = 1.0 + i * 0.55;
+        tl.to("#lens", { x: 520, y: Y(i) - 30, duration: 0.3, ease: "power2.inOut" }, t);
+        tl.fromTo("#rs" + i, { x: 120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, t + 0.25);
+      });
+      tl.to("#lens", { x: 900, y: 1500, autoAlpha: 0, duration: 0.35, ease: "power2.in" }, 3.2);
+      // 2. ¿quién realmente necesita intervenir?
+      tl.to("#qa", { y: -40, autoAlpha: 0, duration: 0.2 }, 3.3);
+      tl.fromTo("#qb", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 3.4);
+      tl.fromTo("#qb .n", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(3)" }, 3.45);
+      [0, 3, 1, 2].forEach((i, k) => {
+        tl.fromTo("#vd" + i, { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 4.2 + k * 0.35);
+      });
+      tl.to(["#ps0", "#ps3"], { borderColor: "#179a4a", duration: 0.25 }, 4.2);
+      tl.to(["#ps1", "#ps2"], { borderColor: "#fe6820", duration: 0.25 }, 4.9);
+      // 3. ¿y si lo eliminamos?
+      tl.to("#qb", { y: -40, autoAlpha: 0, duration: 0.2 }, 6.3);
+      tl.fromTo("#qd", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 6.4);
+      tl.fromTo("#qd .n", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(3)" }, 6.45);
+      tl.to(["#ps1", "#ps2", "#rs1", "#rs2", "#vd1", "#vd2"], { x: 1100, rotation: 6, duration: 0.5, ease: "power3.in", stagger: 0.04 }, 7.8);
+      tl.fromTo("#bp", { autoAlpha: 0, strokeDashoffset: 0 }, { autoAlpha: 1, strokeDashoffset: -60, duration: 0.6, ease: "none", immediateRender: false }, 7.7);
+      tl.to("#bp", { autoAlpha: 0, duration: 0.15 }, 8.3);
+      tl.to(["#ps3", "#rs3", "#vd3"], { y: -360, duration: 0.5, ease: "back.out(1.6)" }, 8.3);
+      tl.fromTo("#rp", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 8.7);
+      tl.fromTo("#sh", { x: -140 }, { x: 700, duration: 0.6, ease: "power2.inOut" }, 9.2);
+      tl.set("#sh", { x: -140 }, 9.85);
+      // salida + barrido
+      GEX.scatter(tl, ["#qc", "#ps0", "#ps3", "#rs0", "#rs3", "#vd0", "#vd3", "#rp"], EXIT, 62);
+      tl.to("#bp", { autoAlpha: 0, duration: 0.2 }, EXIT);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
