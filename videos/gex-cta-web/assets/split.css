@@ -1,0 +1,5 @@
+/* Pantalla dividida: panel SUPERIOR (lienzo lógico 1080×960 escalado ×2 → render 2160×1920).
+   En CapCut: este clip arriba, la cámara en la mitad de abajo. */
+html, body { width: 2160px; height: 1920px; }
+#stage { width: 2160px; height: 1920px; }
+#c { position: absolute; left: 0; top: 0; width: 1080px; height: 960px; transform: scale(2); transform-origin: 0 0; overflow: hidden; background: #000000; }
