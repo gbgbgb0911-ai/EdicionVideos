@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Dorvan 03a — Un sistema adaptado a su forma de trabajar</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .fl { left: 300px; width: 220px; }
+      .fl .fnum { left: 14px; top: 14px; width: 60px; height: 60px; font-size: 36px; }
+      .fl .fname { left: 86px; top: 22px; font-size: 26px; }
+      .fl .fgrey { left: 16px; top: 18px; font-size: 22px; }
+      #rec { position: absolute; left: 80px; top: 630px; width: 180px; height: 150px; border: 6px solid #ffffff; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 22px; letter-spacing: 0.08em; white-space: nowrap; }
+      #rec .ico { width: 64px; height: 64px; background: #ffffff; }
+      #sv { position: absolute; left: 0; top: 0; width: 1080px; height: 960px; pointer-events: none; }
+      #gnd { position: absolute; left: 60px; width: 500px; top: 800px; height: 8px; border-radius: 4px; background: #dfe7e6; }
+      #rt { position: absolute; left: 600px; right: 30px; top: 190px; display: flex; flex-direction: column; align-items: center; gap: 26px; }
+      #sys { width: 210px; height: 210px; border-radius: 44px; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      #sys svg { width: 140px; height: 140px; }
+      #c1 { font-size: 40px; padding: 12px 28px; }
+      #c2 { font-size: 34px; padding: 10px 24px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4.0" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="4.0" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <svg id="sv" viewBox="0 0 1080 960"><rect id="frm" x="40" y="100" width="530" height="730" rx="44" fill="none" stroke="#1fc4b8" stroke-width="8" stroke-linecap="round" /><path id="l1" class="route" d="M260 700 H 300" /><path id="l4" class="route" d="M260 670 H 280 V 205 H 300" /></svg>
+          <div class="fl t" id="p4" style="top: 130px; height: 150px"><span class="fnum">4</span><span class="fname">TALLER</span></div>
+          <div class="fl" id="p3" style="top: 296px; height: 100px"><span class="fgrey" data-layout-ignore>PISO 3</span></div>
+          <div class="fl" id="p2" style="top: 412px; height: 100px"><span class="fgrey" data-layout-ignore>PISO 2</span></div>
+          <div class="fl o" id="p1" style="top: 628px; height: 150px"><span class="fnum">1</span><span class="fname">LÁSER</span></div>
+          <div id="rec"><span class="ico" data-ic="doc"></span>RECEPCIÓN</div>
+          <div id="gnd"></div>
+          <div id="rt"><div id="sys" data-ic="grid" data-sw="4"></div><span class="chip" id="c1">Sistema a medida</span><span class="chip o" id="c2">A su forma de trabajar</span></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-fr" src="assets/sfx/shimmer.wav" data-start="0.75" data-volume="0.28"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="1.7" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="3.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.6;
+      const parts = GEX.particles(document.getElementById("fx"), 8, 1341, { x0: 600, x1: 1060, y0: 600, y1: 900 });
+      GEX.ambient(tl, parts, 0.6, EXIT + 0.3);
+      const frm = document.getElementById("frm");
+      const L = 2 * (530 + 730) - (8 - 2 * Math.PI) * 44;
+      gsap.set(["#l1", "#l4", "#c1", "#c2", "#sys"], { autoAlpha: 0 });
+      tl.fromTo("#gnd", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power3.out" }, 0.05);
+      ["#p1", "#p2", "#p3", "#p4"].forEach((id, i) => tl.fromTo(id, { y: 100, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(1.8)" }, 0.08 + i * 0.07));
+      tl.fromTo("#rec", { x: -120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      // el sistema se adapta alrededor de cómo trabajan
+      tl.fromTo(frm, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, 0.7);
+      tl.fromTo(["#l1", "#l4"], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25, stagger: 0.15, immediateRender: false }, 1.1);
+      tl.fromTo(["#l1", "#l4"], { strokeDashoffset: 0 }, { strokeDashoffset: -112, duration: EXIT - 1.1, ease: "none" }, 1.1);
+      tl.to(frm, { attr: { "stroke-width": 12 }, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.6);
+      tl.fromTo("#sys", { scale: 0, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 1.2);
+      tl.to("#sys", { rotation: 6, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.8);
+      tl.fromTo("#c1", { x: 80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 1.6);
+      tl.fromTo("#c2", { x: 80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 1.85);
+      GEX.float(tl, "#c2", 2.3, EXIT, 6, 1.0);
+      GEX.scatter(tl, ["#p4", "#p3", "#p2", "#p1", "#rec", "#sys", "#c1", "#c2"], EXIT, 31);
+      tl.to(["#sv", "#gnd"], { autoAlpha: 0, duration: 0.25 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Dorvan 01a — ¿Cómo controlas pedidos en diferentes pisos?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .fl { left: 300px; width: 480px; height: 160px; }
+      .fl .fgrey { left: 22px; top: 54px; font-size: 30px; }
+      .fl .av { position: absolute; top: 40px; width: 72px; height: 72px; font-size: 30px; }
+      .q { position: absolute; right: 18px; top: 34px; width: 84px; height: 84px; border-radius: 50%; background: #ea5a14; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 58px; color: #ffffff; }
+      #gnd { position: absolute; left: 250px; width: 580px; top: 818px; height: 8px; border-radius: 4px; background: #dfe7e6; }
+      .tk { font-size: 28px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.6" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="5.6" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div class="fl" id="p4" style="top: 120px"><span class="fgrey">PISO 4</span><span class="av" style="left: 190px">L</span><span class="av o" style="left: 280px">M</span><span class="q">?</span></div>
+          <div class="fl" id="p3" style="top: 294px"><span class="fgrey">PISO 3</span><span class="av g" style="left: 230px">R</span><span class="q">?</span></div>
+          <div class="fl" id="p2" style="top: 468px"><span class="fgrey">PISO 2</span><span class="av a" style="left: 200px">J</span><span class="av" style="left: 290px">S</span><span class="q">?</span></div>
+          <div class="fl" id="p1" style="top: 642px"><span class="fgrey">PISO 1</span><span class="av o" style="left: 240px">C</span><span class="q">?</span></div>
+          <div id="gnd"></div>
+          <span class="tk o" id="k1" style="left: 60px; top: 680px" data-layout-allow-overlap><i>?</i>Pedido</span>
+          <span class="tk o" id="k2" style="left: 60px; top: 500px" data-layout-allow-overlap><i>?</i>Pedido</span>
+          <span class="tk o" id="k3" style="left: 830px; top: 330px" data-layout-allow-overlap><i>?</i>Pedido</span>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-av" src="assets/sfx/pop.wav" data-start="0.8" data-volume="0.28"></audio>
+      <audio id="s-tk" src="assets/sfx/whoosh.wav" data-start="1.9" data-volume="0.3"></audio>
+      <audio id="s-q" src="assets/sfx/ding.wav" data-start="3.4" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.18" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.2;
+      const parts = GEX.particles(document.getElementById("fx"), 8, 1301, { x0: 20, x1: 280, y0: 100, y1: 860 }).concat(GEX.particles(document.getElementById("fx"), 6, 1302, { x0: 800, x1: 1060, y0: 500, y1: 860 }));
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set([".tk", ".q"], { autoAlpha: 0 });
+      // el edificio se arma de abajo hacia arriba
+      tl.fromTo("#gnd", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, 0.05);
+      ["#p1", "#p2", "#p3", "#p4"].forEach((id, i) => tl.fromTo(id, { y: 120, scaleY: 0.3, autoAlpha: 0 }, { y: 0, scaleY: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(1.8)" }, 0.1 + i * 0.12));
+      tl.fromTo(".fl .fgrey", { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "power3.out", stagger: -0.08 }, 0.5);
+      tl.fromTo(".fl .av", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", stagger: { each: 0.07, from: "end" } }, 0.8);
+      tl.to(".fl .av", { y: -8, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 7, stagger: 0.09 }, 1.4);
+      // pedidos que van y vienen entre pisos sin rumbo claro
+      tl.fromTo(".tk", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.6)", stagger: 0.1, immediateRender: false }, 1.8);
+      tl.to("#k1", { keyframes: [{ y: -350, duration: 0.6 }, { y: -170, duration: 0.5 }, { y: -520, duration: 0.6 }, { y: -260, duration: 0.6 }], ease: "power2.inOut" }, 2.0);
+      tl.to("#k2", { keyframes: [{ y: 180, duration: 0.55 }, { y: -320, duration: 0.65 }, { y: 0, duration: 0.6 }, { y: -170, duration: 0.5 }], ease: "power2.inOut" }, 2.1);
+      tl.to("#k3", { keyframes: [{ y: 340, duration: 0.6 }, { y: 170, duration: 0.5 }, { y: 520, duration: 0.6 }, { y: 250, duration: 0.6 }], ease: "power2.inOut" }, 2.05);
+      tl.to(".tk", { rotation: (i) => (i % 2 ? 8 : -8), duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 7 }, 2.0);
+      // dudas en cada piso
+      tl.fromTo(".q", { scale: 0, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", stagger: 0.1, immediateRender: false }, 3.4);
+      tl.to(".q", { rotation: 14, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 5, stagger: 0.06 }, 3.9);
+      GEX.scatter(tl, ["#p4", "#p3", "#p2", "#p1", "#k1", "#k2", "#k3"], EXIT, 13);
+      tl.to("#gnd", { scaleX: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

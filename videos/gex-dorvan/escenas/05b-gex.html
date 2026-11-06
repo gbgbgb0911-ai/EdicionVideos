@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Dorvan 05b — GEX: sistemas que se adaptan a cada empresa</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #lgw { position: absolute; left: 0; right: 0; top: 90px; display: flex; justify-content: center; }
+      .logo { display: inline-flex; align-items: center; padding: 18px 34px; border-radius: 28px; background: #ffffff; }
+      .logo img { display: block; width: 300px; }
+      #sv { position: absolute; left: 0; top: 0; width: 1080px; height: 960px; pointer-events: none; }
+      .sh { fill: none; stroke: #ffffff; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+      .fr { fill: none; stroke: #1fc4b8; stroke-width: 8; stroke-linecap: round; }
+      #msgw { position: absolute; left: 0; right: 0; top: 760px; display: flex; justify-content: center; }
+      #msg { font-size: 44px; padding: 14px 34px 14px 14px; }
+      #msg .pi { width: 70px; height: 70px; }
+      #msg .pi svg { width: 44px; height: 44px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.6" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="6.6" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="lgw"><span class="logo" id="lg"><img src="assets/logo-v2/gex-full.png" alt="GEX" /></span></div>
+          <svg id="sv" viewBox="0 0 1080 960">
+            <g id="ga"><path class="sh" d="M180 660 V 400 H 280 V 660 Z M180 487 H 280 M180 574 H 280 M205 430 h14 M241 430 h14 M205 517 h14 M241 517 h14 M205 604 h14 M241 604 h14" /></g>
+            <g id="gb"><path class="sh" d="M440 660 V 530 H 640 V 660 Z M430 530 L450 490 H 630 L650 530 M520 660 V 600 H 560 V 660" /></g>
+            <g id="gc"><path class="sh" d="M760 660 V 520 L 800 470 V 520 L 840 470 V 520 L 880 470 V 520 L 920 470 V 520 L 960 470 V 660 Z M800 660 V 600 H 850 V 660" /></g>
+            <rect id="fa" class="fr" x="150" y="370" width="160" height="320" rx="30" />
+            <rect id="fb" class="fr" x="410" y="460" width="260" height="230" rx="30" />
+            <rect id="fc" class="fr" x="730" y="440" width="260" height="250" rx="30" />
+          </svg>
+          <div id="msgw"><div class="pill" id="msg"><span class="pi" data-ic="check" data-sw="6"></span>A la medida de cada empresa<i class="shine" id="sh" data-layout-allow-overflow></i></div></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-lg" src="assets/sfx/pop.wav" data-start="1.2" data-volume="0.3"></audio>
+      <audio id="s-fr" src="assets/sfx/shimmer.wav" data-start="3.4" data-volume="0.28"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="4.6" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.18" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.2;
+      const parts = GEX.particles(document.getElementById("fx"), 10, 1411, { x0: 20, x1: 1060, y0: 60, y1: 340 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      gsap.set(["#lg", "#msg", "#ga", "#gb", "#gc"], { autoAlpha: 0 });
+      tl.fromTo("#lg", { scale: 0.3, rotation: -8, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2.6)", immediateRender: false }, 1.2);
+      tl.to("#lg", { rotation: 3, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.8);
+      GEX.float(tl, "#lg", 3.0, EXIT, 6, 1.4);
+      // empresas distintas
+      ["#ga", "#gb", "#gc"].forEach((id, i) => tl.fromTo(id, { y: 120, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.42, ease: "back.out(2)", immediateRender: false }, 2.5 + i * 0.15));
+      // un sistema que se ajusta a cada una
+      ["#fa", "#fb", "#fc"].forEach((id, i) => {
+        const r = document.querySelector(id), w = +r.getAttribute("width"), h = +r.getAttribute("height");
+        const L = 2 * (w + h) - (8 - 2 * Math.PI) * 30;
+        tl.fromTo(id, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut" }, 3.4 + i * 0.3);
+        tl.to(id, { attr: { "stroke-width": 12 }, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 4.2 + i * 0.1);
+      });
+      tl.fromTo("#msg", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 4.6);
+      tl.fromTo("#sh", { x: -140 }, { x: 800, duration: 0.6, ease: "power2.inOut" }, 5.1);
+      tl.set("#sh", { x: -140 }, 5.75);
+      GEX.scatter(tl, ["#lg", "#ga", "#gb", "#gc", "#msg"], EXIT, 52);
+      tl.to(["#fa", "#fb", "#fc"], { autoAlpha: 0, duration: 0.25 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

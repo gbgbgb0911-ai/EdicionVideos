@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Dorvan 01b — Caso DORVAN: láser, pizarras y fabricación</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 110px; display: flex; justify-content: center; }
+      #nm { position: absolute; left: 0; right: 0; top: 190px; text-align: center; font-weight: 800; font-size: 170px; line-height: 1; letter-spacing: 0.06em; white-space: nowrap; }
+      #ul { position: absolute; left: 290px; width: 500px; top: 390px; height: 14px; border-radius: 7px; background: #fe6820; transform-origin: 0% 50%; }
+      #cards { position: absolute; left: 0; right: 0; top: 480px; display: flex; justify-content: center; gap: 26px; }
+      .cd { width: 300px; height: 300px; border-radius: 36px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; font-weight: 800; font-size: 40px; white-space: nowrap; }
+      .cd .ico { width: 140px; height: 140px; background: #ffffff; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.6" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="6.6" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="tagw"><span class="tag t" id="tag">CASO REAL</span></div>
+          <div id="nm"><span id="nmt">DORVAN</span></div>
+          <div id="ul"></div>
+          <div id="cards">
+            <div class="cd" id="d1" style="background: #ea5a14"><span class="ico" data-ic="laser" data-col="#ea5a14" data-sw="4"></span>Láser</div>
+            <div class="cd" id="d2" style="background: #0b958b"><span class="ico" data-ic="board" data-sw="4"></span>Pizarras</div>
+            <div class="cd" id="d3" style="background: #179a4a"><span class="ico" data-ic="hammer" data-col="#179a4a" data-sw="4"></span>Fabricación</div>
+          </div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-hit" src="assets/sfx/impact.wav" data-start="0.75" data-volume="0.36"></audio>
+      <audio id="s-1" src="assets/sfx/pop.wav" data-start="3.6" data-volume="0.28"></audio>
+      <audio id="s-3" src="assets/sfx/pop.wav" data-start="5.0" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.18" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.2;
+      const parts = GEX.particles(document.getElementById("fx"), 10, 1311, { x0: 20, x1: 1060, y0: 100, y1: 900 });
+      GEX.ambient(tl, parts, 0.3, EXIT + 0.3);
+      const nm = GEX.split(document.getElementById("nmt"));
+      gsap.set(".cd", { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.05);
+      GEX.reveal(tl, nm.chars, 0.2, "drop", { stagger: 0.07, duration: 0.45 });
+      tl.fromTo("#ul", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, 0.75);
+      GEX.punch(tl, "#nm", 0.8, 1.08);
+      tl.to(nm.chars, { y: -14, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.06 }, 1.6);
+      tl.to("#ul", { scaleX: 0.7, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.4);
+      // a qué se dedica
+      [["#d1", 3.6], ["#d2", 4.3], ["#d3", 5.0]].forEach(([id, t], i) => {
+        tl.fromTo(id, { y: 220, rotation: (i - 1) * 14, autoAlpha: 0 }, { y: 0, rotation: (i - 1) * 3, autoAlpha: 1, duration: 0.42, ease: "back.out(2.2)", immediateRender: false }, t);
+        tl.fromTo(id + " .ico", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.6)" }, t + 0.08);
+        GEX.float(tl, id, t + 0.5, EXIT, 9, 1.1 + i * 0.2);
+      });
+      tl.to("#d1 .ico", { rotation: 10, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 5 }, 4.3);
+      GEX.scatter(tl, ["#tag", "#ul", "#d1", "#d2", "#d3"], EXIT, 14);
+      tl.to(nm.chars, { y: -220, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.03 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

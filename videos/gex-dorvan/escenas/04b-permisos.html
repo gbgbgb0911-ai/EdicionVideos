@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Dorvan 04b — Permisos diferentes por trabajador</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 200px; display: flex; justify-content: center; }
+      #roles { position: absolute; left: 0; right: 0; top: 300px; display: flex; justify-content: center; gap: 20px; }
+      .rl { width: 300px; height: 180px; border-radius: 28px; border: 6px solid #dfe7e6; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; font-weight: 800; font-size: 32px; white-space: nowrap; }
+      .rl .av { width: 84px; height: 84px; }
+      .rl .av svg { width: 50px; height: 50px; }
+      #card { position: absolute; left: 60px; top: 530px; width: 960px; }
+      .f { position: relative; display: flex; align-items: center; gap: 22px; height: 150px; padding: 0 30px; border-bottom: 4px solid var(--line); }
+      .f:last-child { border-bottom: 0; }
+      .f .ico { width: 80px; height: 80px; }
+      .f .tx { display: flex; flex-direction: column; gap: 8px; }
+      .f .lbl { font-size: 28px; }
+      .f .v { font-weight: 800; font-size: 42px; white-space: nowrap; }
+      .prog { display: flex; align-items: center; gap: 16px; }
+      .trk { position: relative; width: 300px; height: 18px; border-radius: 9px; background: #e6eeed; overflow: hidden; }
+      .trk i { position: absolute; inset: 0; border-radius: 9px; background: #1fc4b8; transform-origin: 0% 50%; }
+      .prog .chip { font-size: 28px; padding: 6px 16px; }
+      .bd { position: absolute; right: 30px; top: 30px; width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+      .bd svg { width: 52px; height: 52px; }
+      .bd.ok { background: #179a4a; }
+      .bd.no { background: #ea5a14; }
+      .np { position: absolute; right: 136px; top: 50px; font-size: 30px; padding: 8px 18px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="10.2" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="10.2" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">PERMISOS POR ROL</span></div>
+        <div id="roles">
+          <div class="rl" id="ro1"><span class="av a" data-ic="doc" data-col="#ffffff" data-sw="4.5"></span>Recepción</div>
+          <div class="rl" id="ro2"><span class="av o" data-ic="hammer" data-col="#ffffff" data-sw="4.5"></span>Producción</div>
+          <div class="rl" id="ro3"><span class="av" data-ic="chart" data-col="#ffffff" data-sw="4.5"></span>Administración</div>
+        </div>
+        <div class="win" id="card"><div class="bar"><i></i><i></i><i></i><b>Pedido #104 · Grabado acrílico</b></div>
+          <div class="f" id="f1"><span class="ico" data-ic="sliders"></span><span class="tx"><span class="lbl">AVANCE</span><span class="prog"><span class="trk"><i id="pb"></i></span><span class="chip" id="st">En proceso</span></span></span><span class="bd ok" id="k1" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+          <div class="f" id="f2"><span class="ico" data-ic="money"></span><span class="tx"><span class="lbl">PRECIO</span><span class="v">$350</span></span><span class="chip o np" id="n2">Sin permiso</span><span class="bd no" id="k2" data-ic="lock" data-col="#ffffff" data-sw="5"></span></div>
+          <div class="f" id="f3"><span class="ico" data-ic="cash" data-col="#179a4a"></span><span class="tx"><span class="lbl">PAGOS</span><span class="v">Adelanto $150</span></span><span class="chip o np" id="n3">Sin permiso</span><span class="bd no" id="k3" data-ic="lock" data-col="#ffffff" data-sw="5"></span></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-r" src="assets/sfx/pop.wav" data-start="3.0" data-volume="0.28"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="4.65" data-volume="0.3"></audio>
+      <audio id="s-n2" src="assets/sfx/click.wav" data-start="7.25" data-volume="0.32"></audio>
+      <audio id="s-n3" src="assets/sfx/click.wav" data-start="8.25" data-volume="0.32"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="9.78" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 9.8;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 10, 1391, { x0: 60, x1: 1020, y0: 1160, y1: 1540 });
+      GEX.ambient(tl, parts, 0.6, EXIT + 0.3);
+      gsap.set(["#k1", "#k2", "#k3", "#n2", "#n3", "#card"], { autoAlpha: 0 });
+      gsap.set("#pb", { scaleX: 0.5 });
+      const cur = GEX.cursor(scene);
+      gsap.set(cur.c, { x: 1120, y: 1200 });
+      tl.fromTo("#tag", { y: -80, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.3);
+      // cada rol con su llave
+      tl.fromTo(".rl", { y: 150, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", stagger: 0.15 }, 0.5);
+      tl.fromTo(".rl .av", { rotation: -150 }, { rotation: 0, duration: 0.5, ease: "back.out(2)", stagger: 0.15 }, 0.55);
+      tl.to(".rl", { y: -10, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.12 }, 1.4);
+      // ejemplo: producción
+      tl.to(["#ro1", "#ro3"], { scale: 0.86, duration: 0.3, ease: "power2.out" }, 3.0);
+      tl.to("#ro2", { scale: 1.1, borderColor: "#fe6820", duration: 0.35, ease: "back.out(2.4)" }, 3.0);
+      tl.fromTo("#card", { y: 400, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out", immediateRender: false }, 3.1);
+      [["#k1", 3.5], ["#k2", 3.62], ["#k3", 3.74]].forEach(([id, t]) => tl.fromTo(id, { scale: 0, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, t));
+      // sí puede actualizar el avance
+      GEX.tap(tl, cur, 330, 790, 4.1, 0.5);
+      tl.to("#pb", { scaleX: 1, backgroundColor: "#179a4a", duration: 0.5, ease: "power2.out" }, 4.6);
+      const st = document.getElementById("st"), sp = { v: 0 };
+      tl.fromTo(sp, { v: 0 }, { v: 1, duration: 0.02, immediateRender: false, onUpdate: () => { const ok = sp.v > 0.5; st.textContent = ok ? "Listo ✓" : "En proceso"; st.style.backgroundColor = ok ? "#179a4a" : ""; } }, 4.65);
+      GEX.punch(tl, "#st", 4.65, 1.2);
+      GEX.punch(tl, "#k1", 4.7, 1.25);
+      tl.to("#f1", { keyframes: [{ backgroundColor: "#e4f6ea", duration: 0.15 }, { backgroundColor: "#ffffff", duration: 0.6 }], ease: "none" }, 4.65);
+      // pero no el precio ni los pagos
+      const deny = (row, k, n, y, t) => {
+        GEX.tap(tl, cur, 260, y, t - 0.45, 0.45);
+        tl.to(k, { keyframes: [{ rotation: -18, duration: 0.07 }, { rotation: 16, duration: 0.08 }, { rotation: -10, duration: 0.08 }, { rotation: 0, duration: 0.08 }], ease: "none" }, t);
+        GEX.punch(tl, k, t, 1.2);
+        tl.to(row, { keyframes: [{ backgroundColor: "#fff1ea", duration: 0.12 }, { backgroundColor: "#ffffff", duration: 0.6 }], ease: "none" }, t);
+        tl.fromTo(n, { x: 40, scale: 0.5, autoAlpha: 0 }, { x: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.6)", immediateRender: false }, t + 0.05);
+      };
+      deny("#f2", "#k2", "#n2", 935, 7.25);
+      deny("#f3", "#k3", "#n3", 1085, 8.25);
+      tl.to(cur.c, { x: 1120, y: 1300, duration: 0.4, ease: "power2.in" }, 8.7);
+      GEX.float(tl, "#ro2", 3.5, EXIT, 6, 1.4);
+      // salida + barrido
+      GEX.scatter(tl, ["#ro1", "#ro2", "#ro3", "#card", "#tag"], EXIT, 42);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
