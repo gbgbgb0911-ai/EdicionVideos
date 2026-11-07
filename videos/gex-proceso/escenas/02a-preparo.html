@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Proceso 02a — 2 a 3 horas preparando tu propuesta</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #mw { position: absolute; left: 0; right: 0; top: 60px; display: flex; justify-content: center; }
+      #mt { font-size: 34px; padding: 10px 24px 10px 10px; }
+      #mt .pi { width: 54px; height: 54px; }
+      #mt .pi svg { width: 34px; height: 34px; }
+      #clk { position: absolute; left: 110px; top: 210px; width: 300px; height: 300px; border-radius: 50%; background: #ffffff; border: 12px solid #1fc4b8; }
+      #clk i { position: absolute; left: 50%; bottom: 50%; width: 14px; margin-left: -7px; border-radius: 7px; transform-origin: 50% 100%; background: #0b958b; }
+      #hh { height: 80px; }
+      #mh { height: 112px; background: #ea5a14 !important; }
+      #clk b { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: #0b958b; }
+      #hrs { position: absolute; left: 110px; width: 300px; top: 540px; text-align: center; font-weight: 800; font-size: 96px; line-height: 1; white-space: nowrap; }
+      #hrs small { display: block; font-size: 34px; color: #1fc4b8; letter-spacing: 0.1em; margin-top: 8px; }
+      #arr { position: absolute; left: 440px; top: 340px; font-weight: 800; font-size: 80px; color: #fe6820; }
+      #doc { left: 560px; top: 170px; width: 400px; height: 560px; }
+      #doc .dh { height: 84px; background: #ea5a14; color: #ffffff; display: flex; align-items: center; padding: 0 24px; font-weight: 800; font-size: 34px; letter-spacing: 0.08em; }
+      #doc .dp { padding: 16px 24px 4px; font-weight: 800; font-size: 30px; }
+      #doc .ls { display: flex; flex-direction: column; gap: 18px; padding: 18px 24px; }
+      #doc .dl { transform-origin: 0% 50%; }
+      #doc .dl.t { height: 20px; width: 60%; background: #1fc4b8; }
+      #endw { position: absolute; left: 0; right: 0; top: 790px; display: flex; justify-content: center; }
+      #ep { font-size: 42px; padding: 12px 30px 12px 12px; }
+      #ep .pi { width: 66px; height: 66px; }
+      #ep .pi svg { width: 40px; height: 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8.0" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="8.0" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="mw"><div class="pill g" id="mt"><span class="pi" data-ic="video" data-col="#179a4a" data-sw="4.5"></span>Meet terminado ✓</div></div>
+          <div id="clk"><i id="hh"></i><i id="mh"></i><b></b></div>
+          <div id="hrs">2–3 h<small>PREPARANDO</small></div>
+          <div id="arr">→</div>
+          <div class="doc" id="doc"><div class="dh">PROPUESTA</div><div class="dp">Para: María</div>
+            <div class="ls"><i class="dl t"></i><i class="dl"></i><i class="dl" style="width: 80%"></i><i class="dl t"></i><i class="dl"></i><i class="dl" style="width: 70%"></i><i class="dl t"></i><i class="dl" style="width: 90%"></i></div></div>
+          <div id="endw"><div class="pill" id="ep"><span class="pi" data-ic="check" data-sw="6"></span>Detallada y completa<i class="shine" id="sh" data-layout-allow-overflow></i></div></div>
+        </section>
+      </div>
+      <audio id="s-m" src="assets/sfx/tick.wav" data-start="0.2" data-volume="0.28"></audio>
+      <audio id="s-c" src="assets/sfx/pop.wav" data-start="2.4" data-volume="0.3"></audio>
+      <audio id="s-d" src="assets/sfx/whoosh.wav" data-start="4.6" data-volume="0.32"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="6.6" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.6;
+      const parts = GEX.particles(document.getElementById("fx"), 8, 1521, { x0: 20, x1: 240, y0: 640, y1: 920 });
+      GEX.ambient(tl, parts, 0.5, EXIT + 0.3);
+      gsap.set(["#clk", "#hrs", "#arr", "#doc", "#ep"], { autoAlpha: 0 });
+      tl.fromTo("#mt", { y: -60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)" }, 0.2);
+      // 2-3 horas
+      tl.fromTo("#clk", { scale: 0, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 2.4);
+      tl.fromTo("#mh", { rotation: 0 }, { rotation: 1080, duration: EXIT - 2.5, ease: "none" }, 2.5);
+      tl.fromTo("#hh", { rotation: 30 }, { rotation: 120, duration: EXIT - 2.5, ease: "none" }, 2.5);
+      tl.fromTo("#hrs", { y: 40, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.6)", immediateRender: false }, 2.7);
+      GEX.punch(tl, "#hrs", 3.3, 1.12);
+      // la propuesta se va escribiendo
+      tl.fromTo("#arr", { x: -40, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 4.4);
+      tl.to("#arr", { x: 12, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 7 }, 4.8);
+      tl.fromTo("#doc", { y: 200, rotation: 6, autoAlpha: 0 }, { y: 0, rotation: 0, autoAlpha: 1, duration: 0.5, ease: "back.out(1.6)", immediateRender: false }, 4.6);
+      tl.fromTo("#doc .dl", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "power2.out", stagger: 0.18 }, 5.0);
+      tl.fromTo("#ep", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 6.6);
+      tl.fromTo("#sh", { x: -140 }, { x: 700, duration: 0.6, ease: "power2.inOut" }, 7.0);
+      GEX.float(tl, "#doc", 5.2, EXIT, 6, 1.4);
+      GEX.scatter(tl, ["#mt", "#clk", "#hrs", "#arr", "#doc", "#ep"], EXIT, 64);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Proceso 01c — Reunión por Meet para entender tu negocio</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #invw { position: absolute; left: 0; right: 0; top: 70px; display: flex; justify-content: center; }
+      #inv { display: flex; align-items: center; gap: 18px; padding: 16px 28px 16px 16px; border-radius: 30px; background: #ffffff; color: #0b958b; font-weight: 800; font-size: 42px; white-space: nowrap; }
+      #inv .ico { width: 84px; height: 84px; background: #0b958b; }
+      #inv .chip { font-size: 32px; }
+      #call { position: absolute; left: 90px; top: 230px; width: 900px; height: 420px; }
+      #tiles { display: flex; gap: 16px; padding: 18px; }
+      .tile { position: relative; flex: 1; height: 300px; border-radius: 24px; background: #eef4f3; display: flex; align-items: center; justify-content: center; }
+      .tile .av { width: 150px; height: 150px; font-size: 60px; }
+      .tile small { position: absolute; left: 16px; bottom: 12px; font-weight: 800; font-size: 28px; color: #0b958b; }
+      .tile .bbl { font-size: 32px; top: 18px; padding: 10px 18px; }
+      #q { right: 16px; }
+      #chips { position: absolute; left: 0; right: 0; top: 700px; display: flex; justify-content: center; gap: 20px; }
+      #chips .pill { font-size: 40px; padding: 12px 30px 12px 12px; }
+      #chips .pi { width: 64px; height: 64px; }
+      #chips .pi svg { width: 40px; height: 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8.0" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="8.0" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="invw"><div id="inv"><span class="ico" data-ic="video" data-col="#ffffff" data-sw="4.5"></span>Reunión por Meet<span class="chip g" id="ok">Coordinada ✓</span></div></div>
+          <div class="win" id="call"><div class="bar"><i></i><i></i><i></i><b>Reunión · Meet</b></div>
+            <div id="tiles"><div class="tile" id="t1"><span class="av o">M</span><small>María</small></div><div class="tile" id="t2"><span class="av">G</span><small>Gabriel · GEX</small><span class="bbl out" id="q">¿Qué necesitas?</span></div></div>
+          </div>
+          <div id="chips"><div class="pill" id="c1"><span class="pi" data-ic="bulb" data-sw="4.5"></span>Lo que necesitas</div><div class="pill o" id="c2"><span class="pi" data-ic="store" data-col="#ea5a14" data-sw="4.5"></span>Tu negocio</div></div>
+        </section>
+      </div>
+      <audio id="s-inv" src="assets/sfx/pop.wav" data-start="0.2" data-volume="0.3"></audio>
+      <audio id="s-call" src="assets/sfx/whoosh.wav" data-start="2.5" data-volume="0.34"></audio>
+      <audio id="s-1" src="assets/sfx/tick.wav" data-start="4.6" data-volume="0.28"></audio>
+      <audio id="s-2" src="assets/sfx/tick.wav" data-start="6.2" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.6;
+      const parts = GEX.particles(document.getElementById("fx"), 6, 1511, { x0: 10, x1: 80, y0: 200, y1: 900 }).concat(GEX.particles(document.getElementById("fx"), 6, 1512, { x0: 1000, x1: 1070, y0: 200, y1: 900 }));
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set(["#call", "#q", "#c1", "#c2", "#ok"], { autoAlpha: 0 });
+      tl.fromTo("#inv", { y: -80, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)" }, 0.2);
+      tl.fromTo("#inv .ico", { rotation: -120, scale: 0 }, { rotation: 0, scale: 1, duration: 0.45, ease: "back.out(2.6)" }, 0.3);
+      tl.fromTo("#ok", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 1.6);
+      // la reunión
+      tl.fromTo("#call", { y: 300, scale: 0.7, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.5, ease: "back.out(1.6)", immediateRender: false }, 2.5);
+      tl.fromTo(".tile .av", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)", stagger: 0.12 }, 2.8);
+      tl.to(".tile .av", { scale: 1.06, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 7, stagger: 0.3 }, 3.4);
+      tl.fromTo("#q", { scale: 0, autoAlpha: 0, transformOrigin: "100% 100%" }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.6)", immediateRender: false }, 3.5);
+      // entender qué necesitas y tu negocio
+      tl.fromTo("#c1", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 4.6);
+      tl.fromTo("#c2", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 6.2);
+      tl.to("#c1 .pi", { rotation: 15, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 5 }, 5.0);
+      tl.to("#c2 .pi", { rotation: -12, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 5 }, 6.6);
+      GEX.float(tl, "#inv", 2.0, EXIT, 5, 1.4);
+      GEX.scatter(tl, ["#inv", "#call", "#c1", "#c2"], EXIT, 63);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

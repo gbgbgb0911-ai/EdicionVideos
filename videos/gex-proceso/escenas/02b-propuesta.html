@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Proceso 02b — Qué incluye tu propuesta</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #doc { left: 90px; top: 360px; width: 900px; }
+      #doc .dh { display: flex; align-items: center; justify-content: space-between; height: 100px; padding: 0 30px; background: #ea5a14; color: #ffffff; font-weight: 800; font-size: 40px; letter-spacing: 0.06em; white-space: nowrap; }
+      #doc .dh small { font-size: 32px; letter-spacing: 0; }
+      .sec { display: flex; align-items: center; gap: 24px; height: 150px; padding: 0 30px; border-bottom: 4px solid #dfe7e6; }
+      .sec:last-child { border-bottom: 0; }
+      .sec .ico { width: 88px; height: 88px; }
+      .sec .tx { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+      .sec b { font-weight: 800; font-size: 42px; white-space: nowrap; }
+      .sec .ln { display: flex; gap: 12px; }
+      .sec .dl { height: 14px; border-radius: 7px; background: #dfe7e6; transform-origin: 0% 50%; }
+      .sec .ck { width: 64px; height: 64px; border-radius: 50%; background: #179a4a; display: flex; align-items: center; justify-content: center; flex: none; }
+      .sec .ck svg { width: 38px; height: 38px; }
+      #endw { position: absolute; left: 0; right: 0; top: 1270px; display: flex; justify-content: center; }
+      #ep { font-size: 42px; padding: 14px 32px 14px 14px; }
+      #ep .pi { width: 70px; height: 70px; }
+      #ep .pi svg { width: 44px; height: 44px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="10.0" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="10.0" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stp" id="stp"></div>
+        <div class="doc" id="doc"><div class="dh">PROPUESTA<small>Para: María</small></div>
+          <div class="sec" id="s1"><span class="ico" data-ic="doc"></span><span class="tx"><b>Detalles del servicio</b><span class="ln"><i class="dl" style="width: 220px"></i><i class="dl" style="width: 140px"></i></span></span><span class="ck" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+          <div class="sec" id="s2"><span class="ico" data-ic="box" data-col="#179a4a"></span><span class="tx"><b>Entregables</b><span class="ln"><i class="dl" style="width: 180px"></i><i class="dl" style="width: 200px"></i></span></span><span class="ck" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+          <div class="sec" id="s3"><span class="ico" data-ic="money" data-col="#ea5a14"></span><span class="tx"><b>Cotización</b><span class="ln"><i class="dl" style="width: 260px"></i><i class="dl" style="width: 90px"></i></span></span><span class="ck" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+          <div class="sec" id="s4"><span class="ico" data-ic="gear"></span><span class="tx"><b>Planes de mantenimiento</b><span class="ln"><i class="dl" style="width: 160px"></i><i class="dl" style="width: 210px"></i></span></span><span class="ck" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+          <div class="sec" id="s5"><span class="ico" data-ic="calendar" data-col="#ea5a14"></span><span class="tx"><b>Tiempos de entrega</b><span class="ln"><i class="dl" style="width: 240px"></i><i class="dl" style="width: 120px"></i></span></span><span class="ck" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+        </div>
+        <div id="endw"><div class="pill g" id="ep"><span class="pi" data-ic="video" data-col="#179a4a" data-sw="4.5"></span>Según lo conversado en Meet<i class="shine" id="sh" data-layout-allow-overflow></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-1" src="assets/sfx/tick.wav" data-start="2.6" data-volume="0.26"></audio>
+      <audio id="s-3" src="assets/sfx/tick.wav" data-start="4.5" data-volume="0.26"></audio>
+      <audio id="s-5" src="assets/sfx/tick.wav" data-start="6.8" data-volume="0.26"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="8.0" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="9.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      GEX.stepper(document.getElementById("stp"), 2);
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 9.6;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 10, 1531, { x0: 60, x1: 1020, y0: 1380, y1: 1560 });
+      GEX.ambient(tl, parts, 0.6, EXIT + 0.3);
+      gsap.set(["#ep", ".sec .ck"], { autoAlpha: 0 });
+      gsap.set(".sec .dl", { scaleX: 0 });
+      tl.fromTo(".stp .sd", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.04 }, 0.3);
+      tl.fromTo(".stp .sl", { scaleX: 0 }, { scaleX: 1, duration: 0.2, ease: "power2.out", stagger: 0.04 }, 0.35);
+      tl.fromTo(".stp .chip", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)" }, 0.6);
+      GEX.punch(tl, ".stp .sd.cur", 0.8, 1.25);
+      tl.fromTo("#doc", { y: 600, rotation: 4, autoAlpha: 0 }, { y: 0, rotation: 0, autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 0.4);
+      tl.fromTo(".sec", { x: -60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "power3.out", stagger: 0.08 }, 0.8);
+      // cada sección se completa cuando la menciono
+      [["#s1", 2.6], ["#s2", 3.6], ["#s3", 4.5], ["#s4", 5.6], ["#s5", 6.8]].forEach(([id, t]) => {
+        tl.to(id, { keyframes: [{ backgroundColor: "#eef9f8", duration: 0.12 }, { backgroundColor: "#ffffff", duration: 0.6 }], ease: "none" }, t);
+        tl.fromTo(id + " .ico", { rotation: -90, scale: 0.6 }, { rotation: 0, scale: 1, duration: 0.4, ease: "back.out(3)", immediateRender: false }, t);
+        tl.to(id + " .dl", { scaleX: 1, duration: 0.3, ease: "power2.out", stagger: 0.1 }, t + 0.05);
+        tl.fromTo(id + " .ck", { scale: 0, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, t + 0.25);
+      });
+      // hecha según lo que conversamos
+      tl.fromTo("#ep", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 8.0);
+      tl.fromTo("#sh", { x: -140 }, { x: 800, duration: 0.6, ease: "power2.inOut" }, 8.5);
+      tl.set("#sh", { x: -140 }, 9.15);
+      tl.to("#doc .dh small", { scale: 1.12, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 8.1);
+      GEX.float(tl, "#doc", 1.2, EXIT, 5, 1.8);
+      // salida + barrido
+      GEX.scatter(tl, ["#doc", "#ep", "#stp"], EXIT, 65);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

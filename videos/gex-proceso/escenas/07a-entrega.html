@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Proceso 07a — Entrega del proyecto</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #bx { position: absolute; left: 380px; top: 260px; width: 320px; height: 260px; border-radius: 28px; background: #ea5a14; }
+      #bx i { position: absolute; left: 140px; top: 0; bottom: 0; width: 40px; background: #ffffff; }
+      #lid { position: absolute; left: 360px; top: 200px; width: 360px; height: 80px; border-radius: 22px; background: #fe6820; border: 8px solid #ffffff; transform-origin: 0% 100%; z-index: 2; }
+      #glow { position: absolute; left: 430px; top: 120px; width: 220px; height: 220px; z-index: 1; }
+      #glow i { position: absolute; left: 104px; top: 0; width: 12px; height: 70px; border-radius: 6px; background: #1fc4b8; transform-origin: 50% 110px; }
+      #lbl { position: absolute; left: 0; right: 0; top: 590px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+      #lbl b { font-weight: 800; font-size: 110px; line-height: 1; letter-spacing: 0.06em; white-space: nowrap; }
+      #lbl .chip { font-size: 36px; padding: 10px 26px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="3.4" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="3.4" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="glow"><i></i><i style="transform: rotate(45deg)"></i><i style="transform: rotate(-45deg)"></i><i style="transform: rotate(90deg)"></i><i style="transform: rotate(-90deg)"></i></div>
+          <div id="bx"><i></i></div>
+          <div id="lid"></div>
+          <div id="lbl"><b id="lt">ENTREGA</b><span class="chip o" id="pc">PASO 9</span></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-op" src="assets/sfx/shimmer.wav" data-start="0.8" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="2.98" data-volume="0.4"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.0;
+      const parts = GEX.particles(document.getElementById("fx"), 12, 1601, { x0: 20, x1: 1060, y0: 60, y1: 920 });
+      GEX.ambient(tl, parts, 0.6, EXIT + 0.3);
+      const lt = GEX.split(document.getElementById("lt"));
+      gsap.set("#glow i", { scaleY: 0 });
+      tl.fromTo(["#bx", "#lid"], { y: 300, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2)" }, 0.05);
+      // se abre la caja
+      tl.to("#lid", { rotation: -26, x: -24, y: -6, duration: 0.35, ease: "back.out(2.4)" }, 0.75);
+      tl.to("#glow i", { scaleY: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.04 }, 0.85);
+      tl.to("#glow", { rotation: 20, duration: 2.0, ease: "none" }, 0.9);
+      tl.to("#bx", { keyframes: [{ scaleY: 0.92, duration: 0.1 }, { scaleY: 1, duration: 0.25 }], transformOrigin: "50% 100%", ease: "sine.out" }, 0.75);
+      GEX.reveal(tl, lt.chars, 0.9, "drop", { stagger: 0.05, duration: 0.4 });
+      tl.fromTo("#pc", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)" }, 1.4);
+      GEX.scatter(tl, ["#bx", "#lid", "#glow", "#pc"], EXIT, 72);
+      tl.to(lt.chars, { y: -160, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.02 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

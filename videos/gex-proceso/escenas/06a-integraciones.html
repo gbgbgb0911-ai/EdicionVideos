@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Proceso 06a — 2 semanas de integraciones y ajustes</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #wk { position: absolute; left: 0; right: 0; top: 360px; display: flex; justify-content: center; gap: 8px; }
+      .q { width: 52px; height: 52px; border-radius: 12px; border: 5px solid #dfe7e6; }
+      .q.s2 { margin-left: 0; }
+      #wl { position: absolute; left: 0; right: 0; top: 430px; display: flex; justify-content: center; align-items: center; gap: 18px; }
+      #wl b { font-weight: 800; font-size: 64px; line-height: 1; white-space: nowrap; }
+      #wl .chip { font-size: 32px; padding: 8px 20px; }
+      #app { position: absolute; left: 140px; top: 560px; width: 800px; height: 560px; }
+      #app .body { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
+      #hd { height: 66px; border-radius: 14px; background: #0b958b; }
+      #slots { display: flex; gap: 16px; }
+      .sl2 { position: relative; flex: 1; height: 170px; border-radius: 18px; border: 5px dashed #b9cbc9; }
+      .mod { position: absolute; width: 238px; height: 170px; border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; z-index: 5; color: #ffffff; font-weight: 800; font-size: 26px; }
+      .mod .ico { width: 84px; height: 84px; background: #ffffff; }
+      #ln1 { height: 22px; width: 70%; border-radius: 11px; background: #dfe7e6; }
+      #btn { height: 72px; width: 40%; border-radius: 18px; background: #ea5a14; transform-origin: 0% 50%; }
+      #chips { position: absolute; left: 0; right: 0; top: 1170px; display: flex; justify-content: center; gap: 16px; }
+      #chips .chip { font-size: 34px; padding: 10px 24px; }
+      #endw { position: absolute; left: 0; right: 0; top: 1270px; display: flex; justify-content: center; }
+      #ep { font-size: 44px; padding: 14px 34px 14px 14px; }
+      #ep .pi { width: 70px; height: 70px; }
+      #ep .pi svg { width: 44px; height: 44px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="12.0" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="12.0" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stp" id="stp"></div>
+        <div id="wk"></div>
+        <div id="wl"><b>2 SEMANAS</b><span class="chip" id="w1">Integraciones</span><span class="chip o" id="w2">Ajustes</span></div>
+        <div class="win" id="app"><div class="bar"><i></i><i></i><i></i><b>Tu proyecto</b></div>
+          <div class="body"><div id="hd"></div><div id="slots"><div class="sl2"></div><div class="sl2"></div><div class="sl2"></div></div><div id="ln1"></div><div id="btn"></div></div></div>
+        <div class="mod" id="m1" style="left: 160px; top: 742px; background: #0b958b"><span class="ico" data-ic="plug" data-sw="4.5"></span></div>
+        <div class="mod" id="m2" style="left: 421px; top: 742px; background: #ea5a14"><span class="ico" data-ic="share" data-col="#ea5a14" data-sw="4.5"></span></div>
+        <div class="mod" id="m3" style="left: 682px; top: 742px; background: #179a4a"><span class="ico" data-ic="gear" data-col="#179a4a" data-sw="4.5"></span></div>
+        <div id="chips"><span class="chip" id="c1">Integraciones ✓</span><span class="chip o" id="c2">Ajustes ✓</span></div>
+        <div id="endw"><div class="pill g" id="ep"><span class="pi" data-ic="check" data-col="#179a4a" data-sw="6"></span>Tal cual como tú lo quieres<i class="shine" id="sh" data-layout-allow-overflow></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-m" src="assets/sfx/whoosh.wav" data-start="2.7" data-volume="0.32"></audio>
+      <audio id="s-a" src="assets/sfx/click.wav" data-start="5.7" data-volume="0.32"></audio>
+      <audio id="s-c" src="assets/sfx/tick.wav" data-start="8.3" data-volume="0.28"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="9.7" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="11.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      GEX.stepper(document.getElementById("stp"), 7);
+      const W = document.getElementById("wk");
+      for (let i = 1; i <= 14; i++) W.innerHTML += '<i class="q" id="q' + i + '"' + (i === 8 ? ' style="margin-left: 20px"' : "") + "></i>";
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 11.6;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 10, 1581, { x0: 60, x1: 1020, y0: 1380, y1: 1560 });
+      GEX.ambient(tl, parts, 0.6, EXIT + 0.3);
+      gsap.set(["#w1", "#w2", ".mod", "#c1", "#c2", "#ep"], { autoAlpha: 0 });
+      const cur = GEX.cursor(scene);
+      gsap.set(cur.c, { x: 1120, y: 1300 });
+      tl.fromTo(".stp .sd", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.04 }, 0.3);
+      tl.fromTo(".stp .sl", { scaleX: 0 }, { scaleX: 1, duration: 0.2, ease: "power2.out", stagger: 0.04 }, 0.35);
+      tl.fromTo(".stp .chip", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)" }, 0.6);
+      // dos semanas: los días avanzan durante toda la etapa
+      tl.fromTo(".q", { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(3)", stagger: 0.03 }, 0.5);
+      tl.fromTo("#wl b", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)" }, 0.9);
+      for (let i = 1; i <= 14; i++) tl.to("#q" + i, { backgroundColor: i === 14 ? "#ea5a14" : "#0b958b", borderColor: i === 14 ? "#fe6820" : "#0b958b", duration: 0.12 }, 1.4 + i * 0.6);
+      tl.fromTo("#app", { y: 500, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 1.0);
+      // integraciones: piezas que encajan
+      tl.fromTo("#w1", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 2.6);
+      [["#m1", -500, -200], ["#m2", 0, 700], ["#m3", 500, -200]].forEach(([id, dx, dy], i) => {
+        tl.fromTo(id, { x: dx, y: dy, rotation: dx ? (dx > 0 ? 25 : -25) : 15, autoAlpha: 0 }, { x: 0, y: 0, rotation: 0, autoAlpha: 1, duration: 0.5, ease: "back.out(1.6)", immediateRender: false }, 2.7 + i * 0.35);
+        GEX.punch(tl, id, 3.2 + i * 0.35, 1.08);
+      });
+      tl.to(".mod .ico", { rotation: 12, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.1 }, 4.2);
+      // ajustes: se afinan los detalles
+      tl.fromTo("#w2", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 5.2);
+      GEX.tap(tl, cur, 400, 1070, 5.2, 0.5);
+      tl.to("#btn", { scaleX: 1.4, backgroundColor: "#179a4a", duration: 0.35, ease: "back.out(2)" }, 5.75);
+      GEX.tap(tl, cur, 700, 670, 6.3, 0.4);
+      tl.to("#hd", { keyframes: [{ scaleY: 0.85, duration: 0.1 }, { scaleY: 1, backgroundColor: "#1fc4b8", duration: 0.3 }], ease: "power2.out" }, 6.75);
+      GEX.tap(tl, cur, 800, 960, 7.3, 0.4);
+      tl.to("#ln1", { width: "88%", duration: 0.35, ease: "back.out(2)" }, 7.75);
+      tl.to(cur.c, { x: 1120, y: 1350, duration: 0.4, ease: "power2.in" }, 8.1);
+      tl.fromTo("#c1", { y: 40, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", immediateRender: false }, 8.3);
+      tl.fromTo("#c2", { y: 40, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", immediateRender: false }, 8.5);
+      // tal cual como lo quieres
+      GEX.punch(tl, "#app", 9.7, 1.03);
+      tl.fromTo("#ep", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 9.7);
+      tl.fromTo("#sh", { x: -140 }, { x: 800, duration: 0.6, ease: "power2.inOut" }, 10.2);
+      tl.set("#sh", { x: -140 }, 10.85);
+      // salida + barrido
+      GEX.scatter(tl, ["#wk", "#wl", "#app", "#m1", "#m2", "#m3", "#chips", "#ep", "#stp"], EXIT, 70);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

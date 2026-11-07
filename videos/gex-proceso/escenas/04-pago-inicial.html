@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Proceso 04 — Propuesta aprobada y 50% inicial</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #doc { left: 250px; top: 370px; width: 580px; height: 210px; }
+      #doc .dh { height: 70px; background: #ea5a14; color: #ffffff; display: flex; align-items: center; padding: 0 26px; font-weight: 800; font-size: 34px; letter-spacing: 0.08em; }
+      #doc .ls { display: flex; flex-direction: column; gap: 16px; padding: 22px 26px; }
+      #stamp { position: absolute; left: 520px; top: 420px; padding: 10px 26px; border: 8px solid #179a4a; border-radius: 18px; background: #ffffff; color: #179a4a; font-weight: 800; font-size: 50px; letter-spacing: 0.08em; transform: rotate(-10deg); z-index: 5; }
+      #ring { position: absolute; left: 290px; top: 640px; width: 500px; height: 500px; }
+      #rt { position: absolute; left: 290px; top: 640px; width: 500px; height: 500px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      #rt b { font-weight: 800; font-size: 170px; line-height: 1; }
+      #rt small { font-weight: 800; font-size: 38px; letter-spacing: 0.12em; color: #1fc4b8; white-space: nowrap; margin-top: 6px; }
+      #endw { position: absolute; left: 0; right: 0; top: 1200px; display: flex; justify-content: center; }
+      #ep { font-size: 44px; padding: 14px 34px 14px 14px; }
+      #ep .pi { width: 70px; height: 70px; }
+      #ep .pi svg { width: 44px; height: 44px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.6" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5.6" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="stp" id="stp"></div>
+        <div class="doc" id="doc"><div class="dh">PROPUESTA</div><div class="ls"><i class="dl" style="width: 70%"></i><i class="dl" style="width: 50%"></i><i class="dl" style="width: 60%"></i></div></div>
+        <div id="stamp">APROBADA ✓</div>
+        <svg id="ring" viewBox="0 0 500 500"><circle cx="250" cy="250" r="210" fill="none" stroke="#dfe7e6" stroke-width="10" /><circle id="arc" cx="250" cy="250" r="210" fill="none" stroke="#1fc4b8" stroke-width="40" stroke-linecap="round" transform="rotate(-90 250 250)" /></svg>
+        <div id="rt"><b class="num" id="pct">0%</b><small>PAGO INICIAL</small></div>
+        <div id="endw"><div class="pill o" id="ep"><span class="pi" data-ic="code" data-col="#ea5a14" data-sw="5"></span>Comienza el desarrollo<i class="shine" id="sh" data-layout-allow-overflow></i></div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-st" src="assets/sfx/impact.wav" data-start="1.15" data-volume="0.36"></audio>
+      <audio id="s-50" src="assets/sfx/ding.wav" data-start="3.2" data-volume="0.3"></audio>
+      <audio id="s-go" src="assets/sfx/success.wav" data-start="4.1" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.18" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      GEX.stepper(document.getElementById("stp"), 4);
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.2;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 6, 1551, { x0: 60, x1: 260, y0: 650, y1: 1150 }).concat(GEX.particles(document.getElementById("fx"), 6, 1552, { x0: 820, x1: 1020, y0: 650, y1: 1150 }));
+      GEX.ambient(tl, parts, 0.6, EXIT + 0.3);
+      const C = 2 * Math.PI * 210;
+      gsap.set("#arc", { strokeDasharray: C, strokeDashoffset: C });
+      gsap.set(["#stamp", "#ring", "#rt", "#ep"], { autoAlpha: 0 });
+      tl.fromTo(".stp .sd", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.04 }, 0.3);
+      tl.fromTo(".stp .sl", { scaleX: 0 }, { scaleX: 1, duration: 0.2, ease: "power2.out", stagger: 0.04 }, 0.35);
+      tl.fromTo(".stp .chip", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)" }, 0.6);
+      tl.fromTo("#doc", { y: 300, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out" }, 0.4);
+      // aprobada
+      tl.fromTo("#stamp", { scale: 3, rotation: -30, autoAlpha: 0 }, { scale: 1, rotation: -10, autoAlpha: 1, duration: 0.28, ease: "power4.in", immediateRender: false }, 0.9);
+      GEX.punch(tl, "#doc", 1.18, 1.04);
+      // 50% pago inicial
+      tl.fromTo(["#ring", "#rt"], { scale: 0.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 2.2);
+      tl.to("#arc", { strokeDashoffset: C / 2, duration: 0.9, ease: "power2.inOut" }, 2.35);
+      GEX.count(tl, document.getElementById("pct"), 0, 50, 2.35, 0.9, "", "%");
+      GEX.punch(tl, "#rt b", 3.25, 1.15);
+      GEX.punch(tl, ".stp .sd.cur", 3.25, 1.3);
+      tl.to("#ring", { rotation: 8, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 1 }, 3.5);
+      // inicia el desarrollo
+      tl.fromTo("#ep", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 4.1);
+      tl.fromTo("#sh", { x: -140 }, { x: 700, duration: 0.5, ease: "power2.inOut" }, 4.5);
+      // salida + barrido
+      GEX.scatter(tl, ["#doc", "#stamp", "#ring", "#rt", "#ep", "#stp"], EXIT, 67);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
