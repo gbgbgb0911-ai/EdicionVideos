@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Otro país 09a — Si estás fuera de Perú</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #gl { left: 380px; top: 150px; width: 320px; height: 320px; }
+      #gx { left: 485px; top: 255px; width: 110px; height: 110px; font-size: 34px; }
+      #sv { position: absolute; left: 0; top: 0; width: 1080px; height: 960px; pointer-events: none; }
+      .pin .av { width: 92px; height: 92px; }
+      .pin .av svg { width: 50px; height: 50px; }
+      #wants { position: absolute; left: 0; right: 0; top: 600px; display: flex; justify-content: center; gap: 22px; }
+      #wants .pill { font-size: 44px; padding: 12px 32px 12px 12px; }
+      #wants .pi { width: 68px; height: 68px; }
+      #wants .pi svg { width: 42px; height: 42px; }
+      #fp { position: absolute; left: 0; right: 0; top: 520px; text-align: center; font-weight: 800; font-size: 38px; letter-spacing: 0.14em; color: #1fc4b8; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.6" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="5.6" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <svg id="sv" viewBox="0 0 1080 960"></svg>
+          <div class="glb" id="gl"></div>
+          <div class="gxn" id="gx">GEX</div>
+          <div id="pins"></div>
+          <div id="fp">DESDE CUALQUIER PAÍS</div>
+          <div id="wants"><div class="pill o" id="w1"><span class="pi" data-ic="code" data-col="#ea5a14" data-sw="5"></span>Página web</div><div class="pill" id="w2"><span class="pi" data-ic="grid" data-sw="4.5"></span>Sistema</div></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-p" src="assets/sfx/shimmer.wav" data-start="0.7" data-volume="0.26"></audio>
+      <audio id="s-w" src="assets/sfx/pop.wav" data-start="3.2" data-volume="0.28"></audio>
+      <audio id="s-w2" src="assets/sfx/pop.wav" data-start="4.0" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.18" data-volume="0.4"></audio>
+    </div>
+    <script>
+      // negocios en distintos lugares conectados con GEX
+      const P = [[110, 90, "o"], [250, 360, ""], [860, 70, "g"], [900, 330, "o"], [560, 14, ""]];
+      const sv = document.getElementById("sv"), pins = document.getElementById("pins");
+      P.forEach(([x, y, c], i) => {
+        pins.innerHTML += '<div class="pin" id="p' + i + '" style="left: ' + x + "px; top: " + Math.max(y, 0) + 'px"><span class="av ' + c + '" data-ic="store" data-col="#ffffff" data-sw="4.5"></span><i></i></div>';
+        sv.innerHTML += '<path id="r' + i + '" class="route' + (c === "o" ? " o" : "") + '" d="M' + (x + 46) + " " + (Math.max(y, 0) + 60) + " L 540 310" + '" />';
+      });
+      GEX.icons();
+      GEX.globe(document.getElementById("gl"));
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.2;
+      gsap.set([".pin", "#sv path", "#w1", "#w2", "#fp"], { autoAlpha: 0 });
+      tl.fromTo("#gl", { scale: 0, rotation: -60 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(1.8)" }, 0.05);
+      GEX.spin(tl, "#gl", 0.4, EXIT);
+      tl.fromTo("#gx", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, 0.3);
+      P.forEach((p, i) => {
+        const t = 0.6 + i * 0.22;
+        tl.fromTo("#p" + i, { y: -60, scale: 0, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.38, ease: "back.out(2.6)", immediateRender: false }, t);
+        tl.fromTo("#r" + i, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2, immediateRender: false }, t + 0.2);
+        tl.fromTo("#r" + i, { strokeDashoffset: 0 }, { strokeDashoffset: -168, duration: EXIT - t, ease: "none" }, t + 0.2);
+        GEX.float(tl, "#p" + i, t + 0.5, EXIT, 7, 1.1 + i * 0.12);
+      });
+      tl.fromTo("#fp", { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 1.6);
+      GEX.punch(tl, "#gx", 1.9, 1.2);
+      tl.fromTo("#w1", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 3.2);
+      tl.fromTo("#w2", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 4.0);
+      GEX.scatter(tl, ["#p0", "#p1", "#p2", "#p3", "#p4", "#gl", "#gx", "#fp", "#w1", "#w2"], EXIT, 89);
+      tl.to("#sv", { autoAlpha: 0, duration: 0.2 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

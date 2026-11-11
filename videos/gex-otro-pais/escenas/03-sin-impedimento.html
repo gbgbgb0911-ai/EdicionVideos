@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Otro país 03 — La distancia no es un impedimento</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 24px; top: 200px; }
+      .r1 { display: flex; align-items: center; gap: 18px; }
+      #t1 { font-weight: 800; font-size: 62px; white-space: nowrap; }
+      #ok { width: 84px; height: 84px; border-radius: 50%; background: #179a4a; display: flex; align-items: center; justify-content: center; flex: none; }
+      #ok svg { width: 52px; height: 52px; }
+      .r2 { display: flex; align-items: center; gap: 20px; }
+      #gl { position: relative; width: 120px; height: 120px; flex: none; }
+      .r2 .pill, .r3 .pill { font-size: 46px; padding: 14px 34px 14px 14px; }
+      .pi { width: 70px; height: 70px; }
+      .pi svg { width: 44px; height: 44px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8.6" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="8.6" data-track-index="0">
+        <div class="top" id="top">
+          <div class="r1"><span id="t1">No es ningún impedimento</span><span id="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+          <div class="r2"><div class="glb" id="gl"></div><div class="pill" id="rm"><span class="pi" data-ic="code" data-sw="5"></span>Trabajo remoto</div></div>
+          <div class="r3"><div class="pill g" id="pe"><span class="pi" data-ic="pin" data-col="#179a4a" data-sw="4.5"></span>No necesitas estar en Perú</div></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.4"></audio>
+      <audio id="s-ok" src="assets/sfx/pop.wav" data-start="1.3" data-volume="0.28"></audio>
+      <audio id="s-rm" src="assets/sfx/pop.wav" data-start="2.7" data-volume="0.28"></audio>
+      <audio id="s-pe" src="assets/sfx/success.wav" data-start="4.7" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="8.18" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      GEX.globe(document.getElementById("gl"), 2.4);
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 8.2;
+      const t1 = GEX.split(document.getElementById("t1"));
+      gsap.set(["#ok", "#gl", "#rm", "#pe"], { autoAlpha: 0 });
+      GEX.reveal(tl, t1.words, 0.1, "rise", { stagger: 0.09, duration: 0.4 });
+      tl.fromTo("#ok", { scale: 0, rotation: -120, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(3)", immediateRender: false }, 1.3);
+      tl.to("#ok", { scale: 1.1, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.8);
+      // trabajo remoto
+      tl.fromTo("#gl", { scale: 0, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 2.6);
+      GEX.spin(tl, "#gl", 2.9, EXIT);
+      tl.fromTo("#rm", { x: 80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.42, ease: "back.out(2)", immediateRender: false }, 2.75);
+      tl.fromTo("#rm .pi", { rotation: -180 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 2.8);
+      // no necesitas estar en Perú
+      tl.fromTo("#pe", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 4.7);
+      tl.to("#pe .pi", { y: -8, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 7 }, 5.2);
+      GEX.float(tl, "#rm", 3.4, EXIT, 6, 1.3);
+      GEX.scatter(tl, ["#ok", "#gl", "#rm", "#pe"], EXIT, 83);
+      tl.to(t1.words, { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.03 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

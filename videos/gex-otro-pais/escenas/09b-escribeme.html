@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Otro país 09b — Escríbeme, también podemos trabajar juntos</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 22px; top: 200px; }
+      #cta { font-size: 62px; padding: 18px 44px 18px 18px; }
+      #cta .pi { width: 88px; height: 88px; }
+      #cta .pi svg { width: 54px; height: 54px; }
+      #sub { font-weight: 800; font-size: 50px; white-space: nowrap; }
+      #sub .hl { color: #fe6820; }
+      .logo { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 22px; background: #ffffff; }
+      .logo img { display: block; width: 200px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4.2" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4.2" data-track-index="0">
+        <div class="top" id="top">
+          <div class="pill" id="cta"><span class="pi" data-ic="chat" data-sw="4.5"></span>Escríbeme<i class="shine" id="sh" data-layout-allow-overflow></i></div>
+          <div id="sub"><span id="st">También podemos <span class="hl">trabajar juntos</span></span></div>
+          <span class="logo" id="lg"><img src="assets/logo-v2/gex-full.png" alt="GEX" /></span>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/pop.wav" data-start="0.1" data-volume="0.3"></audio>
+      <audio id="s-clk" src="assets/sfx/click.wav" data-start="0.9" data-volume="0.3"></audio>
+      <audio id="s-ok" src="assets/sfx/shimmer.wav" data-start="2.6" data-volume="0.26"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="3.78" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.8;
+      const st = GEX.split(document.getElementById("st"));
+      gsap.set("#lg", { autoAlpha: 0 });
+      const cur = GEX.cursor(document.getElementById("scene"));
+      gsap.set(cur.c, { x: 1120, y: 500 });
+      tl.fromTo("#cta", { y: -60, scale: 0.4, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)" }, 0.1);
+      tl.fromTo("#cta .pi", { rotation: -180 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 0.15);
+      GEX.tap(tl, cur, 680, 250, 0.45, 0.45);
+      tl.to("#cta", { keyframes: [{ scale: 0.92, duration: 0.08 }, { scale: 1.08, backgroundColor: "#ea5a14", duration: 0.16 }, { scale: 1, duration: 0.25 }], ease: "sine.out" }, 0.9);
+      tl.to("#cta .pi svg", { attr: { stroke: "#ea5a14" }, duration: 0.15 }, 0.98);
+      tl.fromTo("#sh", { x: -140 }, { x: 600, duration: 0.6, ease: "power2.inOut" }, 1.1);
+      tl.set("#sh", { x: -140 }, 1.75);
+      tl.to(cur.c, { x: 1120, y: 600, duration: 0.4, ease: "power2.in" }, 1.3);
+      GEX.reveal(tl, st.words, 1.4, "rise", { stagger: 0.1, duration: 0.4 });
+      GEX.punch(tl, "#sub .hl", 2.6, 1.1);
+      tl.fromTo("#lg", { y: 30, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)", immediateRender: false }, 2.6);
+      tl.to("#cta .pi", { rotation: 12, duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 5 }, 2.2);
+      GEX.scatter(tl, ["#cta", "#lg"], EXIT, 90);
+      tl.to(st.words, { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.03 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

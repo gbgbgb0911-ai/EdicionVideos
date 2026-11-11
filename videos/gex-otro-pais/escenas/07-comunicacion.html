@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Otro país 07 — Comunicación durante todo el desarrollo</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .side { position: absolute; top: 90px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+      .side .av { width: 110px; height: 110px; font-size: 40px; }
+      .side .av svg { width: 60px; height: 60px; }
+      .side .chip { font-size: 28px; padding: 6px 16px; }
+      #gxa { background: #ffffff; color: #0b958b; }
+      .bbl { font-size: 36px; padding: 14px 22px; }
+      .bbl.in { left: 200px; }
+      .bbl.out { right: 200px; }
+      #tln { position: absolute; left: 130px; width: 820px; top: 720px; height: 10px; border-radius: 5px; background: #dfe7e6; }
+      #tlf { position: absolute; left: 130px; width: 820px; top: 720px; height: 10px; border-radius: 5px; background: #1fc4b8; transform-origin: 0% 50%; }
+      .dt { position: absolute; top: 700px; width: 50px; height: 50px; margin-left: -25px; border-radius: 50%; background: #0b958b; border: 6px solid #ffffff; }
+      .dl2 { position: absolute; top: 770px; width: 260px; margin-left: -130px; text-align: center; font-weight: 800; font-size: 32px; white-space: nowrap; }
+      .ci { position: absolute; top: 610px; width: 64px; height: 64px; margin-left: -32px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      .ci svg { width: 38px; height: 38px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.8" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="6.8" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div class="side" id="sc" style="left: 40px"><span class="av o" data-ic="user" data-col="#ffffff" data-sw="4.5"></span><span class="chip o">Tú</span></div>
+          <div class="side" id="sg" style="right: 40px"><span class="av" id="gxa">GEX</span><span class="chip">Yo</span></div>
+          <span class="bbl in" id="b1" style="top: 100px">Tengo una duda</span>
+          <span class="bbl out" id="b2" style="top: 200px">Claro, lo vemos</span>
+          <span class="bbl in" id="b3" style="top: 300px">¿Podemos ajustar esto?</span>
+          <span class="bbl out" id="b4" style="top: 400px">Listo ✓</span>
+          <div id="tln"></div><div id="tlf"></div>
+          <span class="dt" id="d1" style="left: 160px"></span><span class="dt" id="d2" style="left: 540px"></span><span class="dt" id="d3" style="left: 920px"></span>
+          <span class="dl2" style="left: 160px">Inicio</span><span class="dl2" style="left: 540px">Desarrollo</span><span class="dl2" style="left: 920px">Entrega</span>
+          <span class="ci" id="c1" style="left: 160px" data-ic="chat" data-sw="5"></span><span class="ci" id="c2" style="left: 350px" data-ic="chat" data-col="#ea5a14" data-sw="5"></span><span class="ci" id="c3" style="left: 540px" data-ic="chat" data-sw="5"></span><span class="ci" id="c4" style="left: 730px" data-ic="chat" data-col="#ea5a14" data-sw="5"></span><span class="ci" id="c5" style="left: 920px" data-ic="chat" data-sw="5"></span>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-1" src="assets/sfx/pop.wav" data-start="3.6" data-volume="0.28"></audio>
+      <audio id="s-3" src="assets/sfx/pop.wav" data-start="5.0" data-volume="0.28"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="5.6" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.38" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.4;
+      gsap.set([".bbl", ".ci"], { autoAlpha: 0 });
+      gsap.set("#tlf", { scaleX: 0 });
+      tl.fromTo(".side", { y: -80, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)", stagger: 0.1 }, 0.05);
+      tl.fromTo(["#tln", ".dt", ".dl2"], { scaleX: 0, autoAlpha: 0 }, { scaleX: 1, autoAlpha: 1, duration: 0.35, ease: "power3.out", stagger: 0.05 }, 0.2);
+      // durante todo el desarrollo: conversación en cada etapa
+      tl.to("#tlf", { scaleX: 1, duration: EXIT - 0.6, ease: "none" }, 0.5);
+      ["#c1", "#c2", "#c3", "#c4", "#c5"].forEach((id, i) => {
+        const t = 0.6 + i * 1.15;
+        tl.fromTo(id, { y: 30, scale: 0, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, t);
+        tl.to(id, { y: -10, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, t + 0.4);
+      });
+      // dudas y ajustes resueltos
+      const msg = (id, t, o) => tl.fromTo(id, { scale: 0.3, autoAlpha: 0, transformOrigin: o }, { scale: 1, autoAlpha: 1, transformOrigin: o, duration: 0.36, ease: "back.out(2.4)", immediateRender: false }, t);
+      msg("#b1", 3.6, "0% 100%"); msg("#b2", 4.2, "100% 100%"); msg("#b3", 5.0, "0% 100%"); msg("#b4", 5.6, "100% 100%");
+      GEX.punch(tl, "#gxa", 4.2, 1.12);
+      GEX.punch(tl, "#gxa", 5.6, 1.12);
+      GEX.scatter(tl, ["#sc", "#sg", "#b1", "#b2", "#b3", "#b4", "#c1", "#c2", "#c3", "#c4", "#c5"], EXIT, 87);
+      tl.to(["#tln", "#tlf", ".dt", ".dl2"], { y: 120, autoAlpha: 0, duration: 0.3, ease: "power3.in" }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

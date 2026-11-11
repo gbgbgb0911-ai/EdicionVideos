@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Otro país 04b — Reunión por Meet con un cliente de otro país</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #call { position: absolute; left: 80px; top: 320px; width: 920px; }
+      #tiles { display: flex; gap: 16px; padding: 18px; }
+      .tile { position: relative; flex: 1; height: 330px; border-radius: 24px; background: #eef4f3; display: flex; align-items: center; justify-content: center; }
+      .tile .av { width: 160px; height: 160px; font-size: 64px; }
+      .tile .av svg { width: 90px; height: 90px; }
+      .tile .nm { position: absolute; left: 16px; bottom: 14px; font-weight: 800; font-size: 30px; color: #0b958b; }
+      .tile .chip { position: absolute; right: 14px; top: 14px; font-size: 26px; padding: 6px 14px; }
+      .wv { position: absolute; left: 50%; top: 50%; width: 200px; height: 200px; margin: -100px 0 0 -100px; border-radius: 50%; border: 6px solid #1fc4b8; }
+      #obj { position: absolute; left: 80px; top: 790px; width: 920px; }
+      .ob { display: flex; align-items: center; gap: 22px; height: 104px; background: #ffffff; padding: 0 28px; border-bottom: 4px solid #dfe7e6; font-weight: 800; font-size: 40px; white-space: nowrap; }
+      .ob:last-child { border-bottom: 0; }
+      .ob .ico { width: 72px; height: 72px; }
+      .ob .ck { margin-left: auto; width: 58px; height: 58px; border-radius: 50%; background: #179a4a; display: flex; align-items: center; justify-content: center; }
+      .ob .ck svg { width: 34px; height: 34px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.0" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7.0" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="st3" id="st3"></div>
+        <div class="win" id="call"><div class="bar"><i></i><i></i><i></i><b>Reunión · Meet</b></div>
+          <div id="tiles"><div class="tile" id="t1"><span class="wv" id="wv1"></span><span class="av o" data-ic="user" data-col="#ffffff" data-sw="4.5"></span><span class="nm">Tú</span><span class="chip o">Otro país</span></div><div class="tile" id="t2"><span class="wv" id="wv2"></span><span class="av">G</span><span class="nm">Gabriel · GEX</span><span class="chip">Perú</span></div></div>
+        </div>
+        <div class="win" id="obj">
+          <div class="ob" id="o1"><span class="ico" data-ic="store"></span>Conocer tu negocio<span class="ck" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+          <div class="ob" id="o2"><span class="ico" data-ic="bulb" data-col="#ea5a14"></span>Identificar necesidades<span class="ck" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+          <div class="ob" id="o3"><span class="ico" data-ic="alert" data-col="#b86e00"></span>Comprender problemas<span class="ck" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+          <div class="ob" id="o4"><span class="ico" data-ic="flag" data-col="#179a4a"></span>Definir soluciones<span class="ck" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-c" src="assets/sfx/pop.wav" data-start="0.9" data-volume="0.28"></audio>
+      <audio id="s-1" src="assets/sfx/tick.wav" data-start="2.8" data-volume="0.26"></audio>
+      <audio id="s-2" src="assets/sfx/tick.wav" data-start="4.4" data-volume="0.26"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="5.9" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.steps3(document.getElementById("st3"), 0);
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.6;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 10, 1751, { x0: 60, x1: 1020, y0: 1360, y1: 1560 });
+      GEX.ambient(tl, parts, 0.6, EXIT + 0.3);
+      gsap.set([".ob .ck", "#obj"], { autoAlpha: 0 });
+      tl.fromTo(".st3 > *", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(2.6)", stagger: 0.07 }, 0.3);
+      // videollamada directa aunque estés lejos
+      tl.fromTo("#call", { y: 400, scale: 0.8, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.5, ease: "back.out(1.6)" }, 0.4);
+      tl.fromTo(".tile .av", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)", stagger: 0.15 }, 0.8);
+      tl.fromTo(".tile .chip", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.15 }, 1.0);
+      [["#wv1", 1.2], ["#wv2", 1.9], ["#wv1", 2.6], ["#wv2", 3.3], ["#wv1", 4.0], ["#wv2", 4.7], ["#wv1", 5.4]].forEach(([id, t]) => tl.fromTo(id, { scale: 0.8, borderWidth: 8, autoAlpha: 1 }, { scale: 1.35, borderWidth: 0, autoAlpha: 1, duration: 0.6, ease: "circ.out", immediateRender: false }, t));
+      gsap.set(".wv", { autoAlpha: 0 });
+      // de qué hablamos
+      tl.fromTo("#obj", { y: 300, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out", immediateRender: false }, 1.6);
+      [["#o1", 2.8], ["#o2", 4.4], ["#o3", 5.0], ["#o4", 5.9]].forEach(([id, t]) => {
+        tl.to(id, { keyframes: [{ backgroundColor: "#eef9f8", duration: 0.12 }, { backgroundColor: "#ffffff", duration: 0.5 }], ease: "none" }, t);
+        tl.fromTo(id + " .ico", { scale: 0.6, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(3)", immediateRender: false }, t);
+        tl.fromTo(id + " .ck", { scale: 0, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, t + 0.15);
+      });
+      // salida + barrido
+      GEX.scatter(tl, ["#call", "#obj", "#st3"], EXIT, 84);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

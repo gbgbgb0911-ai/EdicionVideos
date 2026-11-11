@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Otro país 01 — Tres clientes de otros países</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #gl { left: 370px; top: 180px; width: 340px; height: 340px; }
+      #gx { left: 480px; top: 290px; width: 120px; height: 120px; font-size: 38px; }
+      #sv { position: absolute; left: 0; top: 0; width: 1080px; height: 960px; pointer-events: none; }
+      .pin .av { width: 112px; height: 112px; }
+      .pin .av svg { width: 60px; height: 60px; }
+      .msg { position: absolute; width: 56px; height: 56px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; z-index: 5; }
+      .msg svg { width: 34px; height: 34px; }
+      #lbl { position: absolute; left: 0; right: 0; top: 590px; text-align: center; font-weight: 800; font-size: 40px; letter-spacing: 0.12em; color: #1fc4b8; white-space: nowrap; }
+      #wants { position: absolute; left: 0; right: 0; top: 670px; display: flex; justify-content: center; gap: 22px; }
+      #wants .pill { font-size: 44px; padding: 12px 32px 12px 12px; }
+      #wants .pi { width: 68px; height: 68px; }
+      #wants .pi svg { width: 42px; height: 42px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.2" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="7.2" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <svg id="sv" viewBox="0 0 1080 960"><path id="r1" class="route o" d="M215 230 Q 360 230 480 330" /><path id="r2" class="route" d="M875 190 Q 720 200 600 320" /><path id="r3" class="route" d="M880 520 Q 720 520 600 390" /></svg>
+          <div class="glb" id="gl"></div>
+          <div class="gxn" id="gx">GEX</div>
+          <div class="pin" id="p1" style="left: 100px; top: 110px"><span class="av o" data-ic="user" data-col="#ffffff" data-sw="4.5"></span><i></i></div>
+          <div class="pin" id="p2" style="left: 860px; top: 70px"><span class="av" data-ic="user" data-col="#ffffff" data-sw="4.5"></span><i></i></div>
+          <div class="pin" id="p3" style="left: 870px; top: 400px"><span class="av g" data-ic="user" data-col="#ffffff" data-sw="4.5"></span><i></i></div>
+          <span class="msg" id="g1" style="left: 187px; top: 202px" data-ic="chat" data-col="#ea5a14" data-sw="5"></span>
+          <span class="msg" id="g2" style="left: 847px; top: 162px" data-ic="chat" data-sw="5"></span>
+          <span class="msg" id="g3" style="left: 852px; top: 492px" data-ic="chat" data-col="#179a4a" data-sw="5"></span>
+          <div id="lbl">3 CONTACTOS · OTROS PAÍSES</div>
+          <div id="wants"><div class="pill" id="w1"><span class="pi" data-ic="grid" data-sw="4.5"></span>Sistema</div><div class="pill o" id="w2"><span class="pi" data-ic="code" data-col="#ea5a14" data-sw="5"></span>Página web</div></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-p" src="assets/sfx/pop.wav" data-start="1.7" data-volume="0.28"></audio>
+      <audio id="s-m" src="assets/sfx/ding.wav" data-start="3.7" data-volume="0.28"></audio>
+      <audio id="s-w" src="assets/sfx/pop.wav" data-start="5.2" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.78" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      GEX.globe(document.getElementById("gl"));
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.8;
+      const parts = GEX.particles(document.getElementById("fx"), 8, 1701, { x0: 20, x1: 1060, y0: 760, y1: 940 });
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set([".pin", ".msg", "#r1", "#r2", "#r3", "#lbl", "#w1", "#w2"], { autoAlpha: 0 });
+      // el mundo y GEX al centro
+      tl.fromTo("#gl", { scale: 0, rotation: -60 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(1.8)" }, 0.05);
+      GEX.spin(tl, "#gl", 0.4, EXIT);
+      tl.fromTo("#gx", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, 0.35);
+      // tres personas en otros países
+      ["#p1", "#p2", "#p3"].forEach((id, i) => {
+        tl.fromTo(id, { y: -80, scale: 0, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.6)", immediateRender: false }, 1.6 + i * 0.2);
+        GEX.float(tl, id, 2.2 + i * 0.1, EXIT, 8, 1.2 + i * 0.15);
+      });
+      tl.fromTo("#lbl", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", immediateRender: false }, 2.3);
+      // te escriben a GEX
+      [["#r1", "#g1", 293, 108], ["#r2", "#g2", -307, 128], ["#r3", "#g3", -312, -152]].forEach(([r, g, dx, dy], i) => {
+        const t = 2.8 + i * 0.15;
+        tl.fromTo(r, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2, immediateRender: false }, t);
+        tl.fromTo(r, { strokeDashoffset: 0 }, { strokeDashoffset: -224, duration: EXIT - t, ease: "none" }, t);
+        tl.fromTo(g, { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.25, ease: "back.out(3)", immediateRender: false }, t);
+        tl.to(g, { x: dx, y: dy, scale: 0.4, duration: 0.6, ease: "power2.in" }, t + 0.3);
+        tl.to(g, { autoAlpha: 0, duration: 0.1 }, t + 0.85);
+      });
+      GEX.punch(tl, "#gx", 3.75, 1.25);
+      tl.to("#gx", { keyframes: [{ backgroundColor: "#d6f3f0", duration: 0.15 }, { backgroundColor: "#ffffff", duration: 0.4 }], ease: "none" }, 3.75);
+      // quieren un sistema o una página web
+      tl.fromTo("#w1", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 5.2);
+      tl.fromTo("#w2", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 6.0);
+      GEX.scatter(tl, ["#p1", "#p2", "#p3", "#gl", "#gx", "#lbl", "#w1", "#w2"], EXIT, 81);
+      tl.to("#sv", { autoAlpha: 0, duration: 0.2 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

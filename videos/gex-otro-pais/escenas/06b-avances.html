@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Otro país 06b — Avances: revisas, pruebas y comentas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #vers { position: absolute; left: 0; right: 0; top: 320px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+      #vers .chip { font-size: 30px; padding: 8px 20px; }
+      #vers b { font-weight: 800; font-size: 36px; color: #1fc4b8; }
+      #app { position: absolute; left: 140px; top: 410px; width: 800px; height: 450px; }
+      #app .body { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+      .sk { border-radius: 14px; background: #dfe7e6; }
+      #h1 { height: 62px; }
+      .cards { display: flex; gap: 12px; }
+      .cards .sk { flex: 1; height: 150px; }
+      #ln { height: 22px; width: 60%; }
+      #bt { height: 62px; width: 40%; }
+      #pb { position: absolute; left: 0; bottom: 0; height: 12px; width: 100%; background: #1fc4b8; transform-origin: 0% 50%; }
+      #cm { position: absolute; left: 520px; top: 770px; z-index: 6; font-size: 30px; padding: 12px 20px; }
+      #acts { position: absolute; left: 80px; top: 900px; width: 920px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .ac { display: flex; align-items: center; gap: 14px; padding: 12px 20px 12px 12px; border-radius: 999px; background: #ffffff; color: #0b958b; font-weight: 800; font-size: 34px; white-space: nowrap; }
+      .ac b { width: 54px; height: 54px; border-radius: 50%; background: #ea5a14; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 30px; flex: none; }
+      .ac .ico { width: 54px; height: 54px; margin-left: auto; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.8" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6.8" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div class="st3" id="st3"></div>
+        <div id="vers"><span class="chip" id="v1">Avance 1</span><b id="a1">→</b><span class="chip" id="v2">Avance 2</span><b id="a2">→</b><span class="chip o" id="v3">Avance 3</span></div>
+        <div class="win" id="app"><div class="bar"><i></i><i></i><i></i><b>Tu proyecto</b></div><div class="body"><div class="sk" id="h1"></div><div class="cards"><div class="sk" id="k1"></div><div class="sk" id="k2"></div><div class="sk" id="k3"></div></div><div class="sk" id="ln"></div><div class="sk" id="bt"></div></div><i id="pb"></i></div>
+        <span class="bbl in" id="cm">¿Y si cambiamos esto?</span>
+        <div id="acts">
+          <div class="ac" id="c1"><b>1</b>Recibes<span class="ico" data-ic="send" data-sw="4.5"></span></div>
+          <div class="ac" id="c2"><b>2</b>Revisas<span class="ico" data-ic="eye" data-sw="4.5"></span></div>
+          <div class="ac" id="c3"><b>3</b>Pruebas<span class="ico" data-ic="check" data-col="#179a4a" data-sw="5"></span></div>
+          <div class="ac" id="c4"><b>4</b>Comentas<span class="ico" data-ic="chat" data-col="#ea5a14" data-sw="4.5"></span></div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-1" src="assets/sfx/pop.wav" data-start="1.6" data-volume="0.28"></audio>
+      <audio id="s-2" src="assets/sfx/tick.wav" data-start="3.0" data-volume="0.26"></audio>
+      <audio id="s-3" src="assets/sfx/click.wav" data-start="4.15" data-volume="0.3"></audio>
+      <audio id="s-4" src="assets/sfx/ding.wav" data-start="5.2" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.38" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.steps3(document.getElementById("st3"), 2);
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.4;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const parts = GEX.particles(document.getElementById("fx"), 10, 1781, { x0: 60, x1: 1020, y0: 1150, y1: 1540 });
+      GEX.ambient(tl, parts, 0.6, EXIT + 0.3);
+      gsap.set(["#vers > *", ".ac", "#cm"], { autoAlpha: 0 });
+      gsap.set("#pb", { scaleX: 0.1 });
+      const cur = GEX.cursor(scene);
+      gsap.set(cur.c, { x: 1120, y: 1000 });
+      tl.fromTo(".st3 > *", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(2.6)", stagger: 0.07 }, 0.3);
+      GEX.punch(tl, ".st3 .it.cur", 0.7, 1.12);
+      tl.fromTo("#app", { y: 400, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.3);
+      // el proyecto avanza por etapas
+      [["#v1", "#h1", 0.5, 0.35], [null, "#k1", 0.9, 0.5], ["#v2", "#k2", 1.1, 0.65], [null, "#k3", 1.5, 0.8], ["#v3", "#bt", 1.7, 1]].forEach(([v, el, t, p]) => {
+        if (v) tl.fromTo(v, { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, t);
+        tl.to(el, { backgroundColor: el === "#h1" ? "#0b958b" : el === "#bt" ? "#ea5a14" : "#d6f3f0", duration: 0.25 }, t + 0.1);
+        tl.to("#pb", { scaleX: p, duration: 0.3, ease: "power2.out" }, t + 0.1);
+      });
+      tl.fromTo(["#a1", "#a2"], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2, stagger: 0.6, immediateRender: false }, 0.95);
+      // tú participas
+      tl.fromTo("#c1", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", immediateRender: false }, 1.6);
+      tl.fromTo("#c2", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", immediateRender: false }, 3.0);
+      tl.to("#app", { keyframes: [{ scale: 1.03, duration: 0.25 }, { scale: 1, duration: 0.35 }], ease: "sine.inOut" }, 3.0);
+      GEX.tap(tl, cur, 380, 820, 3.7, 0.45);
+      tl.to("#bt", { keyframes: [{ scale: 0.9, duration: 0.08 }, { scale: 1, backgroundColor: "#179a4a", duration: 0.25 }], ease: "back.out(2)" }, 4.15);
+      tl.fromTo("#c3", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", immediateRender: false }, 4.2);
+      tl.to(cur.c, { x: 1120, y: 1100, duration: 0.4, ease: "power2.in" }, 4.6);
+      tl.fromTo("#cm", { scale: 0, autoAlpha: 0, transformOrigin: "0% 100%" }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.6)", immediateRender: false }, 5.2);
+      tl.fromTo("#c4", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", immediateRender: false }, 5.2);
+      // salida + barrido
+      GEX.scatter(tl, ["#vers", "#app", "#cm", "#acts", "#st3"], EXIT, 86);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

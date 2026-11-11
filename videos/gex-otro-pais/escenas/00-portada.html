@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Otro país 00 — Portada</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 26px; top: 230px; }
+      #tg { display: flex; align-items: center; gap: 14px; font-weight: 800; font-size: 34px; letter-spacing: 0.2em; color: #1fc4b8; white-space: nowrap; }
+      #tg i { width: 60px; height: 8px; border-radius: 4px; background: #1fc4b8; }
+      #gl { position: relative; width: 120px; height: 120px; }
+      #ttl { font-weight: 800; font-size: 150px; line-height: 1.02; letter-spacing: -0.01em; text-align: center; white-space: nowrap; text-transform: uppercase; }
+      #ttl .hl { color: #fe6820; }
+      #ul { width: 360px; height: 14px; border-radius: 7px; background: #fe6820; }
+      #sub { font-size: 50px; padding: 16px 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="2" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="2" data-track-index="0">
+        <div class="top" id="top">
+          <div id="tg"><i></i>GEX<i></i></div>
+          <div class="glb" id="gl"></div>
+          <div id="ttl">¿Estás en<br /><span class="hl">otro país?</span></div>
+          <i id="ul"></i>
+          <div class="pill plain" id="sub">También podemos trabajar juntos.</div>
+        </div>
+      </section>
+    </div>
+    <script>
+      GEX.globe(document.getElementById("gl"), 2.4);
+      const tl = gsap.timeline({ paused: true });
+      tl.to("#gl", { rotation: 0, duration: 2 }, 0);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
