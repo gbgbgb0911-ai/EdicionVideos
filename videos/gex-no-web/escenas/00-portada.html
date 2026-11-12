@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>No web 00 — Portada</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 26px; top: 230px; }
+      #tg { display: flex; align-items: center; gap: 14px; font-weight: 800; font-size: 34px; letter-spacing: 0.2em; color: #1fc4b8; white-space: nowrap; }
+      #tg i { width: 60px; height: 8px; border-radius: 4px; background: #1fc4b8; }
+      #bw { position: relative; width: 150px; height: 112px; border-radius: 20px; background: #ffffff; overflow: hidden; }
+      #bw .bb { position: absolute; left: 0; right: 0; top: 0; height: 28px; border-bottom: 4px solid #dfe7e6; }
+      #bw .bb i { position: absolute; top: 9px; width: 10px; height: 10px; border-radius: 50%; }
+      #bw .l1 { position: absolute; left: 16px; top: 44px; width: 80px; height: 14px; border-radius: 7px; background: #0b958b; }
+      #bw .l2 { position: absolute; left: 16px; top: 68px; width: 110px; height: 10px; border-radius: 5px; background: #cfdcdb; }
+      #bw .x { position: absolute; left: -10px; right: -10px; top: 50%; height: 12px; margin-top: -6px; border-radius: 6px; background: #fe6820; transform: rotate(-25deg); }
+      #ttl { font-weight: 800; font-size: 126px; line-height: 1.02; text-align: center; white-space: nowrap; text-transform: uppercase; }
+      #ttl .hl { color: #fe6820; }
+      #ul { width: 360px; height: 14px; border-radius: 7px; background: #fe6820; }
+      #sub { font-size: 46px; padding: 16px 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="2" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="2" data-track-index="0">
+        <div class="top" id="top">
+          <div id="tg"><i></i>GEX<i></i></div>
+          <div id="bw"><div class="bb"><i style="left: 14px; background: #fe6820"></i><i style="left: 30px; background: #1fc4b8"></i><i style="left: 46px; background: #cfdcdb"></i></div><i class="l1"></i><i class="l2"></i><i class="x"></i></div>
+          <div id="ttl"><span class="hl">No</span> necesitas<br />una web</div>
+          <i id="ul"></i>
+          <div class="pill plain" id="sub">Quizás tu negocio necesita otra cosa.</div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.to("#bw", { rotation: 0, duration: 2 }, 0);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

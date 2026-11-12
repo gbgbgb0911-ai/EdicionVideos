@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>No web 08 — Primero entender el negocio</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #pre { position: absolute; left: 0; right: 0; top: 60px; display: flex; justify-content: center; }
+      #pre .pill { font-size: 38px; padding: 10px 28px 10px 10px; background: #ffffff; color: #0b958b; }
+      #pre .pi { width: 60px; height: 60px; background: #0b958b; }
+      #pre .pi svg { width: 38px; height: 38px; }
+      #flow { position: absolute; left: 0; right: 0; top: 210px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+      .st { width: 280px; height: 420px; border-radius: 34px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; color: #ffffff; text-align: center; }
+      .st small { font-weight: 800; font-size: 26px; letter-spacing: 0.14em; }
+      .st b { font-weight: 800; font-size: 38px; line-height: 1.1; }
+      .st .ico { width: 130px; height: 130px; background: #ffffff; }
+      .st .ico svg { width: 62%; height: 62%; }
+      .st .ops { display: flex; gap: 8px; }
+      .st .ops .chip { font-size: 24px; padding: 6px 12px; background: #ffffff; color: #179a4a; }
+      .ar { font-weight: 800; font-size: 60px; color: #ffffff; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.2" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="7.2" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="pre"><div class="pill" id="pp"><span class="pi" data-ic="code" data-col="#ffffff" data-sw="5"></span>Antes de desarrollar</div></div>
+          <div id="flow">
+            <div class="st" id="s1" style="background: #0b958b"><small>PASO 1</small><span class="ico" data-ic="search" data-sw="4.5"></span><b>Entender<br />tu empresa</b></div>
+            <span class="ar" id="a1">→</span>
+            <div class="st" id="s2" style="background: #ea5a14"><small>PASO 2</small><span class="ico" data-ic="alert" data-col="#ea5a14" data-sw="4.5"></span><b>Identificar<br />el problema</b></div>
+            <span class="ar" id="a2">→</span>
+            <div class="st" id="s3" style="background: #179a4a"><small>PASO 3</small><span class="ico" data-ic="bulb" data-col="#179a4a" data-sw="4.5"></span><b>Definir la<br />solución</b><span class="ops"><span class="chip">Web</span><span class="chip">Sistema</span></span></div>
+          </div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-1" src="assets/sfx/pop.wav" data-start="2.6" data-volume="0.28"></audio>
+      <audio id="s-2" src="assets/sfx/pop.wav" data-start="4.9" data-volume="0.28"></audio>
+      <audio id="s-3" src="assets/sfx/success.wav" data-start="6.1" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.78" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.8;
+      const parts = GEX.particles(document.getElementById("fx"), 8, 1881, { x0: 20, x1: 1060, y0: 660, y1: 940 });
+      GEX.ambient(tl, parts, 0.4, EXIT + 0.3);
+      gsap.set([".st", ".ar"], { autoAlpha: 0 });
+      tl.fromTo("#pp", { y: -60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)" }, 0.3);
+      tl.fromTo("#pp .pi", { rotation: -180 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 0.35);
+      const step = (id, ar, t) => {
+        if (ar) tl.fromTo(ar, { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.25, ease: "back.out(2)", immediateRender: false }, t - 0.15);
+        tl.fromTo(id, { y: 200, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, t);
+        tl.fromTo(id + " .ico", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.6)", immediateRender: false }, t + 0.1);
+      };
+      step("#s1", null, 2.6);
+      tl.to("#s1 .ico svg", { x: 10, y: -6, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 5 }, 3.1);
+      step("#s2", "#a1", 4.9);
+      tl.to("#s2 .ico", { rotation: 10, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 5 }, 5.3);
+      step("#s3", "#a2", 6.0);
+      tl.fromTo("#s3 .ops .chip", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.1 }, 6.3);
+      GEX.scatter(tl, ["#pp", "#s1", "#a1", "#s2", "#a2", "#s3"], EXIT, 100);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

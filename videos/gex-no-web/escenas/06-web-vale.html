@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>No web 06 — Una web sí ayuda a conseguir clientes</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #br { position: absolute; left: 200px; top: 80px; width: 680px; height: 500px; }
+      #br .body { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+      #br .hero { height: 90px; border-radius: 14px; background: #0b958b; display: flex; align-items: center; padding: 0 20px; color: #ffffff; font-weight: 800; font-size: 32px; }
+      .prods { display: flex; gap: 12px; }
+      .pd { flex: 1; height: 260px; border-radius: 16px; background: #eef4f3; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; padding: 10px; }
+      .pd .ico { width: 80px; height: 80px; background: #ffffff; }
+      .pd i { width: 70%; height: 12px; border-radius: 6px; background: #cfdcdb; }
+      .pd .chip { font-size: 24px; padding: 6px 14px; }
+      #ok { position: absolute; left: 830px; top: 50px; width: 100px; height: 100px; border-radius: 50%; background: #179a4a; border: 6px solid #ffffff; display: flex; align-items: center; justify-content: center; z-index: 5; }
+      #ok svg { width: 56px; height: 56px; }
+      .cu { position: absolute; top: 300px; width: 96px; height: 96px; z-index: 5; }
+      .cu svg { width: 56px; height: 56px; }
+      #chips { position: absolute; left: 0; right: 0; top: 640px; display: flex; justify-content: center; gap: 22px; }
+      #chips .pill { font-size: 44px; padding: 12px 32px 12px 12px; }
+      #chips .pi { width: 68px; height: 68px; }
+      #chips .pi svg { width: 42px; height: 42px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8.0" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="8.0" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div class="win" id="br"><div class="bar"><i></i><i></i><i></i><b>Tu página web</b></div>
+            <div class="body"><div class="hero">Productos y servicios</div><div class="prods">
+              <div class="pd"><span class="ico" data-ic="bag" data-sw="4.5"></span><i></i><span class="chip o" id="buy">Comprar</span></div>
+              <div class="pd"><span class="ico" data-ic="shirt" data-col="#ea5a14" data-sw="4.5"></span><i></i><span class="chip o">Comprar</span></div>
+              <div class="pd"><span class="ico" data-ic="chat" data-col="#179a4a" data-sw="4.5"></span><i></i><span class="chip g">Contactar</span></div>
+            </div></div></div>
+          <span id="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span>
+          <span class="av o cu" id="u1" style="left: 30px" data-ic="user" data-col="#ffffff" data-sw="4.5"></span>
+          <span class="av g cu" id="u2" style="left: 954px; top: 220px" data-ic="user" data-col="#ffffff" data-sw="4.5"></span>
+          <span class="av a cu" id="u3" style="left: 954px; top: 400px" data-ic="user" data-col="#ffffff" data-sw="4.5"></span>
+          <div id="chips"><div class="pill" id="k1"><span class="pi" data-ic="users" data-sw="4.5"></span>Más clientes</div><div class="pill g" id="k2"><span class="pi" data-ic="chart" data-col="#179a4a" data-sw="4.5"></span>Más ventas</div></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-ok" src="assets/sfx/pop.wav" data-start="2.6" data-volume="0.28"></audio>
+      <audio id="s-c" src="assets/sfx/whoosh.wav" data-start="4.2" data-volume="0.3"></audio>
+      <audio id="s-buy" src="assets/sfx/click.wav" data-start="6.5" data-volume="0.3"></audio>
+      <audio id="s-v" src="assets/sfx/success.wav" data-start="6.9" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.58" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.6;
+      gsap.set(["#ok", ".cu", "#k1", "#k2"], { autoAlpha: 0 });
+      const cur = GEX.cursor(document.getElementById("scene"));
+      gsap.set(cur.c, { x: 1120, y: 700 });
+      tl.fromTo("#br", { y: 300, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.05);
+      tl.fromTo(".pd", { scale: 0.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", stagger: 0.1 }, 0.4);
+      GEX.float(tl, "#br", 0.9, EXIT, 5, 1.8);
+      // no es malo: suma
+      tl.fromTo("#ok", { scale: 0, rotation: -120, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(3)", immediateRender: false }, 2.6);
+      tl.to("#ok", { scale: 1.1, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 3.1);
+      // llegan clientes
+      [["#u1", 60], ["#u2", -60], ["#u3", -60]].forEach(([id, dx], i) => {
+        tl.fromTo(id, { x: -dx * 1.5, autoAlpha: 0 }, { x: dx, autoAlpha: 1, duration: 0.5, ease: "back.out(1.6)", immediateRender: false }, 4.2 + i * 0.2);
+        tl.to(id, { y: -10, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 5 }, 4.8 + i * 0.1);
+      });
+      tl.fromTo("#k1", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 5.4);
+      // y vende más
+      GEX.tap(tl, cur, 290, 520, 6.05, 0.45);
+      tl.to("#buy", { keyframes: [{ scale: 0.85, duration: 0.08 }, { scale: 1.15, backgroundColor: "#179a4a", duration: 0.15 }, { scale: 1, duration: 0.2 }], ease: "sine.out" }, 6.5);
+      tl.fromTo("#k2", { y: 60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 6.9);
+      GEX.scatter(tl, ["#br", "#ok", "#u1", "#u2", "#u3", "#k1", "#k2"], EXIT, 98);
+      tl.to(cur.c, { autoAlpha: 0, duration: 0.2 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>No web 01 — No todos los negocios necesitan una web</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 26px; top: 200px; }
+      #who { font-size: 38px; padding: 10px 26px 10px 10px; }
+      #who .pi { width: 60px; height: 60px; }
+      #who .pi svg { width: 38px; height: 38px; }
+      #st { text-align: center; font-weight: 800; line-height: 1.02; white-space: nowrap; }
+      #l1 { font-size: 72px; }
+      #l2 { font-size: 88px; color: #fe6820; }
+      #no { display: inline-block; color: #fe6820; }
+      .dg { position: absolute; width: 16px; height: 80px; border-radius: 8px; transform: rotate(25deg); }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8.0" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="8.0" data-track-index="0">
+        <span class="dg" id="d1" style="left: 200px; top: 530px; background: #fe6820"></span>
+        <span class="dg" id="d2" style="left: 230px; top: 550px; background: #1fc4b8"></span>
+        <span class="dg" id="d3" style="left: 830px; top: 530px; background: #1fc4b8"></span>
+        <span class="dg" id="d4" style="left: 860px; top: 550px; background: #fe6820"></span>
+        <div class="top" id="top">
+          <div class="pill" id="who"><span class="pi" data-ic="code" data-sw="5"></span>Desarrollo páginas web</div>
+          <div id="st"><div id="l1"><span id="no">NO</span> <span id="l1t">TODOS LOS NEGOCIOS</span></div><div id="l2"><span id="l2t">NECESITAN UNA WEB</span></div></div>
+        </div>
+      </section>
+      <audio id="s-w" src="assets/sfx/pop.wav" data-start="3.4" data-volume="0.28"></audio>
+      <audio id="s-no" src="assets/sfx/impact.wav" data-start="4.9" data-volume="0.36"></audio>
+      <audio id="s-l2" src="assets/sfx/ding.wav" data-start="6.2" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.58" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.6;
+      const a = GEX.split(document.getElementById("l1t")), b = GEX.split(document.getElementById("l2t"));
+      gsap.set(["#no", ".dg"], { autoAlpha: 0 });
+      // quién habla
+      tl.fromTo("#who", { y: -50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)" }, 3.4);
+      tl.fromTo("#who .pi", { rotation: -180 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 3.45);
+      // la afirmación
+      tl.fromTo("#no", { scale: 3, rotation: -12, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.3, ease: "power4.in", immediateRender: false }, 4.9);
+      GEX.reveal(tl, a.words, 5.25, "rise", { stagger: 0.1, duration: 0.4 });
+      GEX.reveal(tl, b.words, 6.0, "drop", { stagger: 0.12, duration: 0.42 });
+      GEX.punch(tl, "#no", 6.4, 1.2);
+      tl.fromTo(".dg", { y: (i) => (i < 2 ? 120 : -120), autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.06, immediateRender: false }, 5.0);
+      tl.to(".dg", { y: (i) => (i % 2 ? -14 : 14), duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 1 }, 5.5);
+      tl.to("#who", { y: -6, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 3 }, 4.0);
+      GEX.scatter(tl, ["#who", "#no", "#d1", "#d2", "#d3", "#d4"], EXIT, 91);
+      tl.to(a.words.concat(b.words), { y: -140, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.02 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
