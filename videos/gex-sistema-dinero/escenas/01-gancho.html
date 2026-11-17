@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Sistema dinero 01 — Invertir en un sistema ≠ vender más</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 26px; top: 300px; }
+      #eq { display: flex; align-items: center; gap: 14px; }
+      .coin { width: 120px; height: 120px; border-radius: 50%; background: #ea5a14; border: 6px solid #ffffff; display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 800; font-size: 46px; }
+      .ar { font-weight: 800; font-size: 60px; color: #ffffff; }
+      #sy { width: 120px; height: 120px; border-radius: 28px; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      #sy svg { width: 76px; height: 76px; }
+      #vt { position: relative; width: 240px; height: 120px; border-radius: 22px; background: #ffffff; overflow: hidden; }
+      #vt small { position: absolute; left: 14px; top: 8px; font-weight: 800; font-size: 24px; letter-spacing: 0.08em; color: #0b958b; }
+      #vt i { position: absolute; left: 16px; right: 16px; top: 76px; height: 8px; border-radius: 4px; background: #ea5a14; transform-origin: 0% 50%; }
+      #st { text-align: center; font-weight: 800; line-height: 1.05; white-space: nowrap; }
+      #l1 { font-size: 50px; }
+      #ne { display: inline-block; font-size: 96px; color: #fe6820; line-height: 0.9; }
+      #l3 { font-size: 80px; color: #fe6820; }
+      #who { font-size: 38px; padding: 10px 26px 10px 10px; }
+      #who .pi { width: 60px; height: 60px; }
+      #who .pi svg { width: 38px; height: 38px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="9.4" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="9.4" data-track-index="0">
+        <div class="top" id="top">
+          <div id="eq"><span class="coin" id="cn">S/</span><span class="ar" id="a1">→</span><span id="sy" data-ic="grid" data-sw="4"></span><span class="ar" id="a2">→</span><span id="vt"><small>VENTAS</small><i id="fl"></i></span></div>
+          <div id="st"><div id="l1"><span id="t1">INVERTIR EN UN SISTEMA</span></div><div><span id="ne">≠</span></div><div id="l3"><span id="t3">VENDER MÁS</span></div></div>
+          <div class="pill" id="who"><span class="pi" data-ic="code" data-sw="5"></span>Me dedico a desarrollar sistemas</div>
+        </div>
+      </section>
+      <audio id="s-c" src="assets/sfx/pop.wav" data-start="0.6" data-volume="0.28"></audio>
+      <audio id="s-f" src="assets/sfx/tick.wav" data-start="3.8" data-volume="0.26"></audio>
+      <audio id="s-ne" src="assets/sfx/impact.wav" data-start="5.4" data-volume="0.34"></audio>
+      <audio id="s-w" src="assets/sfx/ding.wav" data-start="6.6" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="8.98" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 9.0;
+      const t1 = GEX.split(document.getElementById("t1")), t3 = GEX.split(document.getElementById("t3"));
+      gsap.set(["#cn", ".ar", "#sy", "#vt", "#ne", "#who"], { autoAlpha: 0 });
+      gsap.set("#fl", { scaleX: 0 });
+      // inviertes en un sistema...
+      tl.fromTo("#cn", { scale: 0, rotation: -180, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 0.6);
+      tl.to("#cn", { rotationY: 360, duration: 1.2, ease: "power1.inOut" }, 1.1);
+      tl.fromTo("#a1", { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 1.8);
+      tl.fromTo("#sy", { scale: 0, rotation: -90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)", immediateRender: false }, 2.2);
+      // ...y las ventas no cambian
+      tl.fromTo("#a2", { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 3.4);
+      tl.fromTo("#vt", { scale: 0.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)", immediateRender: false }, 3.6);
+      tl.to("#fl", { scaleX: 1, duration: 0.8, ease: "none" }, 3.8);
+      // invertir ≠ vender más
+      GEX.reveal(tl, t1.words, 4.9, "rise", { stagger: 0.08, duration: 0.38 });
+      tl.fromTo("#ne", { scale: 3, rotation: -20, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.3, ease: "power4.in", immediateRender: false }, 5.4);
+      GEX.reveal(tl, t3.words, 5.6, "drop", { stagger: 0.12, duration: 0.42 });
+      // y lo dice alguien que desarrolla sistemas
+      tl.fromTo("#who", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 6.6);
+      tl.fromTo("#who .pi", { rotation: -180 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 6.65);
+      tl.to("#who", { rotation: -2, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 3 }, 7.3);
+      tl.to("#sy", { y: -8, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 7 }, 2.8);
+      GEX.scatter(tl, ["#cn", "#a1", "#sy", "#a2", "#vt", "#ne", "#who"], EXIT, 111);
+      tl.to(t1.words.concat(t3.words), { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.02 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

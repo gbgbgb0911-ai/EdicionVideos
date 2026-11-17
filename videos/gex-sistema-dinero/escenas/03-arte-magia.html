@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Sistema dinero 03 — No lo soluciona por arte de magia</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 18px; top: 300px; }
+      #wd { position: relative; width: 130px; height: 130px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      #wd svg { width: 80px; height: 80px; }
+      #wd b { position: absolute; inset: -6px; border-radius: 50%; border: 10px solid #ea5a14; }
+      #wd b::after { content: ""; position: absolute; left: 50%; top: -4px; bottom: -4px; width: 10px; margin-left: -5px; background: #ea5a14; transform: rotate(45deg); }
+      .sp { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #fe6820; }
+      #st { text-align: center; font-weight: 800; line-height: 1.04; white-space: nowrap; }
+      #a { font-size: 60px; }
+      #b { font-size: 76px; color: #fe6820; }
+      #c2 { font-size: 64px; color: #fe6820; }
+      #d { font-size: 56px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.4" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6.4" data-track-index="0">
+        <div class="top" id="top">
+          <div id="wd"><span data-ic="wand" data-col="#ea5a14" data-sw="5"></span><b id="no"></b><i class="sp" style="left: -20px; top: 10px"></i><i class="sp" style="right: -24px; top: 0; background: #1fc4b8"></i><i class="sp" style="right: -10px; bottom: -14px"></i><i class="sp" style="left: 0; bottom: -20px; background: #1fc4b8"></i></div>
+          <div id="st"><div id="a"><span id="ta">SI NO SABES VENDER,</span></div><div id="b"><span id="tb">UN SISTEMA</span></div><div id="c2"><span id="tc">NO LO SOLUCIONA</span></div><div id="d"><span id="td">POR ARTE DE MAGIA</span></div></div>
+        </div>
+      </section>
+      <audio id="s-w" src="assets/sfx/shimmer.wav" data-start="0.6" data-volume="0.26"></audio>
+      <audio id="s-a" src="assets/sfx/pop.wav" data-start="2.0" data-volume="0.28"></audio>
+      <audio id="s-no" src="assets/sfx/impact.wav" data-start="4.6" data-volume="0.34"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.98" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.0;
+      const A = GEX.split(document.getElementById("ta")), B = GEX.split(document.getElementById("tb")), C = GEX.split(document.getElementById("tc")), D = GEX.split(document.getElementById("td"));
+      gsap.set(["#no", ".sp"], { autoAlpha: 0 });
+      // la "varita mágica"
+      tl.fromTo("#wd", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, 0.5);
+      tl.fromTo(".sp", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.08, immediateRender: false }, 0.7);
+      tl.to(".sp", { y: -12, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 7, stagger: 0.07 }, 1.1);
+      tl.to("#wd span", { rotation: 15, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 7 }, 1.0);
+      // la frase
+      GEX.reveal(tl, A.words, 2.0, "rise", { stagger: 0.09, duration: 0.38 });
+      GEX.reveal(tl, B.words, 3.0, "drop", { stagger: 0.12, duration: 0.42 });
+      GEX.reveal(tl, C.words, 3.6, "rise", { stagger: 0.1, duration: 0.38 });
+      GEX.reveal(tl, D.words, 4.3, "rise", { stagger: 0.1, duration: 0.38 });
+      // no hay magia
+      tl.fromTo("#no", { scale: 2, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.25, ease: "power4.in", immediateRender: false }, 4.6);
+      tl.to(".sp", { y: 120, autoAlpha: 0, duration: 0.5, ease: "power2.in", stagger: 0.05 }, 4.85);
+      GEX.punch(tl, "#c2", 4.9, 1.08);
+      GEX.scatter(tl, ["#wd"], EXIT, 113);
+      tl.to(A.words.concat(B.words, C.words, D.words), { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.015 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

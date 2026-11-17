@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Sistema dinero 08 — Una herramienta, no una fórmula mágica</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 18px; top: 300px; }
+      .ir { display: flex; gap: 22px; }
+      .ic { position: relative; width: 110px; height: 110px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+      .ic svg { width: 64px; height: 64px; }
+      #i1 { background: #0b958b; }
+      #i2 { background: #ffffff; }
+      #x2 { position: absolute; inset: -6px; border-radius: 50%; border: 9px solid #ea5a14; }
+      #x2::after { content: ""; position: absolute; left: 50%; top: -4px; bottom: -4px; width: 9px; margin-left: -4.5px; background: #ea5a14; transform: rotate(45deg); }
+      #st { text-align: center; font-weight: 800; line-height: 1.05; white-space: nowrap; }
+      #a { font-size: 56px; }
+      #b { font-size: 68px; color: #1fc4b8; }
+      #c2 { font-size: 50px; color: #fe6820; margin-top: 8px; }
+      .logo { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 22px; background: #ffffff; }
+      .logo img { display: block; width: 190px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.4" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5.4" data-track-index="0">
+        <div class="top" id="top">
+          <div class="ir"><span class="ic" id="i1" data-ic="tool" data-col="#ffffff" data-sw="4.5"></span><span class="ic" id="i2"><span data-ic="wand" data-col="#ea5a14" data-sw="5"></span><b id="x2"></b></span></div>
+          <div id="st"><div id="a"><span id="ta">UN SISTEMA ES</span></div><div id="b"><span id="tb">UNA HERRAMIENTA,</span></div><div id="c2"><span id="tc">NO UNA FÓRMULA MÁGICA.</span></div></div>
+          <span class="logo" id="lg"><img src="assets/logo-v2/gex-full.png" alt="GEX" /></span>
+        </div>
+      </section>
+      <audio id="s-1" src="assets/sfx/pop.wav" data-start="0.3" data-volume="0.28"></audio>
+      <audio id="s-x" src="assets/sfx/tick.wav" data-start="2.7" data-volume="0.26"></audio>
+      <audio id="s-lg" src="assets/sfx/shimmer.wav" data-start="4.1" data-volume="0.24"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="4.98" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.0;
+      const A = GEX.split(document.getElementById("ta")), B = GEX.split(document.getElementById("tb")), C = GEX.split(document.getElementById("tc"));
+      gsap.set(["#i2", "#x2", "#lg"], { autoAlpha: 0 });
+      // una herramienta
+      tl.fromTo("#i1", { scale: 0, rotation: -150 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, 0.3);
+      tl.to("#i1 svg", { rotation: -25, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 5 }, 0.8);
+      GEX.reveal(tl, A.words, 0.3, "rise", { stagger: 0.09, duration: 0.38 });
+      GEX.reveal(tl, B.words, 0.9, "drop", { stagger: 0.12, duration: 0.42 });
+      // no magia
+      tl.fromTo("#i2", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.6)", immediateRender: false }, 2.2);
+      GEX.reveal(tl, C.words, 2.3, "rise", { stagger: 0.09, duration: 0.38 });
+      tl.fromTo("#x2", { scale: 2, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.25, ease: "power4.in", immediateRender: false }, 2.7);
+      tl.fromTo("#lg", { y: 30, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)", immediateRender: false }, 4.0);
+      tl.to("#i1", { y: -8, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 3 }, 3.0);
+      GEX.scatter(tl, ["#i1", "#i2", "#lg"], EXIT, 119);
+      tl.to(A.words.concat(B.words, C.words), { y: -120, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.015 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
