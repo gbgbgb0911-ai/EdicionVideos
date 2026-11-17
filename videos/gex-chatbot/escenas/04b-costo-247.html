@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Chatbot 04b — Menos de la mitad, 24/7</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 280px; display: flex; justify-content: center; }
+      #cost { position: absolute; left: 150px; top: 360px; width: 740px; padding: 30px; border-radius: 34px; background: #ffffff; color: #0b958b; display: flex; flex-direction: column; gap: 22px; }
+      .cr { display: flex; flex-direction: column; gap: 10px; }
+      .cr .lb { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 32px; white-space: nowrap; }
+      .cr .lb .ico { width: 54px; height: 54px; }
+      .cr .bt { position: relative; height: 56px; }
+      .cr .bt i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 16px; transform-origin: 0% 50%; display: flex; align-items: center; padding: 0 16px; color: #ffffff; font-style: normal; font-weight: 800; font-size: 28px; white-space: nowrap; }
+      #ba { width: 100%; background: #ea5a14; }
+      #bb { width: 40%; background: #0b958b; }
+      #half { position: absolute; left: 50%; top: 82px; bottom: 26px; width: 0; border-left: 5px dashed #b86e00; }
+      #halfl { position: absolute; left: 50%; top: 20px; transform: translateX(-50%); font-size: 24px; padding: 4px 12px; }
+      #dial { position: absolute; left: 380px; top: 760px; width: 320px; height: 320px; }
+      #dt { position: absolute; left: 380px; top: 760px; width: 320px; height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      #dt b { font-weight: 800; font-size: 96px; line-height: 1; }
+      #dt small { font-weight: 800; font-size: 26px; letter-spacing: 0.12em; color: #1fc4b8; }
+      #wk { position: absolute; left: 0; right: 0; top: 1120px; display: flex; justify-content: center; gap: 12px; padding-right: 30px; }
+      .dd { width: 80px; height: 80px; border-radius: 50%; border: 6px solid #dfe7e6; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 34px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.8" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6.8" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">ASISTENTE VIRTUAL</span></div>
+        <div id="cost">
+          <div class="cr"><span class="lb"><span class="ico" data-ic="headset" data-col="#ea5a14" data-sw="4.5"></span>Sueldo mínimo</span><span class="bt"><i id="ba">S/ 1,230</i></span></div>
+          <div class="cr"><span class="lb"><span class="ico" data-ic="bot" data-sw="4.5"></span>Chatbot con IA</span><span class="bt"><i id="bb">− de la mitad</i></span></div>
+          <i id="half"></i><span class="chip a" id="halfl">mitad</span>
+        </div>
+        <svg id="dial" viewBox="0 0 320 320"><circle cx="160" cy="160" r="140" fill="none" stroke="#dfe7e6" stroke-width="10" /><circle id="arc" cx="160" cy="160" r="140" fill="none" stroke="#1fc4b8" stroke-width="30" stroke-linecap="round" transform="rotate(-90 160 160)" /></svg>
+        <div id="dt"><b class="num" id="hrs">0 h</b><small>AL DÍA</small></div>
+        <div id="wk"><span class="dd">L</span><span class="dd">M</span><span class="dd">M</span><span class="dd">J</span><span class="dd">V</span><span class="dd">S</span><span class="dd">D</span></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-a" src="assets/sfx/tick.wav" data-start="0.9" data-volume="0.26"></audio>
+      <audio id="s-b" src="assets/sfx/ding.wav" data-start="2.0" data-volume="0.28"></audio>
+      <audio id="s-d" src="assets/sfx/shimmer.wav" data-start="3.4" data-volume="0.26"></audio>
+      <audio id="s-w" src="assets/sfx/success.wav" data-start="6.0" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.38" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.4;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      const C = 2 * Math.PI * 140;
+      gsap.set("#arc", { strokeDasharray: C, strokeDashoffset: C });
+      gsap.set(["#ba", "#bb"], { scaleX: 0 });
+      gsap.set(["#half", "#halfl", "#dial", "#dt", ".dd"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.3);
+      tl.fromTo("#cost", { y: 300, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.3);
+      // costo: sueldo mínimo vs menos de la mitad
+      tl.to("#ba", { scaleX: 1, duration: 0.6, ease: "power2.out" }, 0.9);
+      tl.fromTo(["#half", "#halfl"], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, immediateRender: false }, 1.5);
+      tl.to("#bb", { scaleX: 1, duration: 0.6, ease: "power2.out" }, 1.8);
+      GEX.punch(tl, "#bb", 2.4, 1.06);
+      // disponible las 24 horas...
+      tl.fromTo(["#dial", "#dt"], { scale: 0.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2)", immediateRender: false }, 3.0);
+      tl.to("#arc", { strokeDashoffset: 0, duration: 1.8, ease: "power1.inOut" }, 3.3);
+      GEX.count(tl, document.getElementById("hrs"), 0, 24, 3.3, 1.8, "", " h");
+      GEX.punch(tl, "#dt b", 5.1, 1.15);
+      // ...los 7 días
+      tl.fromTo(".dd", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.06, immediateRender: false }, 4.8);
+      tl.to(".dd", { backgroundColor: "#0b958b", borderColor: "#0b958b", duration: 0.15, stagger: 0.1 }, 5.4);
+      tl.to("#dial", { rotation: 10, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 5.3);
+      // salida + barrido
+      GEX.scatter(tl, ["#cost", "#dial", "#dt", "#wk", "#tag"], EXIT, 126);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

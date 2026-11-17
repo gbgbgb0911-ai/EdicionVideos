@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Chatbot 05a — Qué puede hacer el chatbot</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 280px; display: flex; justify-content: center; }
+      #ph { left: 90px; top: 360px; width: 480px; height: 860px; }
+      .grp { position: absolute; left: 16px; right: 16px; top: 18px; display: flex; flex-direction: column; gap: 18px; }
+      .m { font-size: 28px; }
+      .m.b small { color: #12703a; }
+      .prd { display: flex; gap: 8px; margin-top: 8px; }
+      .prd i { width: 60px; height: 60px; border-radius: 12px; background: #ffffff; border: 4px solid #179a4a; }
+      #fl { position: absolute; left: 600px; top: 400px; display: flex; flex-direction: column; gap: 18px; }
+      .ft { display: flex; align-items: center; gap: 12px; padding: 12px 22px 12px 12px; border-radius: 999px; border: 5px solid #dfe7e6; font-weight: 800; font-size: 30px; white-space: nowrap; }
+      .ft .ico { width: 56px; height: 56px; background: #ffffff; }
+      .ft.on { background: #0b958b; border-color: #0b958b; }
+      #more { position: absolute; left: 610px; top: 750px; font-size: 30px; padding: 10px 22px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.6" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6.6" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">QUÉ PUEDE HACER</span></div>
+        <div class="phone" id="ph"><div class="ph"><span class="ico" data-ic="bot" data-col="#179a4a" data-sw="4.5"></span>Asistente IA</div>
+          <div class="pb">
+            <div class="grp" id="g1"><div class="m">¿A qué hora atienden?</div><div class="m b"><small>ASISTENTE IA</small>Atendemos de 9:00 a 19:00.</div></div>
+            <div class="grp" id="g2"><div class="m">¿Qué modelos tienen?</div><div class="m b"><small>ASISTENTE IA</small>Tenemos estos modelos:<span class="prd"><i></i><i></i><i></i></span></div></div>
+            <div class="grp" id="g3"><div class="m">¿Cuánto cuesta el servicio?</div><div class="m b"><small>ASISTENTE IA</small>Te envío tu cotización.</div></div>
+            <div class="grp" id="g4"><div class="m">Quiero 2 unidades</div><div class="m b"><small>ASISTENTE IA</small>Pedido registrado ✓</div></div>
+          </div></div>
+        <div id="fl">
+          <span class="ft" id="f1"><span class="ico" data-ic="chat" data-sw="4.5"></span>Consultas</span>
+          <span class="ft" id="f2"><span class="ico" data-ic="bag" data-sw="4.5"></span>Productos</span>
+          <span class="ft" id="f3"><span class="ico" data-ic="doc" data-sw="4.5"></span>Cotizar</span>
+          <span class="ft" id="f4"><span class="ico" data-ic="cart" data-sw="4.5"></span>Pedidos</span>
+        </div>
+        <span class="chip o" id="more">y mucho más</span>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-1" src="assets/sfx/pop.wav" data-start="1.0" data-volume="0.28"></audio>
+      <audio id="s-2" src="assets/sfx/pop.wav" data-start="2.6" data-volume="0.28"></audio>
+      <audio id="s-3" src="assets/sfx/pop.wav" data-start="3.9" data-volume="0.28"></audio>
+      <audio id="s-4" src="assets/sfx/success.wav" data-start="5.0" data-volume="0.3"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.18" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.2;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set([".grp .m", ".ft", "#more"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.3);
+      tl.fromTo("#ph", { x: -500, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.3);
+      tl.fromTo(".ft", { x: 120, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2)", stagger: 0.1, immediateRender: false }, 0.6);
+      // cada función con un ejemplo
+      const show = (g, f, t, end) => {
+        tl.fromTo(g + " .m:nth-child(1)", { scale: 0.4, autoAlpha: 0, transformOrigin: "0% 100%" }, { scale: 1, autoAlpha: 1, transformOrigin: "0% 100%", duration: 0.32, ease: "back.out(2.4)", immediateRender: false }, t);
+        tl.fromTo(g + " .m:nth-child(2)", { scale: 0.4, autoAlpha: 0, transformOrigin: "100% 100%" }, { scale: 1, autoAlpha: 1, transformOrigin: "100% 100%", duration: 0.32, ease: "back.out(2.4)", immediateRender: false }, t + 0.35);
+        tl.to(f, { backgroundColor: "#0b958b", borderColor: "#0b958b", scale: 1.06, duration: 0.2 }, t);
+        if (end) {
+          tl.to(g + " .m", { y: -40, scale: 0.8, autoAlpha: 0, duration: 0.2, ease: "power2.in" }, end);
+          tl.to(f, { backgroundColor: "#000000", borderColor: "#1fc4b8", scale: 1, duration: 0.2 }, end);
+        }
+      };
+      show("#g1", "#f1", 1.0, 2.4);
+      show("#g2", "#f2", 2.6, 3.7);
+      tl.fromTo("#g2 .prd i", { scale: 0 }, { scale: 1, duration: 0.25, ease: "back.out(3)", stagger: 0.06 }, 3.1);
+      show("#g3", "#f3", 3.9, 4.8);
+      show("#g4", "#f4", 5.0, null);
+      tl.fromTo("#more", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 5.6);
+      // salida + barrido
+      GEX.scatter(tl, ["#ph", "#fl", "#more", "#tag"], EXIT, 127);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

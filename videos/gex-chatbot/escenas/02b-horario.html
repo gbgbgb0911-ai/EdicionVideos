@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Chatbot 02b — La persona tiene un horario</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 280px; display: flex; justify-content: center; }
+      #wk { position: absolute; left: 140px; top: 370px; width: 760px; height: 260px; border-radius: 34px; background: #ffffff; color: #0b958b; display: flex; align-items: center; gap: 26px; padding: 0 30px; }
+      #wk .av { width: 150px; height: 150px; }
+      #wk .av svg { width: 84px; height: 84px; }
+      #wk b { display: block; font-weight: 800; font-size: 38px; white-space: nowrap; }
+      #wk .row { display: flex; gap: 12px; margin-top: 14px; }
+      #wk .chip { font-size: 30px; padding: 8px 18px; }
+      #tln { position: absolute; left: 200px; top: 760px; width: 590px; }
+      #tln .tr { position: relative; height: 80px; border-radius: 20px; border: 6px solid #dfe7e6; overflow: hidden; }
+      #blk { position: absolute; left: 37.5%; width: 33.3%; top: 0; bottom: 0; background: #ea5a14; transform-origin: 0% 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 800; font-size: 32px; white-space: nowrap; }
+      #tln .hrs { position: relative; height: 50px; margin-top: 10px; font-weight: 800; font-size: 28px; }
+      #tln .hrs span { position: absolute; transform: translateX(-50%); }
+      #lg { position: absolute; left: 0; right: 0; top: 950px; display: flex; flex-direction: column; align-items: center; gap: 14px; padding-right: 40px; }
+      #lg .chip { font-size: 32px; padding: 10px 22px; }
+      #off { background: #ffffff; color: #0b958b; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.6" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5.6" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag" id="tag">ATENCIÓN TRADICIONAL</span></div>
+        <div id="wk"><span class="av o" data-ic="headset" data-col="#ffffff" data-sw="4.5"></span><span><b>Atiende tu WhatsApp</b><span class="row"><span class="chip g" id="wa">WhatsApp</span><span class="chip o" id="sl">S/ 1,230 / mes</span></span></span></div>
+        <div id="tln"><div class="tr"><div id="blk">8 h</div></div><div class="hrs"><span style="left: 0">0:00</span><span style="left: 37.5%">9:00</span><span style="left: 70.8%">17:00</span><span style="left: 100%">24:00</span></div></div>
+        <div id="lg"><span class="chip o" id="on">Horario de trabajo</span><span class="chip" id="off">Fuera de horario: 16 h</span></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.45"></audio>
+      <audio id="s-w" src="assets/sfx/pop.wav" data-start="0.9" data-volume="0.28"></audio>
+      <audio id="s-b" src="assets/sfx/tick.wav" data-start="3.4" data-volume="0.26"></audio>
+      <audio id="s-o" src="assets/sfx/ding.wav" data-start="4.4" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.18" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.2;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set(["#wa", "#sl", "#tln", "#on", "#off"], { autoAlpha: 0 });
+      gsap.set("#blk", { scaleX: 0 });
+      tl.fromTo("#tag", { y: -60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.3);
+      tl.fromTo("#wk", { x: -600, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.3);
+      tl.fromTo("#wk .av", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.6)" }, 0.5);
+      tl.fromTo("#wa", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 0.9);
+      tl.fromTo("#sl", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 1.4);
+      // su horario de trabajo
+      tl.fromTo("#tln", { y: 100, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power3.out", immediateRender: false }, 2.6);
+      tl.to("#blk", { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, 3.2);
+      tl.fromTo("#on", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 3.6);
+      tl.fromTo("#off", { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 4.4);
+      tl.to("#wk .av", { y: -8, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 5 }, 1.2);
+      // salida + barrido
+      GEX.scatter(tl, ["#wk", "#tln", "#on", "#off", "#tag"], EXIT, 123);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

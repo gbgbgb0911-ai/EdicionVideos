@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Chatbot 08a — En GEX desarrollamos soluciones</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 20px; top: 300px; }
+      .logo { display: inline-flex; align-items: center; padding: 14px 28px; border-radius: 24px; background: #ffffff; }
+      .logo img { display: block; width: 260px; }
+      #ul { width: 280px; height: 10px; border-radius: 5px; background: #fe6820; }
+      #ef { font-size: 38px; padding: 10px 28px 10px 10px; }
+      #ef .pi { width: 60px; height: 60px; }
+      #ef .pi svg { width: 38px; height: 38px; }
+      .sp { position: absolute; width: 14px; height: 44px; border-radius: 7px; transform: rotate(25deg); }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4.6" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4.6" data-track-index="0">
+        <span class="sp" id="p1" style="left: 260px; top: 320px; background: #1fc4b8"></span><span class="sp" id="p2" style="left: 286px; top: 340px; background: #fe6820"></span>
+        <span class="sp" id="p3" style="left: 780px; top: 330px; background: #fe6820"></span><span class="sp" id="p4" style="left: 806px; top: 350px; background: #1fc4b8"></span>
+        <div class="top" id="top"><span class="logo" id="lg"><img src="assets/logo-v2/gex-full.png" alt="GEX" /></span><i id="ul"></i><div class="pill" id="ef"><span class="pi" data-ic="bolt" data-sw="4.5"></span>Tu negocio, más eficiente</div></div>
+      </section>
+      <audio id="s-lg" src="assets/sfx/pop.wav" data-start="0.3" data-volume="0.3"></audio>
+      <audio id="s-ef" src="assets/sfx/shimmer.wav" data-start="2.2" data-volume="0.26"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="4.18" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 4.2;
+      gsap.set(["#ef", ".sp"], { autoAlpha: 0 });
+      tl.fromTo("#lg", { scale: 0.3, rotation: -8, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2.6)" }, 0.3);
+      tl.fromTo("#ul", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, 0.7);
+      tl.fromTo(".sp", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.06, immediateRender: false }, 0.8);
+      tl.to(".sp", { y: (i) => (i % 2 ? -14 : 14), duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.1);
+      tl.fromTo("#ef", { y: 40, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 2.2);
+      tl.fromTo("#ef .pi", { rotation: -150 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 2.25);
+      GEX.float(tl, "#lg", 1.0, EXIT, 6, 1.3);
+      GEX.scatter(tl, ["#lg", "#ul", "#ef", "#p1", "#p2", "#p3", "#p4"], EXIT, 131);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Chatbot 07 — ¿Por qué limitarte a 8 horas?</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 22px; top: 300px; }
+      #row { display: flex; align-items: center; gap: 22px; }
+      #h8 { position: relative; padding: 14px 32px; border-radius: 999px; background: #ffffff; color: #0b958b; font-weight: 800; font-size: 84px; line-height: 1; overflow: hidden; }
+      #sk { position: absolute; left: 12px; right: 12px; top: 50%; height: 12px; margin-top: -6px; border-radius: 6px; background: #fe6820; transform-origin: 0% 50%; transform: rotate(-8deg); }
+      #ar { font-weight: 800; font-size: 80px; color: #ffffff; }
+      #h24 { padding: 14px 34px; border-radius: 999px; background: #0b958b; color: #ffffff; font-weight: 800; font-size: 110px; line-height: 1; }
+      #mt { font-size: 40px; padding: 12px 30px 12px 12px; }
+      #mt .pi { width: 64px; height: 64px; }
+      #mt .pi svg { width: 40px; height: 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.4" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="6.4" data-track-index="0">
+        <div class="top" id="top">
+          <div id="row"><span id="h8">8 h<i id="sk"></i></span><span id="ar">→</span><span id="h24">24/7</span></div>
+          <div class="pill o" id="mt"><span class="pi" data-ic="coin" data-col="#ea5a14" data-sw="4.5"></span>Menos de la mitad del costo</div>
+        </div>
+      </section>
+      <audio id="s-8" src="assets/sfx/pop.wav" data-start="0.6" data-volume="0.28"></audio>
+      <audio id="s-sk" src="assets/sfx/tick.wav" data-start="2.2" data-volume="0.26"></audio>
+      <audio id="s-24" src="assets/sfx/impact.wav" data-start="3.9" data-volume="0.32"></audio>
+      <audio id="s-mt" src="assets/sfx/ding.wav" data-start="5.0" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.98" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.0;
+      gsap.set(["#ar", "#h24", "#mt"], { autoAlpha: 0 });
+      gsap.set("#sk", { scaleX: 0 });
+      tl.fromTo("#h8", { y: -50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)" }, 0.6);
+      tl.to("#sk", { scaleX: 1, duration: 0.3, ease: "power3.out" }, 2.2);
+      tl.to("#h8", { scale: 0.85, duration: 0.3, ease: "power2.out" }, 2.4);
+      tl.fromTo("#ar", { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 3.4);
+      tl.fromTo("#h24", { scale: 2.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "power4.in", immediateRender: false }, 3.6);
+      tl.to("#h24", { scale: 1.06, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 3 }, 4.2);
+      tl.fromTo("#mt", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 5.0);
+      tl.to("#ar", { x: 10, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 3.8);
+      GEX.scatter(tl, ["#h8", "#ar", "#h24", "#mt"], EXIT, 130);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

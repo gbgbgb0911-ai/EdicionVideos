@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Chatbot 01 — 8 horas vs 24/7</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .cd { position: absolute; top: 110px; width: 420px; height: 620px; border-radius: 40px; border: 7px solid #fe6820; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+      #cb { border-color: #1fc4b8; }
+      .cd small { font-weight: 800; font-size: 30px; letter-spacing: 0.14em; white-space: nowrap; }
+      .dial { position: relative; width: 230px; height: 230px; }
+      .dial svg { position: absolute; inset: 0; }
+      .dial .ic { position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+      .dial .ic svg { position: static; width: 70px; height: 70px; }
+      .cd b { font-weight: 800; font-size: 96px; line-height: 1; }
+      .cd .chip { font-size: 32px; padding: 8px 20px; }
+      #vs { position: absolute; left: 470px; top: 360px; width: 140px; height: 140px; border-radius: 50%; background: #ffffff; color: #0b958b; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 54px; z-index: 5; border: 8px solid #000000; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.4" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="7.4" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div class="cd" id="ca" style="left: 60px"><small style="color: #fe6820">PERSONA</small>
+            <div class="dial"><svg viewBox="0 0 230 230"><circle cx="115" cy="115" r="100" fill="none" stroke="#dfe7e6" stroke-width="10" /><circle id="aa" cx="115" cy="115" r="100" fill="none" stroke="#fe6820" stroke-width="26" stroke-linecap="round" transform="rotate(-90 115 115)" /></svg><span class="ic" style="background: #ea5a14" data-ic="user" data-col="#ffffff" data-sw="4.5"></span></div>
+            <b>8 h</b><span class="chip o" id="sa">Sueldo mínimo</span></div>
+          <div class="cd" id="cb" style="left: 600px"><small style="color: #1fc4b8">ASISTENTE IA</small>
+            <div class="dial"><svg viewBox="0 0 230 230"><circle cx="115" cy="115" r="100" fill="none" stroke="#dfe7e6" stroke-width="10" /><circle id="ab" cx="115" cy="115" r="100" fill="none" stroke="#1fc4b8" stroke-width="26" stroke-linecap="round" transform="rotate(-90 115 115)" /></svg><span class="ic" style="background: #0b958b" data-ic="bot" data-col="#ffffff" data-sw="4.5"></span></div>
+            <b>24/7</b><span class="chip" id="sb">Menos de la mitad</span></div>
+          <div id="vs">VS</div>
+        </section>
+      </div>
+      <audio id="s-a" src="assets/sfx/whoosh.wav" data-start="0.2" data-volume="0.4"></audio>
+      <audio id="s-vs" src="assets/sfx/impact.wav" data-start="2.8" data-volume="0.34"></audio>
+      <audio id="s-b" src="assets/sfx/shimmer.wav" data-start="3.6" data-volume="0.26"></audio>
+      <audio id="s-24" src="assets/sfx/ding.wav" data-start="5.2" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.98" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.0;
+      const C = 2 * Math.PI * 100;
+      gsap.set(["#aa", "#ab"], { strokeDasharray: C, strokeDashoffset: C });
+      gsap.set(["#cb", "#vs", "#sa", "#sb"], { autoAlpha: 0 });
+      // 8 horas de atención por un sueldo mínimo
+      tl.fromTo("#ca", { x: -400, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out" }, 0.2);
+      tl.fromTo("#ca .ic", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, 0.5);
+      tl.to("#aa", { strokeDashoffset: C * (1 - 8 / 24), duration: 1.0, ease: "power2.inOut" }, 1.2);
+      tl.fromTo("#sa", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 2.1);
+      // VS
+      tl.fromTo("#vs", { scale: 3, rotation: -30, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.3, ease: "power4.in", immediateRender: false }, 2.5);
+      // 24/7 por menos de la mitad
+      tl.fromTo("#cb", { x: 400, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.5, ease: "power4.out", immediateRender: false }, 3.0);
+      tl.fromTo("#cb .ic", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, 3.3);
+      tl.fromTo("#sb", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 3.9);
+      tl.to("#ab", { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" }, 3.8);
+      GEX.punch(tl, "#cb b", 5.2, 1.15);
+      tl.to("#cb .ic", { rotation: 10, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 5 }, 5.4);
+      tl.to("#vs", { scale: 1.08, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 5 }, 3.0);
+      GEX.scatter(tl, ["#ca", "#vs", "#cb"], EXIT, 121);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

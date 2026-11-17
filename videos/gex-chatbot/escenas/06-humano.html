@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Chatbot 06 — Atención humana + respuestas automáticas</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #src { position: absolute; left: 0; right: 0; top: 60px; display: flex; justify-content: center; }
+      #src .chip { font-size: 34px; padding: 10px 24px; background: #ffffff; color: #0b958b; }
+      .ln { position: absolute; top: 200px; width: 440px; height: 700px; border-radius: 40px; border: 7px solid #fe6820; }
+      #lb { border-color: #1fc4b8; }
+      .ln .hd { position: absolute; left: 0; right: 0; top: 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+      .ln .hd .av { width: 110px; height: 110px; }
+      .ln .hd .av svg { width: 64px; height: 64px; }
+      .ln .hd b { font-weight: 800; font-size: 32px; white-space: nowrap; }
+      .mq { position: absolute; left: 0; top: 0; padding: 8px 14px; border-radius: 20px; background: #ffffff; color: #0b958b; font-weight: 800; font-size: 26px; white-space: nowrap; z-index: 5; }
+      .mq.sp { background: #fff1ea; color: #c04a0f; border: 4px solid #fe6820; }
+      .mq b { margin-left: 6px; color: #179a4a; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.8" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="6.8" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="src"><span class="chip" id="sc">Mensajes de clientes</span></div>
+          <div class="ln" id="la" style="left: 70px"><div class="hd"><span class="av o" data-ic="headset" data-col="#ffffff" data-sw="4.5"></span><b style="color: #fe6820">Atención humana</b></div></div>
+          <div class="ln" id="lb" style="left: 570px"><div class="hd"><span class="av" data-ic="bot" data-col="#ffffff" data-sw="4.5"></span><b style="color: #1fc4b8">Automático</b></div></div>
+          <div id="msgs"></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-h" src="assets/sfx/pop.wav" data-start="1.4" data-volume="0.28"></audio>
+      <audio id="s-a" src="assets/sfx/tick.wav" data-start="3.6" data-volume="0.26"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="5.6" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="6.38" data-volume="0.4"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      // [texto, especial?, x, y, t]
+      const M = [["Caso especial", 1, 150, 470, 1.3], ["Reclamo", 1, 180, 560, 2.1],
+        ["¿Horario?", 0, 600, 440, 3.4], ["¿Precio?", 0, 805, 440, 3.75], ["¿Stock?", 0, 600, 540, 4.1], ["¿Envíos?", 0, 805, 540, 4.45], ["¿Ubicación?", 0, 600, 640, 4.8], ["¿Pagos?", 0, 830, 640, 5.15], ["¿Medidas?", 0, 690, 740, 5.5]];
+      const box = document.getElementById("msgs");
+      M.forEach(([t, s], i) => (box.innerHTML += '<span class="mq' + (s ? " sp" : "") + '" id="q' + i + '">' + t + (s ? "" : "<b>✓</b>") + "</span>"));
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.4;
+      gsap.set([".ln", ".mq"], { autoAlpha: 0 });
+      tl.fromTo("#sc", { y: -50, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)" }, 0.1);
+      tl.fromTo("#la", { x: -300, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out", immediateRender: false }, 0.3);
+      tl.fromTo("#lb", { x: 300, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out", immediateRender: false }, 0.45);
+      // cada mensaje llega y se va a su carril
+      M.forEach(([t, s, x, y, at], i) => {
+        const id = "#q" + i;
+        tl.fromTo(id, { x: 470, y: 130, scale: 0.5, autoAlpha: 0 }, { x: 470, y: 130, scale: 1, autoAlpha: 1, duration: 0.2, ease: "back.out(3)", immediateRender: false }, at);
+        tl.to(id, { x: x, y: y, duration: 0.4, ease: "power2.inOut" }, at + 0.2);
+      });
+      tl.to("#la .av", { rotation: 10, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 5 }, 1.8);
+      tl.to("#lb .av svg", { rotation: 360, duration: 1.0, ease: "power2.inOut" }, 4.0);
+      GEX.punch(tl, "#lb", 5.6, 1.04);
+      GEX.scatter(tl, ["#sc", "#la", "#lb"].concat(M.map((m, i) => "#q" + i)), EXIT, 129);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
