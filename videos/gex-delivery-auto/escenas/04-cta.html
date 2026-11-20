@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Delivery 04 — CTA: que tu negocio se atienda solo</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 20px; top: 300px; }
+      #r1 { display: flex; align-items: center; gap: 18px; }
+      #wa { width: 120px; height: 120px; border-radius: 50%; background: #179a4a; display: flex; align-items: center; justify-content: center; flex: none; }
+      #wa svg { width: 76px; height: 76px; }
+      #q { font-weight: 800; font-size: 50px; line-height: 1.08; white-space: nowrap; }
+      #q .hl { color: #1fc4b8; }
+      #r2 { display: flex; gap: 14px; }
+      #r2 .chip { font-size: 36px; padding: 10px 24px; }
+      #r3 { display: flex; align-items: center; gap: 14px; font-weight: 800; font-size: 44px; white-space: nowrap; }
+      #r3 .hl { color: #fe6820; }
+      #r3 .ico { width: 70px; height: 70px; background: #0b958b; }
+      #ctaw { position: relative; display: flex; justify-content: center; margin-top: 8px; }
+      #cta { font-size: 62px; padding: 18px 44px 18px 18px; }
+      #cta .pi { width: 88px; height: 88px; }
+      #cta .pi svg { width: 54px; height: 54px; }
+      #rg { position: absolute; left: 50%; top: 50%; width: 460px; height: 124px; margin: -62px 0 0 -230px; border-radius: 999px; border: 8px solid #1fc4b8; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="10.2" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="10.2" data-track-index="0">
+        <div class="top" id="top">
+          <div id="r1"><span id="wa" data-ic="wa" data-col="#ffffff" data-sw="4"></span><div id="q"><span id="tq">¿Tu negocio se atiende<br />por <span class="hl">WhatsApp</span>?</span></div></div>
+          <div id="r2"><span class="chip o" id="c1">Productos</span><span class="chip" id="c2">Servicios</span><span class="chip g" id="c3">y más</span></div>
+          <div id="r3"><span class="ico" data-ic="bot" data-col="#ffffff" data-sw="4.5"></span><span id="tr">¿Quieres que se <span class="hl">atienda solo</span>?</span></div>
+          <div id="ctaw"><span id="rg"></span><div class="pill o" id="cta"><span class="pi" data-ic="chat" data-col="#ea5a14" data-sw="4.5"></span>Contáctame<i class="shine" id="sh" data-layout-allow-overflow></i></div></div>
+        </div>
+      </section>
+      <audio id="s-wa" src="assets/sfx/pop.wav" data-start="0.2" data-volume="0.28"></audio>
+      <audio id="s-c" src="assets/sfx/tick.wav" data-start="4.4" data-volume="0.26"></audio>
+      <audio id="s-r3" src="assets/sfx/ding.wav" data-start="7.0" data-volume="0.26"></audio>
+      <audio id="s-clk" src="assets/sfx/click.wav" data-start="8.9" data-volume="0.3"></audio>
+      <audio id="s-sh" src="assets/sfx/shimmer.wav" data-start="9.0" data-volume="0.24"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="9.78" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 9.8;
+      const TQ = GEX.split(document.getElementById("tq")), TR = GEX.split(document.getElementById("tr"));
+      gsap.set(["#r2 .chip", "#r3 .ico", "#cta", "#rg"], { autoAlpha: 0 });
+      const cur = GEX.cursor(document.getElementById("scene"));
+      gsap.set(cur.c, { x: 1120, y: 1000 });
+      // ¿se atiende por WhatsApp?
+      tl.fromTo("#wa", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, 0.2);
+      GEX.reveal(tl, TQ.words, 0.4, "rise", { stagger: 0.12, duration: 0.38 });
+      tl.to("#wa svg", { rotation: 10, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 5 }, 2.6);
+      // productos, servicios o demás
+      [["#c1", 4.4], ["#c2", 5.6], ["#c3", 6.2]].forEach(([id, t]) => tl.fromTo(id, { y: 40, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.6)", immediateRender: false }, t));
+      tl.to("#r2 .chip", { y: -8, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.08 }, 6.6);
+      // ¿quieres que se atienda solo?
+      tl.fromTo("#r3 .ico", { scale: 0, rotation: -120, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2.6)", immediateRender: false }, 7.0);
+      GEX.reveal(tl, TR.words, 7.05, "rise", { stagger: 0.09, duration: 0.36 });
+      // contáctame
+      tl.fromTo("#cta", { y: 60, scale: 0.4, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)", immediateRender: false }, 8.2);
+      tl.fromTo("#cta .pi", { rotation: -180 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 8.25);
+      GEX.tap(tl, cur, 640, 700, 8.45, 0.45);
+      tl.to("#cta", { keyframes: [{ scale: 0.92, duration: 0.08 }, { scale: 1.1, duration: 0.16 }, { scale: 1, duration: 0.25 }], ease: "sine.out" }, 8.9);
+      tl.fromTo("#sh", { x: -140 }, { x: 700, duration: 0.6, ease: "power2.inOut" }, 9.0);
+      [9.0, 9.4].forEach((t) => tl.fromTo("#rg", { scale: 1, borderWidth: 8, autoAlpha: 1 }, { scale: 1.3, borderWidth: 0, autoAlpha: 1, duration: 0.4, ease: "circ.out", immediateRender: false }, t));
+      tl.set("#rg", { autoAlpha: 0 }, 9.8);
+      tl.to(cur.c, { x: 1120, y: 1100, duration: 0.3, ease: "power2.in" }, 9.3);
+      GEX.scatter(tl, ["#wa", "#c1", "#c2", "#c3", "#r3 .ico", "#cta"], EXIT, 154);
+      tl.to(TQ.words.concat(TR.words), { y: -140, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.015 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Delivery 02 — El bot avisa a una persona</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 26px; top: 300px; }
+      #r1 { display: flex; align-items: center; gap: 18px; }
+      #bot { width: 130px; height: 130px; border-radius: 50%; background: #0b958b; border: 8px solid #ffffff; display: flex; align-items: center; justify-content: center; }
+      #bot svg { width: 76px; height: 76px; }
+      .ar { font-weight: 800; font-size: 60px; color: #ffffff; }
+      #sit { font-size: 38px; padding: 12px 28px 12px 12px; }
+      #sit .pi { width: 62px; height: 62px; }
+      #sit .pi svg { width: 40px; height: 40px; }
+      #r2 { display: flex; gap: 60px; }
+      .ps { position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+      .ps .av { width: 120px; height: 120px; font-size: 44px; }
+      .ps .av svg { width: 66px; height: 66px; }
+      .ps .chip { font-size: 32px; padding: 8px 20px; }
+      .bl { position: absolute; right: -16px; top: -14px; width: 62px; height: 62px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      .bl svg { width: 40px; height: 40px; }
+      #or { align-self: center; font-weight: 800; font-size: 56px; color: #1fc4b8; margin-top: -40px; }
+      #hm { font-size: 40px; padding: 12px 30px 12px 12px; }
+      #hm .pi { width: 62px; height: 62px; }
+      #hm .pi svg { width: 40px; height: 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="12.0" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="12.0" data-track-index="0">
+        <div class="top" id="top">
+          <div id="r1"><span id="bot" data-ic="bot" data-col="#ffffff" data-sw="4"></span><span class="ar" id="a1">→</span><div class="pill o" id="sit"><span class="pi" data-ic="alert" data-col="#ea5a14" data-sw="4.5"></span>Situación especial</div></div>
+          <div id="r2"><div class="ps" id="p1"><span class="av o">Yo</span><span class="bl" data-ic="bell" data-col="#ea5a14" data-sw="4.5"></span><span class="chip o">Dueño</span></div><span id="or">o</span><div class="ps" id="p2"><span class="av g" data-ic="headset" data-col="#ffffff" data-sw="4.5"></span><span class="bl" data-ic="bell" data-col="#179a4a" data-sw="4.5"></span><span class="chip g">Supervisor</span></div></div>
+          <div class="pill" id="hm"><span class="pi" data-ic="users" data-sw="4.5"></span>Atención humana</div>
+        </div>
+      </section>
+      <audio id="s-b" src="assets/sfx/pop.wav" data-start="0.3" data-volume="0.28"></audio>
+      <audio id="s-s" src="assets/sfx/tick.wav" data-start="3.0" data-volume="0.26"></audio>
+      <audio id="s-n" src="assets/sfx/ding.wav" data-start="7.6" data-volume="0.28"></audio>
+      <audio id="s-h" src="assets/sfx/success.wav" data-start="10.2" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="11.58" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 11.6;
+      gsap.set(["#a1", "#sit", ".ps", "#or", ".bl", "#hm"], { autoAlpha: 0 });
+      // el bot atiende...
+      tl.fromTo("#bot", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, 0.3);
+      tl.to("#bot svg", { rotation: 8, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 5 }, 0.9);
+      // ...pero hay situaciones que no puede manejar
+      tl.fromTo("#a1", { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", immediateRender: false }, 2.8);
+      tl.fromTo("#sit", { scale: 0, rotation: -10, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(3)", immediateRender: false }, 3.0);
+      tl.to("#sit .pi", { rotation: 12, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 7 }, 3.5);
+      tl.to("#bot", { keyframes: [{ x: -8, duration: 0.06 }, { x: 8, duration: 0.08 }, { x: 0, duration: 0.08 }], repeat: 2, ease: "none" }, 4.6);
+      // nos avisa: a mí o al supervisor
+      tl.fromTo("#p1", { y: 80, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 7.4);
+      tl.fromTo("#or", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 8.2);
+      tl.fromTo("#p2", { y: 80, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 8.5);
+      tl.fromTo(".bl", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.9, immediateRender: false }, 7.6);
+      tl.to(".bl svg", { keyframes: [{ rotation: -20, duration: 0.1 }, { rotation: 18, duration: 0.12 }, { rotation: -12, duration: 0.12 }, { rotation: 0, duration: 0.12 }], transformOrigin: "50% 15%", repeat: 3, repeatDelay: 0.3, ease: "sine.inOut" }, 8.0);
+      // atención humana para esos casos
+      tl.fromTo("#hm", { y: 50, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 10.2);
+      GEX.float(tl, "#sit", 3.6, EXIT, 6, 1.3);
+      GEX.scatter(tl, ["#bot", "#a1", "#sit", "#p1", "#or", "#p2", "#hm"], EXIT, 152);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Delivery 06a-sub-intervencion — Subtítulos</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .ck .pp { font-size: 50px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="12.0" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="12.0" data-track-index="0">
+        <div id="cap"></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/pop.wav" data-start="0.02" data-volume="0.2"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      GEX.captions(tl, document.getElementById("cap"), [["De todas formas", 0, 0.9], ["requiere", 0.9, 1.4], ["intervención humana", 1.4, 2.6, [0, 1]], ["porque hay situaciones", 2.6, 3.8], ["que el bot", 3.8, 4.5], ["no puede manejar,", 4.5, 5.6], ["entonces lo que hace", 5.6, 6.6], ["es comunicarnos", 6.6, 7.8], ["o a mí", 7.8, 8.5], ["o al supervisor", 8.5, 9.4, [2]], ["para poder atender", 9.4, 10.4], ["esas situaciones.", 10.4, 11.6]]);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

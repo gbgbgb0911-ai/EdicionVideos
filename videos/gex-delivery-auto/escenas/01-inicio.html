@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Delivery 01 — Mi delivery 95% automatizado</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 16px; top: 300px; }
+      #l1 { font-weight: 800; font-size: 50px; white-space: nowrap; }
+      #row { display: flex; align-items: center; gap: 20px; }
+      #mt { width: 130px; height: 130px; border-radius: 50%; background: #ea5a14; display: flex; align-items: center; justify-content: center; }
+      #mt svg { width: 84px; height: 84px; }
+      #dl { font-weight: 800; font-size: 112px; line-height: 1; white-space: nowrap; }
+      #rgw { position: relative; width: 250px; height: 250px; margin-top: 10px; }
+      #rgw svg { position: absolute; inset: 0; }
+      #rgt { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      #rgt b { font-weight: 800; font-size: 84px; line-height: 1; }
+      #au { font-size: 40px; padding: 10px 28px 10px 10px; }
+      #au .pi { width: 62px; height: 62px; }
+      #au .pi svg { width: 40px; height: 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.4" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5.4" data-track-index="0">
+        <div class="top" id="top">
+          <div id="l1"><span id="t1">Así opera mi empresa de</span></div>
+          <div id="row"><span id="mt" data-ic="moto" data-col="#ffffff" data-sw="4"></span><span id="dl"><span id="t2">DELIVERY</span></span></div>
+          <div id="rgw"><svg viewBox="0 0 250 250"><circle cx="125" cy="125" r="105" fill="none" stroke="#dfe7e6" stroke-width="10" /><circle id="arc" cx="125" cy="125" r="105" fill="none" stroke="#1fc4b8" stroke-width="28" stroke-linecap="round" transform="rotate(-90 125 125)" /></svg><div id="rgt"><b class="num" id="pc">0%</b></div></div>
+          <div class="pill" id="au"><span class="pi" data-ic="bot" data-sw="4.5"></span>AUTOMATIZADO</div>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.38"></audio>
+      <audio id="s-m" src="assets/sfx/whoosh.wav" data-start="1.6" data-volume="0.3"></audio>
+      <audio id="s-95" src="assets/sfx/impact.wav" data-start="4.0" data-volume="0.32"></audio>
+      <audio id="s-au" src="assets/sfx/ding.wav" data-start="4.2" data-volume="0.26"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="4.98" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.0;
+      const T1 = GEX.split(document.getElementById("t1")), T2 = GEX.split(document.getElementById("t2"));
+      const C = 2 * Math.PI * 105;
+      gsap.set("#arc", { strokeDasharray: C, strokeDashoffset: C });
+      gsap.set(["#mt", "#rgw", "#au"], { autoAlpha: 0 });
+      GEX.reveal(tl, T1.words, 0.1, "rise", { stagger: 0.08, duration: 0.36 });
+      // delivery: la moto entra
+      tl.fromTo("#mt", { x: -600, rotation: -20, autoAlpha: 0 }, { x: 0, rotation: 0, autoAlpha: 1, duration: 0.55, ease: "back.out(1.6)", immediateRender: false }, 1.5);
+      GEX.reveal(tl, T2.chars, 1.7, "drop", { stagger: 0.04, duration: 0.4 });
+      tl.to("#mt svg", { y: -6, duration: 0.15, ease: "sine.inOut", yoyo: true, repeat: 15 }, 2.1);
+      // 95% automatizado
+      tl.fromTo("#rgw", { scale: 0.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2)", immediateRender: false }, 2.8);
+      tl.to("#arc", { strokeDashoffset: C * 0.05, duration: 1.1, ease: "power2.inOut" }, 2.95);
+      GEX.count(tl, document.getElementById("pc"), 0, 95, 2.95, 1.1, "", "%");
+      GEX.punch(tl, "#rgt b", 4.05, 1.18);
+      tl.fromTo("#au", { y: 40, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)", immediateRender: false }, 4.1);
+      tl.to("#rgw", { rotation: 8, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1 }, 4.3);
+      GEX.scatter(tl, ["#mt", "#rgw", "#au"], EXIT, 151);
+      tl.to(T1.words.concat(T2.chars), { y: -140, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.015 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
