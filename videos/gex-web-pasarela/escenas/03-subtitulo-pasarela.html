@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Web pasarela 03-subtitulo-pasarela — Subtítulos</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .ck .pp { font-size: 50px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.8" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5.8" data-track-index="0">
+        <div id="cap"></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/pop.wav" data-start="0.02" data-volume="0.22"></audio>
+      <audio id="s-hl" src="assets/sfx/tick.wav" data-start="1.9" data-volume="0.2"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      GEX.captions(tl, document.getElementById("cap"), [["Únicamente me falta", 0.0, 1.0], ["integrar", 1.0, 1.6], ["la pasarela de pago", 1.6, 2.9, [1, 2, 3]], ["para por fin poder", 2.9, 4.0], ["entregar el proyecto.", 4.0, 5.4, [2]]]);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

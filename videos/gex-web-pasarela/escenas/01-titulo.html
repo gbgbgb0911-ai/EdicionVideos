@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Web pasarela 01 — Título Página Web</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { gap: 20px; top: 300px; }
+      #bw { position: relative; width: 170px; height: 128px; border-radius: 22px; background: #ffffff; overflow: hidden; }
+      #bw .bb { position: absolute; left: 0; right: 0; top: 0; height: 32px; border-bottom: 4px solid #dfe7e6; }
+      #bw .bb i { position: absolute; top: 10px; width: 12px; height: 12px; border-radius: 50%; }
+      #bw .l1 { position: absolute; left: 18px; top: 50px; width: 90px; height: 16px; border-radius: 8px; background: #0b958b; }
+      #bw .l2 { position: absolute; left: 18px; top: 76px; width: 130px; height: 12px; border-radius: 6px; background: #cfdcdb; }
+      #bw .bt { position: absolute; left: 18px; top: 98px; width: 56px; height: 16px; border-radius: 8px; background: #fe6820; }
+      #ttl { font-weight: 800; font-size: 140px; line-height: 0.98; text-align: center; white-space: nowrap; }
+      #ttl .hl { color: #fe6820; }
+      #ul { width: 360px; height: 14px; border-radius: 7px; background: #1fc4b8; }
+      .dg { position: absolute; width: 16px; height: 80px; border-radius: 8px; transform: rotate(25deg); }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4.0" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4.0" data-track-index="0">
+        <span class="dg" id="d1" style="left: 220px; top: 520px; background: #fe6820"></span><span class="dg" id="d2" style="left: 250px; top: 540px; background: #1fc4b8"></span>
+        <span class="dg" id="d3" style="left: 800px; top: 330px; background: #1fc4b8"></span><span class="dg" id="d4" style="left: 830px; top: 350px; background: #fe6820"></span>
+        <div class="top" id="top">
+          <div id="bw"><div class="bb"><i style="left: 14px; background: #fe6820"></i><i style="left: 32px; background: #1fc4b8"></i><i style="left: 50px; background: #cfdcdb"></i></div><i class="l1"></i><i class="l2"></i><i class="bt"></i></div>
+          <div id="ttl"><div id="a">PÁGINA</div><div class="hl" id="b">WEB</div></div>
+          <i id="ul"></i>
+        </div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.4"></audio>
+      <audio id="s-hit" src="assets/sfx/impact.wav" data-start="0.7" data-volume="0.32"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="3.58" data-volume="0.38"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 3.6;
+      const A = GEX.split(document.getElementById("a")), B = GEX.split(document.getElementById("b"));
+      gsap.set(".dg", { autoAlpha: 0 });
+      tl.fromTo("#bw", { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, 0.05);
+      tl.fromTo("#bw .l1, #bw .l2, #bw .bt", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.3, ease: "power3.out", stagger: 0.08 }, 0.35);
+      GEX.reveal(tl, A.chars, 0.2, "drop", { stagger: 0.05, duration: 0.42 });
+      GEX.reveal(tl, B.chars, 0.6, "pop", { stagger: 0.07, duration: 0.38 });
+      tl.fromTo("#ul", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, 0.9);
+      tl.fromTo(".dg", { y: (i) => (i < 2 ? 120 : -120), autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.06, immediateRender: false }, 0.8);
+      tl.to(".dg", { y: (i) => (i % 2 ? -14 : 14), duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 2 }, 1.3);
+      tl.to("#ul", { scaleX: 0.6, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.5);
+      tl.to("#bw .bt", { scale: 1.25, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 5 }, 1.3);
+      GEX.float(tl, "#bw", 1.0, EXIT, 7, 1.2);
+      GEX.scatter(tl, ["#bw", "#ul", "#d1", "#d2", "#d3", "#d4"], EXIT, 141);
+      tl.to(A.chars.concat(B.chars), { y: -160, autoAlpha: 0, duration: 0.3, ease: "power3.in", stagger: 0.02 }, EXIT);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
