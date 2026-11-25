@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Lives 06 — Menos mensajes automatizados y posibles costos</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 46px; display: flex; justify-content: center; }
+      #wb { left: 90px; top: 130px; width: 420px; height: 470px; }
+      .rw { display: flex; align-items: center; justify-content: space-between; margin: 14px 16px 0; padding: 12px 16px; border-radius: 16px; background: #eef4f3; font-weight: 800; font-size: 30px; white-space: nowrap; }
+      .rw .ok { width: 46px; height: 46px; border-radius: 50%; background: #179a4a; display: flex; align-items: center; justify-content: center; }
+      .rw .ok svg { width: 28px; height: 28px; }
+      #bx { position: absolute; left: 570px; top: 130px; width: 420px; height: 470px; border-radius: 30px; border: 6px solid #1fc4b8; }
+      #bx .hd { position: absolute; left: 0; right: 0; top: 16px; text-align: center; font-weight: 800; font-size: 24px; letter-spacing: 0.04em; color: #1fc4b8; white-space: nowrap; }
+      .bb { position: absolute; left: 22px; right: 22px; height: 54px; border-radius: 18px; background: #ffffff; display: flex; align-items: center; gap: 12px; padding: 0 12px; }
+      .bb .ico { width: 42px; height: 42px; background: #d4f1dd; }
+      .bb .ico svg { width: 30px; height: 30px; }
+      .bb i { display: block; height: 12px; border-radius: 6px; background: #cfdcdb; }
+      .mt { position: absolute; left: 90px; width: 900px; height: 74px; display: flex; align-items: center; gap: 20px; }
+      #m1 { top: 650px; }
+      #m2 { top: 750px; }
+      .mt b { width: 400px; font-weight: 800; font-size: 33px; white-space: nowrap; }
+      .mt .tr { position: relative; flex: 1; height: 50px; border-radius: 999px; border: 6px solid #ffffff; overflow: hidden; }
+      .mt .fl { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 999px; background: #1fc4b8; transform-origin: 0% 50%; }
+      #m2 .fl { background: #fe6820; }
+      .mt .dn { width: 66px; height: 66px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; flex: none; }
+      .mt .dn svg { width: 42px; height: 42px; }
+      .sl { position: absolute; width: 10px; height: 80px; border-radius: 5px; background: #fe6820; transform: rotate(24deg); }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.4" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="5.4" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="tagw"><span class="tag" id="tag">OPCIÓN 2 · PÁGINA WEB DE VENTAS</span></div>
+          <div class="wb" id="wb"><div class="wbar"><i></i><i></i><i></i>tutienda.com</div>
+            <div class="rw">Precios<span class="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+            <div class="rw">Tallas<span class="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+            <div class="rw">Colores<span class="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+            <div class="rw">Información<span class="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+          </div>
+          <div id="bx"><div class="hd">MENSAJES AUTOMATIZADOS</div>
+            <div class="bb" style="top: 60px"><span class="ico" data-ic="bot" data-col="#179a4a" data-sw="4.5"></span><i style="width: 60%"></i></div>
+            <div class="bb" style="top: 122px"><span class="ico" data-ic="bot" data-col="#179a4a" data-sw="4.5"></span><i style="width: 70%"></i></div>
+            <div class="bb" style="top: 184px"><span class="ico" data-ic="bot" data-col="#179a4a" data-sw="4.5"></span><i style="width: 50%"></i></div>
+            <div class="bb" style="top: 246px"><span class="ico" data-ic="bot" data-col="#179a4a" data-sw="4.5"></span><i style="width: 65%"></i></div>
+            <div class="bb" style="top: 308px"><span class="ico" data-ic="bot" data-col="#179a4a" data-sw="4.5"></span><i style="width: 55%"></i></div>
+            <div class="bb" style="top: 370px"><span class="ico" data-ic="bot" data-col="#179a4a" data-sw="4.5"></span><i style="width: 45%"></i></div>
+          </div>
+          <div class="mt" id="m1"><b>Mensajes automatizados</b><span class="tr"><span class="fl"></span></span><span class="dn"><svg viewBox="0 0 40 40"><path d="M20 6v26M9 22l11 11 11-11" fill="none" stroke="#0b958b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="mt" id="m2"><b>Posibles costos</b><span class="tr"><span class="fl"></span></span><span class="dn"><svg viewBox="0 0 40 40"><path d="M20 6v26M9 22l11 11 11-11" fill="none" stroke="#ea5a14" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <span class="sl" id="sl1" style="left: 40px; top: 300px"></span><span class="sl" id="sl2" style="left: 1030px; top: 380px"></span>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.4"></audio>
+      <audio id="s-tk" src="assets/sfx/tick.wav" data-start="1.1" data-volume="0.28"></audio>
+      <audio id="s-dn" src="assets/sfx/shimmer.wav" data-start="2.75" data-volume="0.26"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="4.98" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.0;
+      gsap.set([".rw .ok", "#m1", "#m2"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -50, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.38, ease: "back.out(2.4)" }, 0.05);
+      tl.fromTo("#wb", { x: -300, rotation: -6, autoAlpha: 0 }, { x: 0, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(1.8)" }, 0.2);
+      tl.fromTo("#bx", { x: 300, rotation: 6, autoAlpha: 0 }, { x: 0, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(1.8)" }, 0.3);
+      tl.fromTo(".bb", { scale: 0.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.28, ease: "back.out(2.6)", stagger: 0.07 }, 0.5);
+      tl.fromTo(".sl", { scaleY: 0 }, { scaleY: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.1 }, 0.4);
+      tl.to(".sl", { y: -30, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.3 }, 0.8);
+      // la web responde: cada check elimina un mensaje automatizado
+      const bbs = gsap.utils.toArray(".bb"), oks = gsap.utils.toArray(".rw .ok"), gone = [5, 3, 1, 4];
+      oks.forEach((o, i) => {
+        const t = 1.1 + i * 0.32;
+        tl.fromTo(o, { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, t);
+        tl.to(o.parentNode, { scale: 1.05, duration: 0.14, ease: "sine.inOut", yoyo: true, repeat: 1 }, t);
+        tl.to(bbs[gone[i]], { x: 260, rotation: 14, scale: 0, duration: 0.3, ease: "power3.in" }, t + 0.06);
+        tl.set(bbs[gone[i]], { autoAlpha: 0 }, t + 0.37);
+      });
+      tl.to([bbs[0], bbs[2]], { y: (i) => (i === 0 ? 115 : 52), duration: 0.35, ease: "back.out(1.6)" }, 2.3);
+      // menos mensajes, posibles costos más bajos (sin cifras)
+      tl.fromTo("#m1", { x: -200, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.38, ease: "power4.out", immediateRender: false }, 2.4);
+      tl.fromTo("#m2", { x: -200, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.38, ease: "power4.out", immediateRender: false }, 2.52);
+      tl.fromTo(".mt .fl", { scaleX: 1 }, { scaleX: 0.38, duration: 0.7, ease: "power3.inOut", stagger: 0.12 }, 2.75);
+      tl.fromTo(".mt .dn", { y: -20 }, { y: 0, duration: 0.35, ease: "bounce.out", stagger: 0.12 }, 2.9);
+      tl.to(".mt .dn", { y: 8, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 5, stagger: 0.15 }, 3.4);
+      tl.to(["#wb", "#bx"], { y: -10, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.2 }, 2.6);
+      GEX.scatter(tl, ["#tag", "#wb", "#bx", "#m1", "#m2", ".sl"], EXIT, 171);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

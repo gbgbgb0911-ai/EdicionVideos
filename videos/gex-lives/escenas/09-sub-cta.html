@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Lives 09 — Subtítulos CTA</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .ck .pp { font-size: 50px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="4.8" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="4.8" data-track-index="0">
+        <div id="cap"></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/pop.wav" data-start="0.02" data-volume="0.2"></audio>
+      <audio id="s-hl" src="assets/sfx/ding.wav" data-start="3.4" data-volume="0.2"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      GEX.captions(tl, document.getElementById("cap"), [["Si vendes por lives", 0, 1.2, [3]], ["y quieres implementar", 1.2, 2.2], ["alguna de estas", 2.2, 2.8], ["soluciones,", 2.8, 3.4], ["escríbenos.", 3.4, 4.6, [0]]]);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

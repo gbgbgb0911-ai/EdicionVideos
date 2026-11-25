@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Lives 09 — CTA escríbenos</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { top: 300px; gap: 26px; left: 60px; right: 140px; }
+      #r1 { display: flex; align-items: center; gap: 18px; }
+      .logo { display: inline-flex; align-items: center; padding: 10px 22px; border-radius: 20px; background: #ffffff; }
+      .logo img { display: block; width: 150px; }
+      #bdg { display: flex; align-items: center; gap: 10px; padding: 10px 20px; border-radius: 16px; background: #ea5a14; font-weight: 800; font-size: 32px; letter-spacing: 0.08em; white-space: nowrap; }
+      #bdg i { width: 16px; height: 16px; border-radius: 50%; background: #ffffff; }
+      #r2 { position: relative; display: flex; align-items: center; gap: 22px; }
+      .sol { width: 250px; height: 230px; gap: 10px; border-radius: 30px; }
+      .sol .ico { width: 96px; height: 96px; }
+      .sol b { font-size: 32px; }
+      #s1 { background: #0b958b; }
+      #s2 { background: #ea5a14; }
+      #or { width: 76px; height: 76px; border-radius: 50%; background: #ffffff; color: #0b958b; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 46px; line-height: 1; padding-bottom: 6px; flex: none; }
+      #ctaw { position: relative; display: flex; justify-content: center; margin-top: 6px; }
+      #cta { font-size: 62px; padding: 18px 44px 18px 18px; }
+      #cta .pi { width: 88px; height: 88px; }
+      #cta .pi svg { width: 54px; height: 54px; }
+      #rg { position: absolute; left: 50%; top: 50%; width: 470px; height: 124px; margin: -62px 0 0 -235px; border-radius: 999px; border: 8px solid #1fc4b8; }
+      .sl { position: absolute; width: 12px; height: 90px; border-radius: 6px; background: #fe6820; transform: rotate(24deg); }
+      .sp { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: #1fc4b8; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.4" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="5.4" data-track-index="0">
+        <div class="top" id="top">
+          <div id="r1"><span class="logo" id="lg"><img src="assets/logo-v2/gex-full.png" alt="GEX" /></span><span id="bdg"><i></i>LIVES</span></div>
+          <div id="r2"><div class="sol" id="s1"><span class="ico" data-ic="bot" data-sw="4"></span><b>Chatbot<br />con IA</b></div><div id="or">o</div><div class="sol" id="s2"><span class="ico" data-ic="code" data-col="#ea5a14" data-sw="4.5"></span><b>Página web<br />de ventas</b></div></div>
+          <div id="ctaw"><span id="rg"></span><div class="pill o" id="cta"><span class="pi" data-ic="wa" data-col="#ea5a14" data-sw="4.5"></span>Escríbenos<i class="shine" id="sh" data-layout-allow-overflow></i></div></div>
+        </div>
+        <span class="sl" id="sl1" style="left: 130px; top: 560px"></span><span class="sl" id="sl2" style="left: 860px; top: 600px"></span>
+        <span class="sp" id="sp1" style="left: 120px; top: 830px"></span><span class="sp" id="sp2" style="left: 900px; top: 420px"></span>
+      </section>
+      <audio id="s-lg" src="assets/sfx/pop.wav" data-start="0.12" data-volume="0.26"></audio>
+      <audio id="s-so" src="assets/sfx/whoosh.wav" data-start="1.85" data-volume="0.32"></audio>
+      <audio id="s-clk" src="assets/sfx/click.wav" data-start="3.75" data-volume="0.3"></audio>
+      <audio id="s-sh" src="assets/sfx/shimmer.wav" data-start="3.85" data-volume="0.24"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="4.98" data-volume="0.36"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.0;
+      gsap.set(["#s1", "#s2", "#or", "#cta", "#rg", ".sp"], { autoAlpha: 0 });
+      const cur = GEX.cursor(document.getElementById("scene"));
+      gsap.set(cur.c, { x: 1120, y: 1000 });
+      // presencia discreta de GEX
+      tl.fromTo("#lg", { y: -60, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)" }, 0.1);
+      tl.fromTo("#bdg", { x: 60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)" }, 0.3);
+      tl.to("#bdg i", { scale: 0.5, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 15 }, 0.6);
+      tl.to("#lg", { y: -6, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 8 }, 0.6);
+      tl.fromTo(".sl", { scaleY: 0 }, { scaleY: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.1 }, 0.4);
+      tl.to(".sl", { y: 26, duration: 1.0, ease: "sine.inOut", yoyo: true, repeat: 4, stagger: 0.3 }, 0.7);
+      // alguna de estas soluciones
+      tl.fromTo("#s1", { x: -260, rotation: -10, autoAlpha: 0 }, { x: 0, rotation: 0, autoAlpha: 1, duration: 0.42, ease: "back.out(1.8)", immediateRender: false }, 1.85);
+      tl.fromTo("#s2", { x: 260, rotation: 10, autoAlpha: 0 }, { x: 0, rotation: 0, autoAlpha: 1, duration: 0.42, ease: "back.out(1.8)", immediateRender: false }, 1.95);
+      tl.fromTo("#or", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 2.2);
+      tl.fromTo(".sol .ico", { rotation: -120 }, { rotation: 0, duration: 0.45, ease: "back.out(2.4)", stagger: 0.1 }, 2.0);
+      tl.to(["#s1", "#s2"], { y: -10, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 5, stagger: 0.22 }, 2.5);
+      tl.to("#or", { scale: 1.12, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 3 }, 2.6);
+      // escríbenos
+      tl.fromTo("#cta", { y: 60, scale: 0.4, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 3.2);
+      tl.fromTo("#cta .pi", { rotation: -180 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 3.25);
+      GEX.tap(tl, cur, 500, 700, 3.35, 0.4);
+      tl.to("#cta", { keyframes: [{ scale: 0.92, duration: 0.08 }, { scale: 1.1, duration: 0.16 }, { scale: 1, duration: 0.25 }], ease: "sine.out" }, 3.75);
+      tl.fromTo("#sh", { x: -140 }, { x: 700, duration: 0.6, ease: "power2.inOut" }, 3.85);
+      [3.85, 4.25].forEach((t) => tl.fromTo("#rg", { scale: 1, borderWidth: 8, autoAlpha: 1 }, { scale: 1.3, borderWidth: 0, autoAlpha: 1, duration: 0.4, ease: "circ.out", immediateRender: false }, t));
+      tl.set("#rg", { autoAlpha: 0 }, 4.66);
+      tl.fromTo(".sp", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.1, immediateRender: false }, 3.9);
+      tl.to(".sp", { y: -30, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.1 }, 4.2);
+      tl.to(cur.c, { x: 1120, y: 1100, duration: 0.3, ease: "power2.in" }, 4.2);
+      GEX.scatter(tl, ["#r1", "#s1", "#or", "#s2", "#cta", ".sl", ".sp"], EXIT, 191);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
