@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Digitalizar 06b — Desarrollador vs liderazgo</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 270px; display: flex; justify-content: center; padding-right: 80px; }
+      .cl { position: absolute; top: 350px; width: 370px; height: 560px; border-radius: 32px; background: #ffffff; overflow: hidden; }
+      #cd { left: 120px; } #ca { left: 510px; }
+      .cl .ch { height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #ffffff; font-weight: 800; font-size: 28px; letter-spacing: 0.06em; white-space: nowrap; }
+      #cd .ch { background: #0b958b; } #ca .ch { background: #ea5a14; }
+      .cl .ch .ico { width: 80px; height: 80px; background: #ffffff; }
+      .cl .lst { padding: 20px 12px; display: flex; flex-direction: column; gap: 14px; }
+      .ri { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 18px; background: #eef4f3; color: #0b958b; font-weight: 800; font-size: 25px; white-space: nowrap; }
+      .ri .ico { width: 48px; height: 48px; background: #ffffff; }
+      .ri .ok { margin-left: auto; width: 40px; height: 40px; border-radius: 50%; background: #179a4a; display: flex; align-items: center; justify-content: center; flex: none; }
+      .ri .ok svg { width: 26px; height: 26px; }
+      #ld { display: flex; flex-direction: column; align-items: center; gap: 14px; padding-top: 20px; color: #ea5a14; font-weight: 800; font-size: 34px; text-align: center; line-height: 1.1; }
+      #ld .ico { width: 130px; height: 130px; background: #fff1ea; }
+      #nr { display: flex; align-items: center; gap: 10px; padding: 8px 18px 8px 8px; border-radius: 999px; background: #ea5a14; color: #ffffff; font-size: 26px; white-space: nowrap; }
+      #nr .ico { width: 44px; height: 44px; background: #ffffff; }
+      #ar { position: absolute; left: 400px; top: 840px; width: 150px; height: 12px; border-radius: 6px; background: #fe6820; z-index: 4 !important; }
+      #xb { position: absolute; left: 470px; top: 810px; width: 76px; height: 76px; border-radius: 50%; background: #ffffff; border: 6px solid #ea5a14; display: flex; align-items: center; justify-content: center; z-index: 5 !important; }
+      #xb svg { width: 40px; height: 40px; }
+      #endw { position: absolute; left: 0; right: 0; top: 970px; display: flex; justify-content: center; padding-right: 80px; }
+      #endp { font-size: 38px; padding: 12px 30px 12px 12px; }
+      #endp .pi { width: 62px; height: 62px; }
+      #endp .pi svg { width: 40px; height: 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="8.2" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="8.2" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">CADA PARTE TIENE SU FUNCIÓN</span></div>
+        <div class="cl" id="cd"><div class="ch"><span class="ico" data-ic="code" data-sw="4.5"></span>DESARROLLADOR</div>
+          <div class="lst">
+            <div class="ri" id="r1"><span class="ico" data-ic="gear" data-sw="4.5"></span>Sistema funcional<span class="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+            <div class="ri" id="r2"><span class="ico" data-ic="wand" data-col="#ea5a14" data-sw="4.5"></span>Uso intuitivo<span class="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+            <div class="ri" id="r3"><span class="ico" data-ic="headset" data-col="#179a4a" data-sw="4.5"></span>Soporte acordado<span class="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+          </div></div>
+        <div class="cl" id="ca"><div class="ch"><span class="ico" data-ic="flag" data-col="#ea5a14" data-sw="4.5"></span>ADMINISTRACIÓN</div>
+          <div id="ld"><span class="ico" data-ic="users" data-col="#ea5a14" data-sw="4.5"></span>Liderazgo<br />del equipo<span id="nr"><span class="ico" data-ic="lock" data-col="#ea5a14" data-sw="5"></span>No se reemplaza</span></div></div>
+        <span id="ar"></span><span id="xb" data-ic="x" data-col="#ea5a14" data-sw="6"></span>
+        <div id="endw"><div class="pill g" id="endp"><span class="pi" data-ic="check" data-col="#179a4a" data-sw="6"></span>Distintas y necesarias</div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-1" src="assets/sfx/tick.wav" data-start="1.0" data-volume="0.24"></audio>
+      <audio id="s-3" src="assets/sfx/tick.wav" data-start="2.9" data-volume="0.24"></audio>
+      <audio id="s-x" src="assets/sfx/impact.wav" data-start="4.6" data-volume="0.28"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="6.2" data-volume="0.24"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.78" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.8;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set([".ri", ".ri .ok", "#ca", "#nr", "#ar", "#xb", "#endp"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.2);
+      tl.fromTo("#cd", { x: -400, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out" }, 0.1);
+      tl.fromTo("#cd .ch .ico", { rotation: -120 }, { rotation: 0, duration: 0.5, ease: "back.out(2.4)" }, 0.2);
+      // funcional · intuitivo · soporte acordado
+      [["#r1", 0.6], ["#r2", 1.5], ["#r3", 2.4]].forEach(([id, t]) => {
+        tl.fromTo(id, { x: -60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.32, ease: "back.out(2)", immediateRender: false }, t);
+        tl.fromTo(id + " .ico", { rotation: -120 }, { rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, t + 0.05);
+        tl.fromTo(id + " .ok", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.28, ease: "back.out(3)", immediateRender: false }, t + 0.4);
+      });
+      tl.to("#r1 .ico svg", { rotation: 360, duration: 3, ease: "none" }, 1.0);
+      // no podemos reemplazar el liderazgo
+      tl.fromTo("#ca", { x: 400, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "power4.out", immediateRender: false }, 3.5);
+      tl.fromTo("#ca .ch .ico", { rotation: 120 }, { rotation: 0, duration: 0.5, ease: "back.out(2.4)" }, 3.6);
+      tl.fromTo("#ar", { scaleX: 0, transformOrigin: "0% 50%", autoAlpha: 1 }, { scaleX: 1, autoAlpha: 1, duration: 0.35, ease: "power3.in", immediateRender: false }, 4.25);
+      tl.fromTo("#xb", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 4.6);
+      tl.to("#ar", { x: -20, duration: 0.15, ease: "power2.out", yoyo: true, repeat: 1 }, 4.6);
+      tl.fromTo("#nr", { y: 30, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", immediateRender: false }, 5.0);
+      tl.to("#ld > .ico", { scale: 1.08, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 5 }, 5.2);
+      // funciones distintas y necesarias
+      tl.fromTo("#endp", { y: 60, scale: 0.4, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 6.2);
+      tl.to(["#cd", "#ca"], { y: -10, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.2 }, 6.5);
+      GEX.scatter(tl, ["#tag", "#cd", "#ar", "#xb", "#ca", "#endw"], EXIT, 229);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Digitalizar 04a — Imponer el sistema sin explicar</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #bub { position: absolute; left: 230px; top: 50px; width: 640px; padding: 22px 30px; border-radius: 32px; background: #ffffff; color: #0b958b; font-weight: 800; font-size: 40px; line-height: 1.15; text-align: center; }
+      #bub:after { content: ""; position: absolute; left: 40px; bottom: -30px; border-left: 0 solid transparent; border-right: 40px solid transparent; border-top: 34px solid #ffffff; }
+      #ad { left: 110px; top: 330px; width: 160px; }
+      #ad .hd { width: 150px; height: 150px; }
+      #sys { position: absolute; left: 370px; top: 340px; width: 260px; height: 230px; border-radius: 30px; background: #ffffff; color: #0b958b; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; font-weight: 800; font-size: 32px; }
+      #sys .ico { width: 110px; height: 110px; background: #eef4f3; }
+      .wk { top: 380px; width: 110px; }
+      .wk .hd { width: 100px; height: 100px; }
+      .wk > .bd { margin-left: -26px; top: -62px; }
+      #k1 { left: 680px; } #k2 { left: 790px; } #k3 { left: 900px; }
+      #ar { position: absolute; left: 290px; top: 440px; width: 70px; height: 10px; border-radius: 5px; background: #1fc4b8; }
+      #ar:after { content: ""; position: absolute; right: -14px; top: -11px; border-top: 16px solid transparent; border-bottom: 16px solid transparent; border-left: 22px solid #1fc4b8; }
+      #ftw { position: absolute; left: 0; right: 0; top: 700px; display: flex; justify-content: center; }
+      #ft { font-size: 38px; padding: 10px 28px 10px 10px; gap: 12px; }
+      #ft .pi { width: 58px; height: 58px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      #ft .pi svg { width: 34px; height: 34px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="6.4" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="6.4" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div class="per o" id="ad"><span class="hd" data-ic="user" data-col="#ffffff" data-sw="4"></span><b>DUEÑO</b></div>
+          <span id="ar"></span>
+          <div id="sys"><span class="ico" data-ic="grid" data-sw="4.5"></span>Nuevo sistema</div>
+          <div class="per wk" id="k1"><span class="hd" data-ic="user" data-col="#ffffff" data-sw="4"></span><span class="bd">?</span></div>
+          <div class="per wk" id="k2"><span class="hd" data-ic="user" data-col="#ffffff" data-sw="4" style="background: #179a4a"></span><span class="bd">?</span></div>
+          <div class="per wk" id="k3"><span class="hd" data-ic="user" data-col="#ffffff" data-sw="4" style="background: #6f807f"></span><span class="bd">?</span></div>
+          <div id="bub"><span id="q">«A partir de mañana vamos a trabajar con esto»</span></div>
+          <div id="ftw"><span class="chip o" id="ft"><span class="pi" data-ic="x" data-col="#ea5a14" data-sw="6"></span>Sin explicar cómo usarlo</span></div>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.4"></audio>
+      <audio id="s-sys" src="assets/sfx/pop.wav" data-start="0.7" data-volume="0.26"></audio>
+      <audio id="s-q" src="assets/sfx/whoosh.wav" data-start="2.7" data-volume="0.26"></audio>
+      <audio id="s-qm" src="assets/sfx/tick.wav" data-start="4.6" data-volume="0.24"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.98" data-volume="0.36"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 6.0;
+      const Q = GEX.split(document.getElementById("q"));
+      gsap.set(["#bub", ".wk .bd", "#ft", "#ar"], { autoAlpha: 0 });
+      tl.fromTo("#ad", { x: -260, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(1.8)" }, 0.1);
+      // contratar un sistema
+      tl.fromTo("#sys", { scale: 0.3, rotation: -12, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(2)" }, 0.7);
+      tl.fromTo("#sys .ico", { rotation: -120 }, { rotation: 0, duration: 0.5, ease: "back.out(2.4)" }, 0.75);
+      tl.fromTo("#ar", { scaleX: 0, transformOrigin: "0% 50%", autoAlpha: 1 }, { scaleX: 1, autoAlpha: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, 1.0);
+      // y decirle a tu equipo
+      tl.fromTo(".wk", { x: 200, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.38, ease: "back.out(2)", stagger: 0.1 }, 1.6);
+      tl.to(".wk .hd", { y: -6, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 11, stagger: 0.12 }, 2.1);
+      // «A partir de mañana...»
+      tl.fromTo("#bub", { scale: 0.3, autoAlpha: 0, transformOrigin: "10% 100%" }, { scale: 1, autoAlpha: 1, duration: 0.38, ease: "back.out(2.2)", immediateRender: false }, 2.7);
+      GEX.reveal(tl, Q.words, 2.85, "pop", { stagger: 0.24, duration: 0.3 });
+      tl.to("#ad .hd", { scale: 1.06, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 7 }, 2.8);
+      // el equipo no sabe cómo usarlo
+      tl.fromTo(".wk .bd", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.12, immediateRender: false }, 4.6);
+      tl.to(".wk .bd", { rotation: 15, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 5, stagger: 0.1 }, 5.0);
+      tl.fromTo("#ft", { y: 40, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.38, ease: "back.out(2.4)", immediateRender: false }, 5.0);
+      GEX.scatter(tl, ["#bub", "#ad", "#ar", "#sys", "#k1", "#k2", "#k3", "#ftw"], EXIT, 221);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

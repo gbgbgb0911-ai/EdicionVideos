@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Digitalizar 03 — El dueño también debe involucrarse</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { top: 300px; left: 60px; right: 140px; gap: 20px; }
+      #imp { font-size: 40px; padding: 10px 28px 10px 10px; }
+      #imp .pi { width: 60px; height: 60px; }
+      #imp .pi svg { width: 38px; height: 38px; }
+      #bal { position: relative; width: 600px; height: 270px; }
+      #bm { position: absolute; left: 20px; top: 180px; width: 560px; height: 14px; border-radius: 7px; background: #ffffff; }
+      #pv { position: absolute; left: 260px; top: 188px; width: 0; height: 0; border-left: 40px solid transparent; border-right: 40px solid transparent; border-bottom: 70px solid #1fc4b8; }
+      .bp { position: absolute; bottom: 14px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+      .bp .hd { width: 110px; height: 110px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+      .bp .hd svg { width: 66%; height: 66%; }
+      .bp b { font-weight: 800; font-size: 26px; letter-spacing: 0.06em; white-space: nowrap; }
+      #pw { left: -20px; } #pw .hd { background: #0b958b; }
+      #po { right: -20px; } #po .hd { background: #ea5a14; }
+      #tx1 { position: absolute; left: 60px; right: 140px; top: 720px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+      #tx1 .ln { font-size: 46px; }
+      #tx2 { position: absolute; left: 60px; right: 140px; top: 695px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+      #tx2 .ln { font-size: 78px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.0" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7.0" data-track-index="0">
+        <div class="top" id="top">
+          <div class="pill o" id="imp"><span class="pi" data-ic="alert" data-col="#ea5a14" data-sw="5"></span>Algo importante</div>
+          <div id="bal"><span id="pv"></span><div id="bm"><div class="bp" id="pw" data-layout-allow-overflow><span class="hd" data-ic="users" data-col="#ffffff" data-sw="4"></span><b>EQUIPO</b></div><div class="bp" id="po" data-layout-allow-overflow><span class="hd" data-ic="user" data-col="#ffffff" data-sw="4"></span><b>DUEÑO</b></div></div></div>
+        </div>
+        <div id="tx1"><div class="ln" id="a1">NO TODA LA <span class="o">RESPONSABILIDAD</span></div><div class="ln" id="a2">ES DE TUS TRABAJADORES</div></div>
+        <div id="tx2"><div class="ln" id="b1"><span class="o">EL DUEÑO</span></div><div class="ln" id="b2">TAMBIÉN DEBE</div><div class="ln" id="b3"><span class="t">INVOLUCRARSE.</span></div></div>
+        <span class="sl" id="sl1" style="left: 110px; top: 330px"></span><span class="sl" id="sl2" style="left: 910px; top: 360px"></span>
+        <span class="sp" id="sp1" style="left: 110px; top: 960px"></span><span class="sp" id="sp2" style="left: 920px; top: 900px"></span>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.1" data-volume="0.38"></audio>
+      <audio id="s-imp" src="assets/sfx/ding.wav" data-start="0.9" data-volume="0.26"></audio>
+      <audio id="s-own" src="assets/sfx/impact.wav" data-start="4.7" data-volume="0.3"></audio>
+      <audio id="s-hl" src="assets/sfx/shimmer.wav" data-start="6.1" data-volume="0.22"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const A = [1, 2].map((i) => GEX.split(document.getElementById("a" + i)));
+      const B = [1, 2, 3].map((i) => GEX.split(document.getElementById("b" + i)));
+      gsap.set(["#po", ".sp"], { autoAlpha: 0 });
+      gsap.set("#bm", { rotation: -9 });
+      // y aquí viene algo importante
+      tl.fromTo("#imp", { y: -60, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)" }, 0.1);
+      tl.to("#imp .pi svg", { rotation: 14, duration: 0.1, ease: "sine.inOut", yoyo: true, repeat: 7 }, 0.9);
+      GEX.punch(tl, "#imp", 0.9, 1.12);
+      // la carga solo en el equipo
+      tl.fromTo("#pv", { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.3, ease: "back.out(2)" }, 1.2);
+      tl.fromTo("#bm", { scaleX: 0, autoAlpha: 0 }, { scaleX: 1, autoAlpha: 1, duration: 0.35, ease: "power3.out" }, 1.3);
+      tl.fromTo("#pw", { y: -200, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "bounce.out" }, 1.5);
+      tl.to("#bm", { rotation: -13, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 3 }, 2.0);
+      // no toda la responsabilidad es de tus trabajadores
+      GEX.reveal(tl, A[0].words, 1.7, "rise", { stagger: 0.1, duration: 0.34 });
+      GEX.reveal(tl, A[1].words, 2.8, "rise", { stagger: 0.1, duration: 0.34 });
+      GEX.punch(tl, "#a1 .o", 2.3, 1.1);
+      tl.to(A[0].words.concat(A[1].words), { y: -80, autoAlpha: 0, duration: 0.28, ease: "power3.in", stagger: 0.02 }, 4.2);
+      // el dueño entra: la carga se equilibra
+      tl.fromTo("#po", { y: -260, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power3.in", immediateRender: false }, 4.3);
+      tl.to("#bm", { rotation: 0, duration: 0.6, ease: "elastic.out(1, 0.5)" }, 4.72);
+      // el dueño también debe involucrarse
+      GEX.reveal(tl, B[0].words, 4.75, "drop", { stagger: 0.1, duration: 0.5 });
+      GEX.reveal(tl, B[1].words, 5.4, "rise", { stagger: 0.1, duration: 0.34 });
+      GEX.reveal(tl, B[2].words, 6.1, "pop", { stagger: 0.1, duration: 0.36 });
+      GEX.punch(tl, "#b3", 6.45, 1.08);
+      // ambiente
+      tl.fromTo(".sl", { scaleY: 0 }, { scaleY: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.1 }, 0.3);
+      tl.to(".sl", { y: 26, duration: 1.0, ease: "sine.inOut", yoyo: true, repeat: 5, stagger: 0.3 }, 0.6);
+      tl.fromTo(".sp", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.12, immediateRender: false }, 4.8);
+      tl.to(".sp", { y: -30, duration: 0.8, ease: "sine.inOut", yoyo: true, repeat: 2, stagger: 0.2 }, 5.1);
+      tl.to(".bp .hd", { y: -8, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.15 }, 5.4);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

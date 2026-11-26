@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Digitalizar 07 — Trabajo conjunto</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 270px; display: flex; justify-content: center; padding-right: 80px; }
+      #lines { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 0 !important; }
+      #lines line { stroke: #1fc4b8; stroke-width: 8; stroke-linecap: round; }
+      #hub { position: absolute; left: 400px; top: 640px; width: 200px; height: 200px; border-radius: 50%; background: #ffffff; color: #0b958b; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-weight: 800; font-size: 26px; letter-spacing: 0.06em; }
+      #hub .ico { width: 90px; height: 90px; background: #eef4f3; }
+      #hok { position: absolute; left: 560px; top: 640px; width: 64px; height: 64px; border-radius: 50%; background: #179a4a; border: 5px solid #ffffff; display: flex; align-items: center; justify-content: center; z-index: 5 !important; }
+      #hok svg { width: 36px; height: 36px; }
+      #rng { position: absolute; left: 380px; top: 620px; width: 240px; height: 240px; border-radius: 50%; border: 6px dashed #1fc4b8; }
+      #pr { position: absolute; left: 380px; top: 620px; width: 240px; height: 240px; border-radius: 50%; border: 8px solid #179a4a; }
+      .rc { width: 380px; }
+      .rc .rh { font-size: 27px; letter-spacing: 0.03em; gap: 12px; }
+      .rc .rh .ico { width: 58px; height: 58px; }
+      #rd { left: 310px; top: 385px; }
+      #ra { left: 100px; top: 900px; }
+      #rt { left: 520px; top: 900px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.6" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7.6" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <svg id="lines" viewBox="0 0 1080 1920"><line id="l1" x1="500" y1="740" x2="500" y2="520" /><line id="l2" x1="500" y1="740" x2="290" y2="960" /><line id="l3" x1="500" y1="740" x2="710" y2="960" /></svg>
+        <div id="tagw"><span class="tag" id="tag">TRABAJO CONJUNTO</span></div>
+        <span id="rng"></span><span id="pr"></span>
+        <div id="hub"><span class="ico" data-ic="grid" data-sw="4.5"></span>SISTEMA</div>
+        <span id="hok" data-ic="check" data-col="#ffffff" data-sw="6"></span>
+        <div class="rc" id="rd"><div class="rh"><span class="ico" data-ic="code" data-col="#ffffff" data-sw="4.5"></span>DESARROLLADOR</div><p>Entrega la solución y el soporte acordado.</p></div>
+        <div class="rc o" id="ra"><div class="rh"><span class="ico" data-ic="flag" data-col="#ffffff" data-sw="4.5"></span>ADMINISTRACIÓN</div><p>Lidera la implementación y facilita la adaptación.</p></div>
+        <div class="rc g" id="rt"><div class="rh"><span class="ico" data-ic="users" data-col="#ffffff" data-sw="4.5"></span>TRABAJADORES</div><p>Aprenden el sistema y lo incorporan a sus procedimientos.</p></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-d" src="assets/sfx/pop.wav" data-start="2.7" data-volume="0.24"></audio>
+      <audio id="s-a" src="assets/sfx/pop.wav" data-start="3.7" data-volume="0.24"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="5.9" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="7.18" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 7.2;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set([".rc", "#hok", "#pr", "#tag"], { autoAlpha: 0 });
+      ["#l1", "#l2", "#l3"].forEach((id) => { const L = document.querySelector(id).getTotalLength(); gsap.set(id, { strokeDasharray: L, strokeDashoffset: L }); });
+      // la implementación de un sistema
+      tl.fromTo("#hub", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2)" }, 0.15);
+      tl.fromTo("#hub .ico", { rotation: -120 }, { rotation: 0, duration: 0.5, ease: "back.out(2.4)" }, 0.25);
+      tl.fromTo("#rng", { scale: 0.5, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.4);
+      tl.to("#rng", { rotation: 180, duration: 7, ease: "none" }, 0.4);
+      // es un trabajo conjunto
+      tl.fromTo("#tag", { y: -60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)", immediateRender: false }, 1.4);
+      GEX.punch(tl, "#tag", 1.9, 1.1);
+      // desarrollador · administración · trabajadores
+      [["#l1", "#rd", 2.6, -60, 0], ["#l2", "#ra", 3.6, 0, 60], ["#l3", "#rt", 4.6, 0, 60]].forEach(([l, c, t, dy, dx]) => {
+        tl.to(l, { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, t);
+        tl.fromTo(c, { y: dy || 60, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2)", immediateRender: false }, t + 0.2);
+        tl.fromTo(c + " .rh .ico", { rotation: -120 }, { rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, t + 0.25);
+      });
+      // las tres partes colaboran: el sistema cumple su objetivo
+      tl.to("#lines line", { strokeWidth: 12, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.08 }, 5.6);
+      tl.fromTo("#hok", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(3)", immediateRender: false }, 5.9);
+      tl.fromTo("#pr", { scale: 1, borderWidth: 8, autoAlpha: 1 }, { scale: 1.35, borderWidth: 0, autoAlpha: 1, duration: 0.5, ease: "circ.out", immediateRender: false }, 5.9);
+      tl.set("#pr", { autoAlpha: 0 }, 6.42);
+      GEX.punch(tl, "#hub", 5.9, 1.12);
+      tl.to(".rc", { y: -8, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.12 }, 6.2);
+      GEX.scatter(tl, ["#tag", "#rd", "#ra", "#rt", "#hub", "#hok", "#rng", "#lines"], EXIT, 233);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

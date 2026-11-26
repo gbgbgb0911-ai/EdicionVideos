@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Digitalizar 08 — Cambiar la forma de trabajar</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      .top { top: 300px; left: 60px; right: 140px; gap: 8px; }
+      #ic { display: flex; align-items: center; gap: 18px; height: 130px; margin-bottom: 14px; }
+      #ic .s { width: 110px; height: 110px; border-radius: 26px; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+      #ic .s svg { width: 66px; height: 66px; }
+      #ic .c { width: 120px; height: 120px; border-radius: 50%; background: #ea5a14; display: flex; align-items: center; justify-content: center; }
+      #ic .c svg { width: 72px; height: 72px; }
+      #ar { width: 80px; height: 12px; border-radius: 6px; background: #1fc4b8; position: relative; margin-right: 18px; }
+      #ar:after { content: ""; position: absolute; right: -16px; top: -12px; border-top: 18px solid transparent; border-bottom: 18px solid transparent; border-left: 24px solid #1fc4b8; }
+      .top .ln { font-size: 62px; }
+      .top .ln.b { font-size: 76px; }
+      #gap { height: 22px; }
+      #lg { margin-top: 26px; display: inline-flex; align-items: center; padding: 8px 18px; border-radius: 18px; background: #ffffff; }
+      #lg img { display: block; width: 130px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="7.2" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="7.2" data-track-index="0">
+        <div class="top" id="top">
+          <div id="ic"><span class="s" id="t1" data-ic="tool" data-sw="4.5"></span><span class="s" id="t2" data-ic="grid" data-col="#ea5a14" data-sw="4.5"></span><span id="ar"></span><span class="c" id="pc" data-ic="users" data-col="#ffffff" data-sw="4"></span></div>
+          <div class="ln" id="a1">NO ES SOLO CAMBIAR</div>
+          <div class="ln b" id="a2"><span class="t">HERRAMIENTAS.</span></div>
+          <div id="gap"></div>
+          <div class="ln" id="b1">ES CAMBIAR LA FORMA</div>
+          <div class="ln b" id="b2"><span class="o">DE TRABAJAR.</span></div>
+          <span id="lg"><img src="assets/logo-v2/gex-full.png" alt="GEX" /></span>
+        </div>
+        <span class="sl" id="sl1" style="left: 90px; top: 300px"></span><span class="sl" id="sl2" style="left: 950px; top: 300px"></span>
+        <span class="sp" id="sp1" style="left: 100px; top: 760px"></span><span class="sp" id="sp2" style="left: 930px; top: 700px"></span><span class="sp" id="sp3" style="left: 120px; top: 980px"></span>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.1" data-volume="0.36"></audio>
+      <audio id="s-a" src="assets/sfx/pop.wav" data-start="2.5" data-volume="0.24"></audio>
+      <audio id="s-b" src="assets/sfx/impact.wav" data-start="5.1" data-volume="0.28"></audio>
+      <audio id="s-lg" src="assets/sfx/shimmer.wav" data-start="5.9" data-volume="0.2"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const A = [GEX.split(document.getElementById("a1")), GEX.split(document.getElementById("a2"))];
+      const B = [GEX.split(document.getElementById("b1")), GEX.split(document.getElementById("b2"))];
+      gsap.set(["#ar", "#pc", "#lg", ".sp"], { autoAlpha: 0 });
+      // herramientas
+      tl.fromTo(["#t1", "#t2"], { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(2.4)", stagger: 0.12 }, 0.15);
+      tl.to("#t1 svg", { rotation: 20, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 7 }, 0.6);
+      tl.fromTo(".sl", { scaleY: 0 }, { scaleY: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.1 }, 0.3);
+      tl.to(".sl", { y: 26, duration: 1.0, ease: "sine.inOut", yoyo: true, repeat: 5, stagger: 0.3 }, 0.6);
+      // no es solamente cambiar las herramientas
+      GEX.reveal(tl, A[0].words, 1.5, "rise", { stagger: 0.12, duration: 0.34 });
+      GEX.reveal(tl, A[1].words, 2.5, "pop", { stagger: 0.1, duration: 0.38 });
+      GEX.punch(tl, "#a2", 2.9, 1.08);
+      // también es cambiar la forma de trabajar
+      tl.fromTo("#ar", { scaleX: 0, transformOrigin: "0% 50%", autoAlpha: 1 }, { scaleX: 1, autoAlpha: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, 3.9);
+      tl.fromTo("#pc", { scale: 0, rotation: 90, autoAlpha: 0 }, { scale: 1, rotation: 0, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 4.1);
+      tl.to("#pc", { scale: 1.08, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 5 }, 4.6);
+      GEX.reveal(tl, B[0].words, 4.0, "rise", { stagger: 0.12, duration: 0.34 });
+      GEX.reveal(tl, B[1].words, 5.05, "drop", { stagger: 0.12, duration: 0.5 });
+      GEX.punch(tl, "#b2", 5.55, 1.08);
+      // presencia discreta de GEX
+      tl.fromTo("#lg", { y: 30, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.4, ease: "back.out(2.4)", immediateRender: false }, 5.9);
+      tl.fromTo(".sp", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.12, immediateRender: false }, 5.2);
+      tl.to(".sp", { y: -30, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 2, stagger: 0.15 }, 5.5);
+      tl.to(["#a1", "#a2", "#b1", "#b2"], { y: -5, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.1 }, 6.0);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

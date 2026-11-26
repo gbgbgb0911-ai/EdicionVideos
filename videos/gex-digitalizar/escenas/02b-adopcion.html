@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Digitalizar 02b — El personal no adopta el sistema</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #tagw { position: absolute; left: 0; right: 0; top: 270px; display: flex; justify-content: center; }
+      #win { position: absolute; left: 120px; top: 350px; width: 760px; height: 400px; }
+      #win .bar { font-size: 30px; }
+      .rw { display: flex; align-items: center; gap: 16px; margin: 16px 20px 0; padding: 12px 16px; border-radius: 20px; background: #eef4f3; font-weight: 800; font-size: 32px; white-space: nowrap; position: relative; height: 86px; }
+      .rw .ico { width: 60px; height: 60px; background: #ffffff; }
+      .rw .st { position: absolute; right: 16px; top: 50%; margin-top: -26px; height: 52px; display: flex; align-items: center; padding: 0 18px; border-radius: 999px; font-size: 26px; color: #ffffff; }
+      .rw .st.ok { background: #179a4a; }
+      .rw .st.bad { background: #ea5a14; }
+      .rw .st.gr { background: #6f807f; }
+      #wrn { position: absolute; left: 0; right: 0; bottom: 0; height: 0; }
+      #team { position: absolute; left: 120px; top: 870px; width: 760px; height: 260px; }
+      .per { width: 190px; top: 0; }
+      .per b { font-size: 25px; letter-spacing: 0.02em; }
+      #w1 { left: 0; } #w2 { left: 190px; } #w3 { left: 380px; } #w4 { left: 570px; }
+      .pp { position: absolute; left: 100px; top: 800px; width: 70px; height: 86px; border-radius: 10px; background: #ffffff; border: 5px solid #b86e00; }
+      .pp i { display: block; height: 6px; margin: 12px 10px 0; border-radius: 3px; background: #b86e00; }
+      #endw { position: absolute; left: 0; right: 0; top: 1150px; display: flex; justify-content: center; padding-right: 60px; }
+      #endp { font-size: 38px; padding: 12px 30px 12px 12px; }
+      #endp .pi { width: 62px; height: 62px; }
+      #endp .pi svg { width: 40px; height: 40px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="9.6" data-fps="60" data-width="1080" data-height="1920">
+      <section id="scene" class="scene clip" data-start="0" data-duration="9.6" data-track-index="0">
+        <div class="fx-layer" id="fx"></div>
+        <div id="tagw"><span class="tag t" id="tag">SITUACIONES POSIBLES</span></div>
+        <div class="win" id="win"><div class="bar"><i></i><i></i><i></i><b>Sistema implementado</b></div>
+          <div class="rw" id="r1"><span class="ico" data-ic="cart" data-sw="4.5"></span>Ventas<span class="st ok">Al día</span><span class="st bad" style="background: #b86e00">Sin registrar</span></div>
+          <div class="rw" id="r2"><span class="ico" data-ic="box" data-col="#ea5a14" data-sw="4.5"></span>Inventario<span class="st ok">Al día</span><span class="st bad">Dato incorrecto</span></div>
+          <div class="rw" id="r3"><span class="ico" data-ic="receipt" data-col="#179a4a" data-sw="4.5"></span>Pedidos<span class="st ok">Al día</span><span class="st bad gr">Sin uso</span></div>
+        </div>
+        <div id="team">
+          <div class="per" id="w1"><span class="hd" data-ic="user" data-col="#ffffff" data-sw="4"></span><span class="bd" data-ic="book" data-col="#b86e00" data-sw="4.5"></span><b>Como antes</b></div>
+          <div class="per o" id="w2"><span class="hd" data-ic="user" data-col="#ffffff" data-sw="4"></span><span class="bd" data-ic="x" data-col="#ea5a14" data-sw="6"></span><b>Registra mal</b></div>
+          <div class="per" id="w3"><span class="hd" data-ic="user" data-col="#ffffff" data-sw="4" style="background: #6f807f"></span><span class="bd" data-ic="pause" data-col="#6f807f" data-sw="5"></span><b>Se resiste</b></div>
+          <div class="per" id="w4"><span class="hd" data-ic="user" data-col="#ffffff" data-sw="4" style="background: #179a4a"></span><span class="bd ok" data-ic="check" data-col="#ffffff" data-sw="6"></span><b>Lo usa bien</b></div>
+        </div>
+        <span class="pp" id="pp"><i></i><i></i><i></i><i style="width: 50%"></i></span>
+        <div id="endw"><div class="pill o" id="endp"><span class="pi" data-ic="alert" data-col="#ea5a14" data-sw="5"></span>No funciona como debería</div></div>
+      </section>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.42"></audio>
+      <audio id="s-w" src="assets/sfx/pop.wav" data-start="0.9" data-volume="0.24"></audio>
+      <audio id="s-1" src="assets/sfx/tick.wav" data-start="2.2" data-volume="0.24"></audio>
+      <audio id="s-2" src="assets/sfx/tick.wav" data-start="3.9" data-volume="0.24"></audio>
+      <audio id="s-e" src="assets/sfx/impact.wav" data-start="7.2" data-volume="0.28"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="9.18" data-volume="0.38"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 9.2;
+      const scene = document.getElementById("scene");
+      GEX.wipe(tl, scene, 0);
+      gsap.set([".rw .st.bad", ".per", ".per .bd", "#pp", "#endp"], { autoAlpha: 0 });
+      tl.fromTo("#tag", { y: -60, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, ease: "back.out(2)" }, 0.25);
+      tl.fromTo("#win", { y: 120, scale: 0.8, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(1.8)" }, 0.2);
+      tl.fromTo(".rw", { x: -60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.08 }, 0.45);
+      // el equipo
+      tl.fromTo(".per", { y: 80, scale: 0.5, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", stagger: 0.1, immediateRender: false }, 0.9);
+      tl.fromTo("#w4 .bd", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 1.4);
+      tl.to(".per .hd", { y: -8, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 15, stagger: 0.12 }, 1.6);
+      // sigue como antes: cuaderno en vez del sistema
+      tl.fromTo("#w1 .bd", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 1.6);
+      tl.fromTo("#pp", { y: 0, scale: 0.3, rotation: 0, autoAlpha: 0 }, { y: -40, scale: 1, rotation: -12, autoAlpha: 1, duration: 0.4, ease: "back.out(2)", immediateRender: false }, 1.8);
+      tl.to("#pp", { rotation: 8, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 2.2);
+      tl.to("#pp", { scale: 0, duration: 0.25, ease: "back.in(2)" }, 3.3);
+      tl.set("#pp", { autoAlpha: 0 }, 3.56);
+      const bad = (r, t) => {
+        tl.set(r + " .st.ok", { autoAlpha: 0 }, t);
+        tl.fromTo(r + " .st.bad", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, t);
+        tl.to(r, { x: 10, duration: 0.06, ease: "sine.inOut", yoyo: true, repeat: 5 }, t);
+      };
+      bad("#r1", 2.2);
+      // no registra correctamente
+      tl.fromTo("#w2 .bd", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 3.4);
+      bad("#r2", 3.9);
+      // se resiste al cambio
+      tl.fromTo("#w3 .bd", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 5.3);
+      tl.to("#w3", { x: 30, duration: 0.3, ease: "power2.out", yoyo: true, repeat: 1 }, 5.5);
+      bad("#r3", 5.9);
+      // el sistema no funciona como debería
+      tl.to("#win", { keyframes: [{ rotation: -2, duration: 0.08 }, { rotation: 2, duration: 0.08 }, { rotation: -1, duration: 0.08 }, { rotation: 0, duration: 0.08 }] }, 7.0);
+      tl.fromTo("#endp", { y: 60, scale: 0.4, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.42, ease: "back.out(2.4)", immediateRender: false }, 7.2);
+      tl.to("#endp .pi svg", { rotation: 12, duration: 0.12, ease: "sine.inOut", yoyo: true, repeat: 5 }, 7.6);
+      tl.to("#endp", { scale: 1.04, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 2 }, 8.0);
+      tl.to("#win", { y: -8, duration: 0.7, ease: "sine.inOut", yoyo: true, repeat: 3 }, 6.3);
+      GEX.scatter(tl, ["#tag", "#win", "#w1", "#w2", "#w3", "#w4", "#endw"], EXIT, 211);
+      GEX.wipe(tl, scene, EXIT - 0.05);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=1920" />
+    <title>Digitalizar 02a — Inversión en un sistema</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/sis.css" />
+    <link rel="stylesheet" href="assets/split.css" />
+    <script src="assets/gex-fx.js"></script>
+    <script src="assets/sis.js"></script>
+    <style>
+      @font-face { font-family: "Outfit"; font-weight: 500; src: url("assets/fonts/Outfit-500.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 700; src: url("assets/fonts/Outfit-700.woff2") format("woff2"); }
+      @font-face { font-family: "Outfit"; font-weight: 800; src: url("assets/fonts/Outfit-800.woff2") format("woff2"); }
+      #hd { position: absolute; left: 0; right: 0; top: 50px; display: flex; justify-content: center; align-items: center; gap: 18px; }
+      #hd b { font-weight: 800; font-size: 52px; white-space: nowrap; }
+      #hd .o { color: #fe6820; }
+      .cn { width: 78px; height: 78px; border-radius: 50%; background: #ea5a14; border: 6px solid #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 28px; color: #ffffff; flex: none; }
+      #win { position: absolute; left: 140px; top: 190px; width: 800px; height: 450px; }
+      #win .bar { font-size: 30px; }
+      #mods { display: flex; gap: 22px; padding: 28px; }
+      .md { flex: 1; height: 300px; border-radius: 26px; background: #eef4f3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; font-weight: 800; font-size: 36px; color: #0b958b; position: relative; }
+      .md .ico { width: 120px; height: 120px; background: #ffffff; }
+      .md .ok { position: absolute; top: 14px; right: 14px; width: 50px; height: 50px; border-radius: 50%; background: #179a4a; display: flex; align-items: center; justify-content: center; }
+      .md .ok svg { width: 30px; height: 30px; }
+      .fc { position: absolute; left: 501px; top: 380px; z-index: 6 !important; }
+    </style>
+  </head>
+  <body>
+    <div id="stage" data-composition-id="main" data-start="0" data-duration="5.6" data-fps="60" data-width="2160" data-height="1920">
+      <div id="c">
+        <section id="scene" class="scene clip" data-start="0" data-duration="5.6" data-track-index="0">
+          <div class="fx-layer" id="fx"></div>
+          <div id="hd"><span class="cn" id="c1">S/</span><b>Invertir <span class="o">miles de soles</span></b><span class="cn" id="c2">S/</span></div>
+          <div class="win" id="win"><div class="bar"><i></i><i></i><i></i><b>Nuevo sistema</b></div>
+            <div id="mods">
+              <div class="md" id="m1"><span class="ico" data-ic="cart" data-sw="4.5"></span>Ventas<span class="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+              <div class="md" id="m2"><span class="ico" data-ic="box" data-col="#ea5a14" data-sw="4.5"></span>Inventario<span class="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+              <div class="md" id="m3"><span class="ico" data-ic="receipt" data-col="#179a4a" data-sw="4.5"></span>Pedidos<span class="ok" data-ic="check" data-col="#ffffff" data-sw="6"></span></div>
+            </div></div>
+          <span class="cn fc" id="f1">S/</span><span class="cn fc" id="f2">S/</span><span class="cn fc" id="f3">S/</span>
+          <span class="sl" id="sl1" style="left: 70px; top: 300px"></span><span class="sl" id="sl2" style="left: 990px; top: 420px"></span>
+        </section>
+      </div>
+      <audio id="s-in" src="assets/sfx/whoosh.wav" data-start="0.05" data-volume="0.4"></audio>
+      <audio id="s-c" src="assets/sfx/impact.wav" data-start="0.55" data-volume="0.26"></audio>
+      <audio id="s-m" src="assets/sfx/tick.wav" data-start="3.0" data-volume="0.26"></audio>
+      <audio id="s-ok" src="assets/sfx/success.wav" data-start="4.3" data-volume="0.24"></audio>
+      <audio id="s-out" src="assets/sfx/whoosh-out.wav" data-start="5.18" data-volume="0.36"></audio>
+    </div>
+    <script>
+      GEX.icons();
+      const tl = gsap.timeline({ paused: true });
+      const EXIT = 5.2;
+      gsap.set([".md", ".md .ok", ".fc"], { autoAlpha: 0 });
+      const HD = GEX.split(document.querySelector("#hd b"));
+      tl.fromTo(["#c1", "#c2"], { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(2.4)", stagger: 0.1 }, 0.05);
+      GEX.reveal(tl, HD.words, 0.15, "rise", { stagger: 0.08, duration: 0.34 });
+      GEX.punch(tl, "#hd .o", 0.6, 1.12);
+      tl.to(["#c1", "#c2"], { rotationY: 360, duration: 0.8, ease: "power2.inOut", stagger: 0.2, repeat: 2 }, 0.8);
+      // ...en un sistema
+      tl.fromTo("#win", { y: 120, scale: 0.8, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(1.8)" }, 1.0);
+      // monedas que caen al sistema
+      tl.fromTo(".fc", { x: (i) => [-470, 470, -470][i], y: (i) => [-60, -40, 140][i], scale: 1, autoAlpha: 1 }, { x: 0, y: 0, scale: 0.2, autoAlpha: 1, duration: 0.45, ease: "power2.in", stagger: 0.1, immediateRender: false }, 1.4);
+      tl.set(".fc", { autoAlpha: 0 }, 2.1);
+      // ventas, inventario y pedidos
+      [["#m1", 2.7], ["#m2", 3.2], ["#m3", 3.8]].forEach(([id, t]) => {
+        tl.fromTo(id, { y: 60, scale: 0.6, autoAlpha: 0 }, { y: 0, scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.4)", immediateRender: false }, t);
+        tl.fromTo(id + " .ico", { rotation: -120 }, { rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, t + 0.05);
+      });
+      tl.fromTo(".md .ok", { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.28, ease: "back.out(3)", stagger: 0.12, immediateRender: false }, 4.3);
+      tl.to(".md", { y: -10, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.1 }, 4.5);
+      tl.fromTo(".sl", { scaleY: 0 }, { scaleY: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.1 }, 0.3);
+      tl.to(".sl", { y: 26, duration: 1.0, ease: "sine.inOut", yoyo: true, repeat: 4, stagger: 0.3 }, 0.6);
+      tl.to("#win", { y: -8, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 3 }, 2.6);
+      GEX.scatter(tl, ["#hd", "#win", ".sl"], EXIT, 207);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
